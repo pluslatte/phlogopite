@@ -12,9 +12,20 @@
 </script>
 
 <div class="container">
-	<form class="form" onsubmit={addPost}>
-		<input type="text" bind:value={newPost} placeholder="Type something..." />
-		<button type="submit">Note</button>
-	</form>
-	<TimeLine {notes} />
+	<div class="flex flex-row h-screen w-screen">
+		<div class="m-2 shrink grow flex flex-col min-w-60 max-w-80">
+			<textarea
+				bind:value={newPost}
+				placeholder="Type something..."
+				class="shrink grow basis-0 border-4 border-neutral-600 bg-neutral-600 text-white rounded-t-md"
+			></textarea>
+			<button
+				onclick={addPost}
+				class="shrink grow basis-0 min-h-10 max-h-10 bg-neutral-700 text-white rounded-b-md"
+			>
+				Note
+			</button>
+		</div>
+		<TimeLine {notes} />
+	</div>
 </div>
