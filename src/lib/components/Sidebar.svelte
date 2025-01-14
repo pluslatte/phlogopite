@@ -5,8 +5,6 @@
 </script>
 
 <div class="flex shrink grow flex-col min-w-60 max-w-80">
+	<p>hoge</p>
 	<CreateNoteForm {notes} />
-	<div>
-		<p>hoge</p>
-	</div>
 </div>

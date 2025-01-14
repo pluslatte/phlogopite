@@ -11,25 +11,28 @@
 	});
 </script>
 
-<div
-	use:melt={$root}
-	class="grow m-2 overflow-hidden rounded-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
->
-	<div use:melt={$viewport} class="h-full w-full rounded-[inherit]">
-		<div use:melt={$content}>
-			<div class="p-7">
-				{#each notes as note}
-					<div>{note}</div>
-					<div role="separator" class="my-2 h-px w-full bg-neutral-500"></div>
-				{/each}
+<div class="grow m-2 bg-neutral-400">
+	<p>Timeline</p>
+	<div
+		use:melt={$root}
+		class="grow m-2 overflow-hidden rounded-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
+	>
+		<div use:melt={$viewport} class="h-full w-full rounded-[inherit]">
+			<div use:melt={$content}>
+				<div class="p-7">
+					{#each notes as note}
+						<div>{note}</div>
+						<div role="separator" class="my-2 h-px w-full bg-neutral-500"></div>
+					{/each}
+				</div>
 			</div>
 		</div>
+		<div
+			use:melt={$scrollbarY}
+			class="flex h-full w-2.5 touch-none select-none border-l border-l-transparent bg-neutral-300/10 p-px transition-colors"
+		>
+			<div use:melt={$thumbY} class="relative flex-1 rounded-full bg-neutral-300/50"></div>
+		</div>
+		<div use:melt={$corner}></div>
 	</div>
-	<div
-		use:melt={$scrollbarY}
-		class="flex h-full w-2.5 touch-none select-none border-l border-l-transparent bg-neutral-300/10 p-px transition-colors"
-	>
-		<div use:melt={$thumbY} class="relative flex-1 rounded-full bg-neutral-300/50"></div>
-	</div>
-	<div use:melt={$corner}></div>
 </div>

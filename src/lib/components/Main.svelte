@@ -5,6 +5,6 @@
 </script>
 
 <div class="flex shrink grow flex-col min-w-[40rem] max-w-[60rem]">
-	<p>TimeLine</p>
+	<p>huga</p>
 	<TimeLine {notes} />
 </div>
