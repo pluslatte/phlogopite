@@ -67,7 +67,7 @@
 				</ToggleGroupItem>
 			</ToggleGroup>
 			<Separator />
-			<ScrollArea type="auto" class="p-4 border grow">
+			<ScrollArea type="auto" class="p-4 grow">
 				{#each notes as note}
 					<div>{note}</div>
 				{/each}
