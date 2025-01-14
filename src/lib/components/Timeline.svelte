@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createScrollArea, melt } from '@melt-ui/svelte';
+	import TimelineToolbar from './TimelineToolbar.svelte';
 
 	let { notes }: { notes: string[] } = $props();
 
@@ -12,9 +13,7 @@
 </script>
 
 <div class="grow flex flex-col">
-	<div class="p-2 mb-0 rounded-t-md rounded-b-none bg-neutral-800/90 text-white">
-		<p>TimeLine</p>
-	</div>
+	<TimelineToolbar />
 	<div
 		use:melt={$root}
 		class="grow mt-0 overflow-hidden rounded-t-none rounded-b-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
