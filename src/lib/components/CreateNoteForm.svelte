@@ -10,16 +10,11 @@
 	}
 </script>
 
-<div class="m-2 shrink grow flex flex-col min-w-60 max-w-80">
+<div class="shrink grow m-2 flex flex-col">
 	<textarea
 		bind:value={newPost}
 		placeholder="Type something..."
 		class="shrink grow basis-0 border-4 border-neutral-600 bg-neutral-600 text-white rounded-t-md"
 	></textarea>
-	<button
-		onclick={addPost}
-		class="shrink grow basis-0 min-h-10 max-h-10 bg-neutral-700 text-white rounded-b-md"
-	>
-		Note
-	</button>
+	<button onclick={addPost} class="h-10 bg-neutral-700 text-white rounded-b-md"> Note </button>
 </div>

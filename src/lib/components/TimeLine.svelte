@@ -13,7 +13,7 @@
 
 <div
 	use:melt={$root}
-	class="shrink grow relative h-auto min-w-[40rem] max-w-[60rem] m-2 overflow-hidden rounded-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
+	class="m-2 overflow-hidden rounded-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
 >
 	<div use:melt={$viewport} class="h-full w-full rounded-[inherit]">
 		<div use:melt={$content}>
