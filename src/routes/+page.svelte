@@ -6,7 +6,7 @@
 </script>
 
 <div class="container">
-	<div class="flex flex-row h-screen w-screen">
+	<div class="flex flex-row justify-center h-screen w-screen">
 		<Sidebar {notes} />
 		<Main {notes} />
 	</div>
