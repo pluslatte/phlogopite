@@ -7,8 +7,14 @@
 	import Textarea from '@/components/ui/textarea/textarea.svelte';
 	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
+
 	import Sun from 'lucide-svelte/icons/sun';
 	import Moon from 'lucide-svelte/icons/moon';
+	import House from 'lucide-svelte/icons/house';
+	import HousePlus from 'lucide-svelte/icons/house-plus';
+	import Server from 'lucide-svelte/icons/server';
+	import Globe from 'lucide-svelte/icons/globe';
+
 	import { toggleMode } from 'mode-watcher';
 
 	let notes = $state(['Hello, Misskey', 'Hello, SvelteKit']);
@@ -47,10 +53,18 @@
 		<ResizablePane defaultSize={75}>
 			<div class="">
 				<ToggleGroup type="single">
-					<ToggleGroupItem value="timeline home">H</ToggleGroupItem>
-					<ToggleGroupItem value="timeline local">L</ToggleGroupItem>
-					<ToggleGroupItem value="timeline social">S</ToggleGroupItem>
-					<ToggleGroupItem value="timeline global">G</ToggleGroupItem>
+					<ToggleGroupItem value="timeline home">
+						<House />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="timeline social">
+						<HousePlus />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="timeline local">
+						<Server />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="timeline global">
+						<Globe />
+					</ToggleGroupItem>
 				</ToggleGroup>
 			</div>
 			<div>
