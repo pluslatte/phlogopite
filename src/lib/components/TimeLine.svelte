@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createScrollArea, melt } from '@melt-ui/svelte';
 
-	let { notes } = $props();
+	let { notes }: { notes: string[] } = $props();
 
 	const {
 		elements: { root, content, viewport, corner, scrollbarY, thumbY }
