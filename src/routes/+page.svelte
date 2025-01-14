@@ -6,8 +6,8 @@
 </script>
 
 <div class="container">
-	<div class="flex flex-row justify-center h-screen w-screen">
-		<Sidebar {notes} />
+	<div class="flex flex-row items-center">
 		<Main {notes} />
+		<Sidebar {notes} />
 	</div>
 </div>

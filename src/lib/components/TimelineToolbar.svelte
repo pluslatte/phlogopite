@@ -1,24 +1,15 @@
 <script lang="ts">
-	import { createToolbar, melt } from '@melt-ui/svelte';
-
-	const {
-		elements: { root, button, link, separator },
-		builders: { createToolbarGroup }
-	} = createToolbar();
-	const {
-		elements: { group: timelineGroup, item: timelineItem }
-	} = createToolbarGroup();
+	import ToggleGroupItem from './ui/toggle-group/toggle-group-item.svelte';
+	import ToggleGroup from './ui/toggle-group/toggle-group.svelte';
 </script>
 
 <div
-	use:melt={$root}
-	class="flex min-w-full justify-center gap-4 rounded-t-md bg-neutral-800/90 px-3 py-3 text-white shadow-sm lg:w-[35rem]"
+	class="flex min-w-full justify-center gap-4 rounded-t-md bg-neutral-800/90 px-3 py-3 text-white"
 >
-	<div class="flex gap-1" use:melt={$timelineGroup}>
-		<button class="item" aria-label="timeline home" use:melt={$timelineItem}> H </button>
-		<button class="item" aria-label="timeline local" use:melt={$timelineItem}> L </button>
-		<button class="item" aria-label="timeline social" use:melt={$timelineItem}> S </button>
-		<button class="item" aria-label="timeline global" use:melt={$timelineItem}> G </button>
-	</div>
-	<div class="separator w-px h-full bg-neutral-500" use:melt={$separator}></div>
+	<ToggleGroup type="single">
+		<ToggleGroupItem class="bg-neutral-600" value="timeline home">H</ToggleGroupItem>
+		<ToggleGroupItem class="bg-neutral-600" value="timeline local">L</ToggleGroupItem>
+		<ToggleGroupItem class="bg-neutral-600" value="timeline social">S</ToggleGroupItem>
+		<ToggleGroupItem class="bg-neutral-600" value="timeline global">G</ToggleGroupItem>
+	</ToggleGroup>
 </div>
