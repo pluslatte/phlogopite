@@ -11,11 +11,13 @@
 	});
 </script>
 
-<div class="grow m-2 bg-neutral-400">
-	<p>Timeline</p>
+<div class="grow flex flex-col">
+	<div class="p-2 mb-0 rounded-t-md rounded-b-none bg-neutral-800/90 text-white">
+		<p>TimeLine</p>
+	</div>
 	<div
 		use:melt={$root}
-		class="grow m-2 overflow-hidden rounded-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
+		class="grow mt-0 overflow-hidden rounded-t-none rounded-b-md border border-neutral-700 bg-neutral-800/90 text-white shadow-lg"
 	>
 		<div use:melt={$viewport} class="h-full w-full rounded-[inherit]">
 			<div use:melt={$content}>
