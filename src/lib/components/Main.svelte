@@ -4,6 +4,7 @@
 	let { notes }: { notes: string[] } = $props();
 </script>
 
-<div class="shrink grow h-full min-w-[40rem] max-w-[60rem]">
+<div class="flex shrink grow flex-col min-w-[40rem] max-w-[60rem]">
+	<p>TimeLine</p>
 	<TimeLine {notes} />
 </div>
