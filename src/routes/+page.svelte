@@ -7,6 +7,7 @@
 	import Textarea from '@/components/ui/textarea/textarea.svelte';
 	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
+	import Separator from '@/components/ui/separator/separator.svelte';
 
 	import Sun from 'lucide-svelte/icons/sun';
 	import Moon from 'lucide-svelte/icons/moon';
@@ -28,11 +29,11 @@
 </script>
 
 <div class="flex p-2 h-full w-full justify-center">
-	<ResizablePaneGroup direction="horizontal" class="h-full max-w-[80rem] rounded-lg border">
+	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
 		<ResizablePane defaultSize={25}>
-			<div class="p-2">
+			<div class="p-4">
 				<form onsubmit={addPost}>
-					<div class="grid gap-2">
+					<div class="grid gap-4">
 						<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
 						></Textarea>
 						<Button type="submit">Note</Button>
@@ -50,31 +51,27 @@
 			</div>
 		</ResizablePane>
 		<ResizableHandle withHandle />
-		<ResizablePane defaultSize={75}>
-			<div class="">
-				<ToggleGroup type="single">
-					<ToggleGroupItem value="timeline home">
-						<House />
-					</ToggleGroupItem>
-					<ToggleGroupItem value="timeline social">
-						<HousePlus />
-					</ToggleGroupItem>
-					<ToggleGroupItem value="timeline local">
-						<Server />
-					</ToggleGroupItem>
-					<ToggleGroupItem value="timeline global">
-						<Globe />
-					</ToggleGroupItem>
-				</ToggleGroup>
-			</div>
-			<div>
-				<ScrollArea>
-					{#each notes as note}
-						<div>{note}</div>
-						<div role="separator" class="my-2 h-px w-full bg-neutral-500"></div>
-					{/each}
-				</ScrollArea>
-			</div>
+		<ResizablePane defaultSize={75} class="flex flex-col">
+			<ToggleGroup type="single" class="p-2">
+				<ToggleGroupItem value="timeline home">
+					<House />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="timeline social">
+					<HousePlus />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="timeline local">
+					<Server />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="timeline global">
+					<Globe />
+				</ToggleGroupItem>
+			</ToggleGroup>
+			<Separator />
+			<ScrollArea type="auto" class="p-4 border grow">
+				{#each notes as note}
+					<div>{note}</div>
+				{/each}
+			</ScrollArea>
 		</ResizablePane>
 	</ResizablePaneGroup>
 </div>
