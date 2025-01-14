@@ -32,30 +32,34 @@
 
 <div class="flex p-2 h-full w-full justify-center">
 	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
-		<ResizablePane defaultSize={25} class="flex flex-col">
-			<div class="p-4">
-				<form onsubmit={addPost}>
-					<div class="grid gap-4">
-						<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
-						></Textarea>
-						<Button type="submit">Note</Button>
-					</div>
-				</form>
-				<Button onclick={toggleMode} variant="outline" size="icon">
-					<Sun
-						class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-					/>
-					<Moon
-						class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-					/>
-					<span class="sr-only">Toggle theme</span>
-				</Button>
-				<div class="flex flex-row gap-2">
-					<Bell />
-					<p>Notification</p>
-					<Settings />
+		<ResizablePane defaultSize={25} class="p-4 flex flex-col">
+			<form onsubmit={addPost}>
+				<div class="grid gap-4">
+					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
+					></Textarea>
+					<Button type="submit">Note</Button>
 				</div>
+			</form>
+			<Button onclick={toggleMode} variant="outline" size="icon">
+				<Sun
+					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+				/>
+				<Moon
+					class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+				/>
+				<span class="sr-only">Toggle theme</span>
+			</Button>
+			<Separator />
+			<div class="flex flex-row gap-2">
+				<Bell />
+				<p class="grow">Notification</p>
+				<Settings />
 			</div>
+			<ScrollArea type="auto" class="grow">
+				{#each notes as note}
+					<div>{note}</div>
+				{/each}
+			</ScrollArea>
 		</ResizablePane>
 		<ResizableHandle withHandle />
 		<ResizablePane defaultSize={75} class="flex flex-col">
