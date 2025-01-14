@@ -15,6 +15,8 @@
 	import HousePlus from 'lucide-svelte/icons/house-plus';
 	import Server from 'lucide-svelte/icons/server';
 	import Globe from 'lucide-svelte/icons/globe';
+	import Bell from 'lucide-svelte/icons/bell';
+	import Settings from 'lucide-svelte/icons/settings';
 
 	import { toggleMode } from 'mode-watcher';
 
@@ -30,7 +32,7 @@
 
 <div class="flex p-2 h-full w-full justify-center">
 	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
-		<ResizablePane defaultSize={25}>
+		<ResizablePane defaultSize={25} class="flex flex-col">
 			<div class="p-4">
 				<form onsubmit={addPost}>
 					<div class="grid gap-4">
@@ -48,6 +50,11 @@
 					/>
 					<span class="sr-only">Toggle theme</span>
 				</Button>
+				<div class="flex flex-row gap-2">
+					<Bell />
+					<p>Notification</p>
+					<Settings />
+				</div>
 			</div>
 		</ResizablePane>
 		<ResizableHandle withHandle />
