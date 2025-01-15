@@ -77,6 +77,20 @@
 								>@id@long_long_looong_server_name</span
 							>
 						</div>
+					</div>
+					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
+					></Textarea>
+					<div class="flex flex-row">
+						<Button onclick={toggleMode} variant="outline" size="icon">
+							<IconSun
+								class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+							/>
+							<IconMoon
+								class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+							/>
+							<span class="sr-only">Toggle theme</span>
+						</Button>
+						<div class="flex-grow"></div>
 						<Button variant="outline" size="icon" class="rounded-r-none border-r-0 shrink-0">
 							<IconGlobe />
 						</Button>
@@ -89,19 +103,8 @@
 							<IconSend class="h-4 w-4" />
 						</Button>
 					</div>
-					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
-					></Textarea>
 				</div>
 			</form>
-			<Button onclick={toggleMode} variant="outline" size="icon">
-				<IconSun
-					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-				/>
-				<IconMoon
-					class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-				/>
-				<span class="sr-only">Toggle theme</span>
-			</Button>
 			<Separator />
 			<div class="flex flex-row items-center gap-2 ml-4 mr-4 mt-2 mb-2">
 				<IconBell class="h-4 w-4" />
