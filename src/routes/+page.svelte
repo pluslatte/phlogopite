@@ -54,11 +54,11 @@
 				<span class="sr-only">Toggle theme</span>
 			</Button>
 			<Separator />
-			<div class="flex flex-row gap-2 m-4">
-				<IconBell />
+			<div class="flex flex-row items-center gap-2 m-4">
+				<IconBell class="h-4 w-4" />
 				<p class="grow">Notification</p>
 				<button>
-					<IconSettings />
+					<IconSettings class="h-4 w-4" />
 				</button>
 			</div>
 			<ScrollArea type="auto" class="grow m-4 mt-0">
