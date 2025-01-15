@@ -72,8 +72,8 @@
 							<AvatarFallback>...</AvatarFallback>
 						</Avatar>
 						<div class="flex-frow grid grid-flow-row ml-2 text-sm">
-							<span class="font-bold">Username</span>
-							<span class="text-muted-foreground overflow-hidden"
+							<span class="font-bold text-ellipsis overflow-hidden">Username</span>
+							<span class="text-muted-foreground text-ellipsis overflow-hidden"
 								>@id@long_long_looong_server_name</span
 							>
 						</div>
