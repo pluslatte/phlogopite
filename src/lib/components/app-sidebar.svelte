@@ -1,4 +1,6 @@
 <script lang="ts">
+	let { data } = $props();
+
 	import SidebarContent from './ui/sidebar/sidebar-content.svelte';
 	import SidebarHeader from './ui/sidebar/sidebar-header.svelte';
 	import Sidebar from './ui/sidebar/sidebar.svelte';
@@ -27,9 +29,11 @@
 	let newNote = $state('');
 
 	async function addNote() {
+		console.log(data.server);
+		console.log(data.token);
 		const cli = new misskeyApi.APIClient({
-			origin: 'https://' + server,
-			credential: token
+			origin: 'https://' + data.server,
+			credential: data.token
 		});
 
 		const request = cli.request('notes/create', {
@@ -39,9 +43,6 @@
 
 		await request;
 	}
-
-	let server = $state('');
-	let token = $state('');
 </script>
 
 <Sidebar>
@@ -63,8 +64,6 @@
 						>
 					</div>
 				</div>
-				<Input bind:value={server} placeholder="Server" class="border" />
-				<Input bind:value={token} type="password" placeholder="Token" class="border" />
 				<Textarea bind:value={newNote} placeholder="Type something..." class="h-40 border"
 				></Textarea>
 				<div class="flex flex-row">

@@ -1,14 +1,17 @@
-<script>
+<script lang="ts">
 	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';
 	import SidebarProvider from '@/components/ui/sidebar/sidebar-provider.svelte';
 	import AppSidebar from '@/components/app-sidebar.svelte';
+	import { page } from '$app/state';
 
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
 <SidebarProvider style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;">
-	<AppSidebar />
+	{#if page.url.pathname !== '/login'}
+		<AppSidebar {data} />
+	{/if}
 	<main class="w-screen h-screen">
 		{@render children?.()}
 	</main>
