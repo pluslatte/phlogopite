@@ -92,7 +92,7 @@
 					</ToggleGroupItem>
 					<Separator orientation="vertical" />
 				</ToggleGroup>
-				<form>
+				<form class="p-2">
 					<div class="relative">
 						<IconSearch
 							class="text-muted-foreground absolute left-2 top-[50%] h-4 w-4 translate-y-[-50%]"
