@@ -107,17 +107,20 @@
 			<Separator />
 			<ScrollArea type="auto" class="p-4 grow">
 				{#each notes as note}
-					<div class="flex flex-row">
-						<Avatar class="rounded-lg">
+					<div class="flex flex-row items-start gap-1 text-sm">
+						<Avatar class="rounded-lg mt-1">
 							<AvatarImage
 								src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
 								alt="@pluslatte"
 							/>
 							<AvatarFallback>...</AvatarFallback>
 						</Avatar>
-						<div class="flex flex-col">
-							<span class="font-bold">Username</span>
-							<span>{note}</span>
+						<div class="grid grid-flow-row gap-1 ml-2">
+							<div class="grid grid-flow-col">
+								<span class="font-bold">Username</span>
+								<span class="text-muted-foreground">@id@server</span>
+							</div>
+							<p style="white-space: pre-wrap;">{note}</p>
 						</div>
 					</div>
 				{/each}
