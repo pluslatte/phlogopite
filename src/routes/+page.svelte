@@ -23,6 +23,9 @@
 	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
 
 	import { toggleMode } from 'mode-watcher';
+	import Avatar from '@/components/ui/avatar/avatar.svelte';
+	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
+	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
 
 	let notes = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newPost = $state('');
@@ -104,7 +107,19 @@
 			<Separator />
 			<ScrollArea type="auto" class="p-4 grow">
 				{#each notes as note}
-					<div>{note}</div>
+					<div class="flex flex-row">
+						<Avatar class="rounded-lg">
+							<AvatarImage
+								src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
+								alt="@pluslatte"
+							/>
+							<AvatarFallback>...</AvatarFallback>
+						</Avatar>
+						<div class="flex flex-col">
+							<span class="font-bold">Username</span>
+							<span>{note}</span>
+						</div>
+					</div>
 				{/each}
 			</ScrollArea>
 		</ResizablePane>
