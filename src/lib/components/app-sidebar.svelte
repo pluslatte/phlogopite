@@ -10,6 +10,7 @@
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
 	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
+	import Input from '@/components/ui/input/input.svelte';
 
 	import IconSun from 'lucide-svelte/icons/sun';
 	import IconMoon from 'lucide-svelte/icons/moon';
@@ -20,15 +21,27 @@
 	import IconSettings from 'lucide-svelte/icons/settings';
 
 	import { toggleMode } from 'mode-watcher';
+	import { api as misskeyApi } from 'misskey-js';
 
 	let notifications = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newNote = $state('');
 
-	function addNote() {
-		if (newNote.trim()) {
-			notifications.push(newNote);
-		}
+	async function addNote() {
+		const cli = new misskeyApi.APIClient({
+			origin: 'https://' + server,
+			credential: token
+		});
+
+		const request = cli.request('notes/create', {
+			visibility: 'home',
+			text: newNote
+		});
+
+		await request;
 	}
+
+	let server = $state('');
+	let token = $state('');
 </script>
 
 <Sidebar>
@@ -50,6 +63,8 @@
 						>
 					</div>
 				</div>
+				<Input bind:value={server} placeholder="Server" class="border" />
+				<Input bind:value={token} type="password" placeholder="Token" class="border" />
 				<Textarea bind:value={newNote} placeholder="Type something..." class="h-40 border"
 				></Textarea>
 				<div class="flex flex-row">
