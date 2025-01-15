@@ -77,7 +77,8 @@
 				</div>
 			</div>
 		</form>
-		<Separator />
+	</SidebarHeader>
+	<SidebarContent>
 		<div class="flex flex-row items-center gap-2 ml-4 mr-4 mt-2 mb-2">
 			<IconBell class="h-4 w-4" />
 			<p class="flex-grow">Notification</p>
@@ -90,6 +91,5 @@
 				<div>{note}</div>
 			{/each}
 		</ScrollArea>
-	</SidebarHeader>
-	<SidebarContent />
+	</SidebarContent>
 </Sidebar>

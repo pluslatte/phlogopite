@@ -7,7 +7,7 @@
 	let { children } = $props();
 </script>
 
-<SidebarProvider>
+<SidebarProvider style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;">
 	<AppSidebar />
 	<main class="w-screen h-screen">
 		{@render children?.()}
