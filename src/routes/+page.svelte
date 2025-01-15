@@ -32,7 +32,18 @@
 
 	const sidebar = useSidebar();
 
-	let notes = $state(['Hello, Misskey', 'Hello, SvelteKit']);
+	let notes = $state([
+		'Hello, Misskey',
+		'Hello, SvelteKit',
+		'hoge',
+		'longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong',
+		'hoge',
+		'hoge',
+		'hoge',
+		'huga',
+		'hoge',
+		'hoge'
+	]);
 </script>
 
 <div class="flex flex-col rounded-lg h-full">
@@ -104,7 +115,12 @@
 						<span class="flex-grow"></span>
 						<span class="text-muted-foreground">Time</span>
 					</div>
-					<p style="white-space: pre-wrap;">{note}</p>
+					<!-- ながい文を表示すると画面があふれる -->
+					<!-- <p style="white-space: pre-wrap;">{note}</p> -->
+					<!-- これで直ったが、どうして？ -->
+					<p style="white-space: pre-wrap; word-break: break-word;">
+						{note}
+					</p>
 				</div>
 			</div>
 			<div class="flex flex-row p-2 gap-8">
