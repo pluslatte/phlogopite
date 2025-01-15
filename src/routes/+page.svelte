@@ -79,7 +79,9 @@
 				<div class="flex flex-row items-center gap-2 m-4">
 					<IconBell class="h-4 w-4" />
 					<p class="grow">Notification</p>
-					<button>
+					<button
+						class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
+					>
 						<IconSettings class="h-4 w-4" />
 					</button>
 				</div>
@@ -145,11 +147,27 @@
 							<p style="white-space: pre-wrap;">{note}</p>
 						</div>
 					</div>
-					<div class="flex flex-row p-4 gap-8">
-						<IconReply class="h-4 w-4" />
-						<IconRepeat2 class="h-4 w-4" />
-						<IconSmilePlus class="h-4 w-4" />
-						<IconEllipsis class="h-4 w-4" />
+					<div class="flex flex-row p-2 gap-8">
+						<button
+							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
+						>
+							<IconReply class="h-4 w-4" />
+						</button>
+						<button
+							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
+						>
+							<IconRepeat2 class="h-4 w-4" />
+						</button>
+						<button
+							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
+						>
+							<IconSmilePlus class="h-4 w-4" />
+						</button>
+						<button
+							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
+						>
+							<IconEllipsis class="h-4 w-4" />
+						</button>
 					</div>
 					<Separator class="mb-4" />
 				{/each}
