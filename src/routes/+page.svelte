@@ -21,6 +21,10 @@
 	import IconPaperclip from 'lucide-svelte/icons/paperclip';
 	import IconSearch from 'lucide-svelte/icons/search';
 	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
+	import IconReply from 'lucide-svelte/icons/reply';
+	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
+	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
+	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 
 	import { toggleMode } from 'mode-watcher';
 	import Avatar from '@/components/ui/avatar/avatar.svelte';
@@ -120,12 +124,18 @@
 								<span class="font-bold">Username</span>
 								<span class="text-muted-foreground">@id@server</span>
 								<span class="flex-grow"></span>
-								<span>Time</span>
+								<span class="text-muted-foreground">Time</span>
 							</div>
 							<p style="white-space: pre-wrap;">{note}</p>
 						</div>
 					</div>
-					<Separator class="mt-4 mb-4" />
+					<div class="flex flex-row p-4 gap-8">
+						<IconReply class="h-4 w-4" />
+						<IconRepeat2 class="h-4 w-4" />
+						<IconSmilePlus class="h-4 w-4" />
+						<IconEllipsis class="h-4 w-4" />
+					</div>
+					<Separator class="mb-4" />
 				{/each}
 			</ScrollArea>
 		</ResizablePane>
