@@ -116,13 +116,14 @@
 							<AvatarFallback>...</AvatarFallback>
 						</Avatar>
 						<div class="grid grid-flow-row gap-1 ml-2">
-							<div class="grid grid-flow-col">
+							<div class="flex flex-row items-center gap-2">
 								<span class="font-bold">Username</span>
 								<span class="text-muted-foreground">@id@server</span>
 							</div>
 							<p style="white-space: pre-wrap;">{note}</p>
 						</div>
 					</div>
+					<Separator class="mt-4 mb-4" />
 				{/each}
 			</ScrollArea>
 		</ResizablePane>
