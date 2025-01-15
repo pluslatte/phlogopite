@@ -28,6 +28,8 @@
 	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
 	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
+	import IconSend from 'lucide-svelte/icons/send';
+	import IconRocket from 'lucide-svelte/icons/rocket';
 
 	import { toggleMode } from 'mode-watcher';
 
@@ -57,40 +59,65 @@
 
 <div class="flex p-2 h-full w-full justify-center">
 	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
-		{#if windowWidth > 768}
-			<ResizablePane defaultSize={30} class="flex flex-col">
-				<form onsubmit={addPost} class="m-4">
-					<div class="grid gap-4">
-						<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
-						></Textarea>
-						<Button type="submit">Note</Button>
+		<!-- {#if windowWidth > 768} -->
+		<ResizablePane defaultSize={30} class="flex flex-col">
+			<form onsubmit={addPost} class="m-4">
+				<div class="grid gap-4">
+					<div class="flex flex-row">
+						<Avatar class="rounded-lg">
+							<AvatarImage
+								src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
+								alt="@pluslatte"
+							/>
+							<AvatarFallback>...</AvatarFallback>
+						</Avatar>
+						<div class="flex-frow grid grid-flow-row ml-2 text-sm">
+							<span class="font-bold">Username</span>
+							<span class="text-muted-foreground overflow-hidden"
+								>@id@long_long_looong_server_name</span
+							>
+						</div>
+						<Button variant="outline" size="icon" class="rounded-r-none border-r-0 shrink-0">
+							<IconGlobe />
+						</Button>
+						<Separator orientation="vertical" />
+						<Button variant="outline" size="icon" class="rounded-l-none border-l-0 shrink-0">
+							<IconRocket />
+						</Button>
+						<Separator orientation="vertical" class="mx-4" />
+						<Button type="submit" size="icon" class="shrink-0">
+							<IconSend class="h-4 w-4" />
+						</Button>
 					</div>
-				</form>
-				<Button onclick={toggleMode} variant="outline" size="icon">
-					<IconSun
-						class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-					/>
-					<IconMoon
-						class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-					/>
-					<span class="sr-only">Toggle theme</span>
-				</Button>
-				<Separator />
-				<div class="flex flex-row items-center gap-2 ml-4 mr-4 mt-2 mb-2">
-					<IconBell class="h-4 w-4" />
-					<p class="grow">Notification</p>
-					<Button variant="ghost" size="icon" class="rounded-full">
-						<IconSettings class="h-4 w-4" />
-					</Button>
+					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
+					></Textarea>
 				</div>
-				<ScrollArea type="auto" class="grow m-4 mt-0">
-					{#each notes as note}
-						<div>{note}</div>
-					{/each}
-				</ScrollArea>
-			</ResizablePane>
-			<ResizableHandle withHandle />
-		{/if}
+			</form>
+			<Button onclick={toggleMode} variant="outline" size="icon">
+				<IconSun
+					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+				/>
+				<IconMoon
+					class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+				/>
+				<span class="sr-only">Toggle theme</span>
+			</Button>
+			<Separator />
+			<div class="flex flex-row items-center gap-2 ml-4 mr-4 mt-2 mb-2">
+				<IconBell class="h-4 w-4" />
+				<p class="flex-grow">Notification</p>
+				<Button variant="ghost" size="icon" class="rounded-full">
+					<IconSettings class="h-4 w-4" />
+				</Button>
+			</div>
+			<ScrollArea type="auto" class="flex-grow m-4 mt-0">
+				{#each notes as note}
+					<div>{note}</div>
+				{/each}
+			</ScrollArea>
+		</ResizablePane>
+		<ResizableHandle withHandle />
+		<!-- {/if} -->
 		<ResizablePane defaultSize={70} class="flex flex-col">
 			<div class="flex flex-row justify-center">
 				<ToggleGroup type="single" class="p-2">
@@ -125,7 +152,7 @@
 				</form>
 			</div>
 			<Separator />
-			<ScrollArea type="auto" class="p-4 grow">
+			<ScrollArea type="auto" class="p-4 flex-grow">
 				{#each notes as note}
 					<div class="flex flex-row items-start gap-1 text-sm">
 						<Avatar class="rounded-lg mt-1">
@@ -135,7 +162,7 @@
 							/>
 							<AvatarFallback>...</AvatarFallback>
 						</Avatar>
-						<div class="grow grid grid-flow-row gap-1 ml-2">
+						<div class="flex-grow grid grid-flow-row gap-1 ml-2">
 							<div class="flex flex-row items-center gap-2">
 								<span class="font-bold">Username</span>
 								<span class="text-muted-foreground">@id@server</span>
