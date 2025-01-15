@@ -97,7 +97,7 @@
 					/>
 					<AvatarFallback>...</AvatarFallback>
 				</Avatar>
-				<div class="flex-grow grid grid-flow-row gap-1 ml-2">
+				<div class="flex-grow flex flex-col gap-1 ml-2">
 					<div class="flex flex-row items-center gap-2">
 						<span class="font-bold">Username</span>
 						<span class="text-muted-foreground">@id@server</span>
