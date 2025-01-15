@@ -9,14 +9,17 @@
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
 
-	import Sun from 'lucide-svelte/icons/sun';
-	import Moon from 'lucide-svelte/icons/moon';
-	import House from 'lucide-svelte/icons/house';
-	import HousePlus from 'lucide-svelte/icons/house-plus';
-	import Server from 'lucide-svelte/icons/server';
-	import Globe from 'lucide-svelte/icons/globe';
-	import Bell from 'lucide-svelte/icons/bell';
-	import Settings from 'lucide-svelte/icons/settings';
+	import IconSun from 'lucide-svelte/icons/sun';
+	import IconMoon from 'lucide-svelte/icons/moon';
+	import IconHouse from 'lucide-svelte/icons/house';
+	import IconHousePlus from 'lucide-svelte/icons/house-plus';
+	import IconServer from 'lucide-svelte/icons/server';
+	import IconGlobe from 'lucide-svelte/icons/globe';
+	import IconBell from 'lucide-svelte/icons/bell';
+	import IconSettings from 'lucide-svelte/icons/settings';
+	import IconPaperclip from 'lucide-svelte/icons/paperclip';
+	import IconSearch from 'lucide-svelte/icons/search';
+	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
 
 	import { toggleMode } from 'mode-watcher';
 
@@ -41,20 +44,20 @@
 				</div>
 			</form>
 			<Button onclick={toggleMode} variant="outline" size="icon">
-				<Sun
+				<IconSun
 					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
 				/>
-				<Moon
+				<IconMoon
 					class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
 				/>
 				<span class="sr-only">Toggle theme</span>
 			</Button>
 			<Separator />
 			<div class="flex flex-row gap-2 m-4">
-				<Bell />
+				<IconBell />
 				<p class="grow">Notification</p>
 				<button>
-					<Settings />
+					<IconSettings />
 				</button>
 			</div>
 			<ScrollArea type="auto" class="grow m-4 mt-0">
@@ -67,16 +70,27 @@
 		<ResizablePane defaultSize={75} class="flex flex-col">
 			<ToggleGroup type="single" class="p-2">
 				<ToggleGroupItem value="timeline home">
-					<House />
+					<IconHouse />
 				</ToggleGroupItem>
 				<ToggleGroupItem value="timeline social">
-					<HousePlus />
+					<IconHousePlus />
 				</ToggleGroupItem>
 				<ToggleGroupItem value="timeline local">
-					<Server />
+					<IconServer />
 				</ToggleGroupItem>
 				<ToggleGroupItem value="timeline global">
-					<Globe />
+					<IconGlobe />
+				</ToggleGroupItem>
+				<Separator orientation="vertical" />
+				<ToggleGroupItem value="clip">
+					<IconPaperclip />
+				</ToggleGroupItem>
+				<ToggleGroupItem value="list">
+					<IconClipboardList />
+				</ToggleGroupItem>
+				<Separator orientation="vertical" />
+				<ToggleGroupItem value="search">
+					<IconSearch />
 				</ToggleGroupItem>
 			</ToggleGroup>
 			<Separator />
