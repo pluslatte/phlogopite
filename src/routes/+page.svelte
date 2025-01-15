@@ -32,8 +32,8 @@
 
 <div class="flex p-2 h-full w-full justify-center">
 	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
-		<ResizablePane defaultSize={25} class="p-4 flex flex-col">
-			<form onsubmit={addPost}>
+		<ResizablePane defaultSize={25} class="flex flex-col">
+			<form onsubmit={addPost} class="m-4">
 				<div class="grid gap-4">
 					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
 					></Textarea>
@@ -50,12 +50,12 @@
 				<span class="sr-only">Toggle theme</span>
 			</Button>
 			<Separator />
-			<div class="flex flex-row gap-2">
+			<div class="flex flex-row gap-2 m-4">
 				<Bell />
 				<p class="grow">Notification</p>
 				<Settings />
 			</div>
-			<ScrollArea type="auto" class="grow">
+			<ScrollArea type="auto" class="grow m-4">
 				{#each notes as note}
 					<div>{note}</div>
 				{/each}
