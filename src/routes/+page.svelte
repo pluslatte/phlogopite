@@ -30,6 +30,19 @@
 	import Avatar from '@/components/ui/avatar/avatar.svelte';
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
 	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
+	import { onMount } from 'svelte';
+
+	let windowWidth = $state(0);
+	function updateWindowSize() {
+		windowWidth = window.innerWidth;
+	}
+	onMount(() => {
+		updateWindowSize();
+		window.addEventListener('resize', updateWindowSize);
+		return () => {
+			window.removeEventListener('resize', updateWindowSize);
+		};
+	});
 
 	let notes = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newPost = $state('');
@@ -43,38 +56,40 @@
 
 <div class="flex p-2 h-full w-full justify-center">
 	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
-		<ResizablePane defaultSize={30} class="flex flex-col">
-			<form onsubmit={addPost} class="m-4">
-				<div class="grid gap-4">
-					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
-					></Textarea>
-					<Button type="submit">Note</Button>
+		{#if windowWidth > 768}
+			<ResizablePane defaultSize={30} class="flex flex-col">
+				<form onsubmit={addPost} class="m-4">
+					<div class="grid gap-4">
+						<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
+						></Textarea>
+						<Button type="submit">Note</Button>
+					</div>
+				</form>
+				<Button onclick={toggleMode} variant="outline" size="icon">
+					<IconSun
+						class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+					/>
+					<IconMoon
+						class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+					/>
+					<span class="sr-only">Toggle theme</span>
+				</Button>
+				<Separator />
+				<div class="flex flex-row items-center gap-2 m-4">
+					<IconBell class="h-4 w-4" />
+					<p class="grow">Notification</p>
+					<button>
+						<IconSettings class="h-4 w-4" />
+					</button>
 				</div>
-			</form>
-			<Button onclick={toggleMode} variant="outline" size="icon">
-				<IconSun
-					class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-				/>
-				<IconMoon
-					class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-				/>
-				<span class="sr-only">Toggle theme</span>
-			</Button>
-			<Separator />
-			<div class="flex flex-row items-center gap-2 m-4">
-				<IconBell class="h-4 w-4" />
-				<p class="grow">Notification</p>
-				<button>
-					<IconSettings class="h-4 w-4" />
-				</button>
-			</div>
-			<ScrollArea type="auto" class="grow m-4 mt-0">
-				{#each notes as note}
-					<div>{note}</div>
-				{/each}
-			</ScrollArea>
-		</ResizablePane>
-		<ResizableHandle withHandle />
+				<ScrollArea type="auto" class="grow m-4 mt-0">
+					{#each notes as note}
+						<div>{note}</div>
+					{/each}
+				</ScrollArea>
+			</ResizablePane>
+			<ResizableHandle withHandle />
+		{/if}
 		<ResizablePane defaultSize={70} class="flex flex-col">
 			<div class="flex flex-row justify-center">
 				<ToggleGroup type="single" class="p-2">
