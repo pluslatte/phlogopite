@@ -38,22 +38,21 @@
 <div class="flex flex-col rounded-lg h-full">
 	<div class="flex flex-row relative justify-center">
 		<Button
-			class="absolute left-0 border rounded-lg flex flex-row items-center m-2"
+			class="absolute left-0 border rounded-lg flex flex-row items-center m-2 gap-4"
 			size="icon"
 			variant="ghost"
 			onclick={sidebar.toggle}
 		>
-			<Avatar class="rounded-md size-8">
-				<AvatarImage
-					src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
-					alt="@pluslatte"
-				/>
-				<AvatarFallback>...</AvatarFallback>
-			</Avatar>
 			{#if sidebar.open}
 				<IconArrowLeftFromLine />
 			{:else}
-				<IconArrowRightFromLine />
+				<Avatar class="rounded-md size-8">
+					<AvatarImage
+						src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
+						alt="@pluslatte"
+					/>
+					<AvatarFallback>...</AvatarFallback>
+				</Avatar>
 			{/if}
 		</Button>
 		<ToggleGroup type="single" class="p-2">
