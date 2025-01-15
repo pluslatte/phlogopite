@@ -9,6 +9,9 @@
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
 	import Input from '@/components/ui/input/input.svelte';
+	import Avatar from '@/components/ui/avatar/avatar.svelte';
+	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
+	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
 
 	import IconSun from 'lucide-svelte/icons/sun';
 	import IconMoon from 'lucide-svelte/icons/moon';
@@ -27,9 +30,7 @@
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 
 	import { toggleMode } from 'mode-watcher';
-	import Avatar from '@/components/ui/avatar/avatar.svelte';
-	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
-	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
+
 	import { onMount } from 'svelte';
 
 	let windowWidth = $state(0);
