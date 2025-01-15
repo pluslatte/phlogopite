@@ -53,9 +53,11 @@
 			<div class="flex flex-row gap-2 m-4">
 				<Bell />
 				<p class="grow">Notification</p>
-				<Settings />
+				<button>
+					<Settings />
+				</button>
 			</div>
-			<ScrollArea type="auto" class="grow m-4">
+			<ScrollArea type="auto" class="grow m-4 mt-0">
 				{#each notes as note}
 					<div>{note}</div>
 				{/each}
