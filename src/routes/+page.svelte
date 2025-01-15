@@ -43,7 +43,7 @@
 
 <div class="flex p-2 h-full w-full justify-center">
 	<ResizablePaneGroup direction="horizontal" class="max-w-[80rem] rounded-lg border">
-		<ResizablePane defaultSize={25} class="flex flex-col">
+		<ResizablePane defaultSize={30} class="flex flex-col">
 			<form onsubmit={addPost} class="m-4">
 				<div class="grid gap-4">
 					<Textarea bind:value={newPost} placeholder="Type something..." class="h-40 border"
@@ -75,7 +75,7 @@
 			</ScrollArea>
 		</ResizablePane>
 		<ResizableHandle withHandle />
-		<ResizablePane defaultSize={75} class="flex flex-col">
+		<ResizablePane defaultSize={70} class="flex flex-col">
 			<div class="flex flex-row justify-center">
 				<ToggleGroup type="single" class="p-2">
 					<ToggleGroupItem value="timeline home">
