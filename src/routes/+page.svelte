@@ -76,14 +76,12 @@
 					<span class="sr-only">Toggle theme</span>
 				</Button>
 				<Separator />
-				<div class="flex flex-row items-center gap-2 m-4">
+				<div class="flex flex-row items-center gap-2 ml-4 mr-4 mt-2 mb-2">
 					<IconBell class="h-4 w-4" />
 					<p class="grow">Notification</p>
-					<button
-						class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
-					>
+					<Button variant="ghost" size="icon" class="rounded-full">
 						<IconSettings class="h-4 w-4" />
-					</button>
+					</Button>
 				</div>
 				<ScrollArea type="auto" class="grow m-4 mt-0">
 					{#each notes as note}
@@ -148,26 +146,18 @@
 						</div>
 					</div>
 					<div class="flex flex-row p-2 gap-8">
-						<button
-							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
-						>
+						<Button variant="ghost" size="icon" class="rounded-full">
 							<IconReply class="h-4 w-4" />
-						</button>
-						<button
-							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
-						>
+						</Button>
+						<Button variant="ghost" size="icon" class="rounded-full">
 							<IconRepeat2 class="h-4 w-4" />
-						</button>
-						<button
-							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
-						>
+						</Button>
+						<Button variant="ghost" size="icon" class="rounded-full">
 							<IconSmilePlus class="h-4 w-4" />
-						</button>
-						<button
-							class="hover:bg-primary-foreground hover:text-primary-background rounded-full p-2"
-						>
+						</Button>
+						<Button variant="ghost" size="icon" class="rounded-full">
 							<IconEllipsis class="h-4 w-4" />
-						</button>
+						</Button>
 					</div>
 					<Separator class="mb-4" />
 				{/each}
