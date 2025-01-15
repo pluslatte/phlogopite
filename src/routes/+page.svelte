@@ -8,6 +8,7 @@
 	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
+	import Input from '@/components/ui/input/input.svelte';
 
 	import IconSun from 'lucide-svelte/icons/sun';
 	import IconMoon from 'lucide-svelte/icons/moon';
@@ -68,31 +69,38 @@
 		</ResizablePane>
 		<ResizableHandle withHandle />
 		<ResizablePane defaultSize={75} class="flex flex-col">
-			<ToggleGroup type="single" class="p-2">
-				<ToggleGroupItem value="timeline home">
-					<IconHouse />
-				</ToggleGroupItem>
-				<ToggleGroupItem value="timeline social">
-					<IconHousePlus />
-				</ToggleGroupItem>
-				<ToggleGroupItem value="timeline local">
-					<IconServer />
-				</ToggleGroupItem>
-				<ToggleGroupItem value="timeline global">
-					<IconGlobe />
-				</ToggleGroupItem>
-				<Separator orientation="vertical" />
-				<ToggleGroupItem value="clip">
-					<IconPaperclip />
-				</ToggleGroupItem>
-				<ToggleGroupItem value="list">
-					<IconClipboardList />
-				</ToggleGroupItem>
-				<Separator orientation="vertical" />
-				<ToggleGroupItem value="search">
-					<IconSearch />
-				</ToggleGroupItem>
-			</ToggleGroup>
+			<div class="flex flex-row justify-center">
+				<ToggleGroup type="single" class="p-2">
+					<ToggleGroupItem value="timeline home">
+						<IconHouse />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="timeline social">
+						<IconHousePlus />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="timeline local">
+						<IconServer />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="timeline global">
+						<IconGlobe />
+					</ToggleGroupItem>
+					<Separator orientation="vertical" />
+					<ToggleGroupItem value="clip">
+						<IconPaperclip />
+					</ToggleGroupItem>
+					<ToggleGroupItem value="list">
+						<IconClipboardList />
+					</ToggleGroupItem>
+					<Separator orientation="vertical" />
+				</ToggleGroup>
+				<form>
+					<div class="relative">
+						<IconSearch
+							class="text-muted-foreground absolute left-2 top-[50%] h-4 w-4 translate-y-[-50%]"
+						/>
+						<Input placeholder="Search" class="pl-8" />
+					</div>
+				</form>
+			</div>
 			<Separator />
 			<ScrollArea type="auto" class="p-4 grow">
 				{#each notes as note}
