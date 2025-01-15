@@ -21,12 +21,12 @@
 
 	import { toggleMode } from 'mode-watcher';
 
-	let notes = $state(['Hello, Misskey', 'Hello, SvelteKit']);
+	let notifications = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newNote = $state('');
 
 	function addNote() {
 		if (newNote.trim()) {
-			notes.push(newNote);
+			notifications.push(newNote);
 		}
 	}
 </script>
@@ -88,8 +88,8 @@
 			</Button>
 		</div>
 		<ScrollArea type="auto" class="flex-grow m-4 mt-0">
-			{#each notes as note}
-				<div>{note}</div>
+			{#each notifications as notification}
+				<div>{notification}</div>
 			{/each}
 		</ScrollArea>
 	</SidebarContent>
