@@ -12,8 +12,15 @@
 
 	import type { Note, User } from 'misskey-js/entities.js';
 	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
+	import { formatDistanceStrict, parseISO } from 'date-fns';
 
 	let { note, renotedBy, data }: { note: Note; renotedBy?: User; data: any } = $props();
+
+	function GetTimestampFromISO8601(iso_string: string): string {
+		const gotDate = parseISO(iso_string);
+		const currentDate = new Date();
+		return formatDistanceStrict(currentDate, gotDate, { addSuffix: true });
+	}
 </script>
 
 {#if renotedBy}
@@ -52,7 +59,9 @@
 					{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 				</span>
 			</div>
-			<span class="text-right text-muted-foreground whitespace-nowrap">{note.createdAt}</span>
+			<span class="text-right text-muted-foreground whitespace-nowrap">
+				{GetTimestampFromISO8601(note.createdAt)}
+			</span>
 		</div>
 		<p style="white-space: pre-wrap; word-break: break-word;">
 			{note.text}
