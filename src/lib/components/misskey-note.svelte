@@ -11,12 +11,17 @@
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 
 	import type { Note, User } from 'misskey-js/entities.js';
+	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 
 	let { note, renotedBy, data }: { note: Note; renotedBy?: User; data: any } = $props();
 </script>
 
 {#if renotedBy}
-	<div>renote</div>
+	<div class="flex flex-row gap-2 items-center m-2">
+		<div class="w-3"></div>
+		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
+		<div class="text-sm text-muted-foreground">{'Renoted by ' + renotedBy.name}</div>
+	</div>
 {/if}
 <div class="flex flex-row items-start gap-1 text-sm">
 	<Avatar class="h-4 w-4">
