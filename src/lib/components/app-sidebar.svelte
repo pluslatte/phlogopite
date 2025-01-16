@@ -29,8 +29,6 @@
 	let newNote = $state('');
 
 	async function addNote() {
-		console.log(data.server);
-		console.log(data.token);
 		const cli = new misskeyApi.APIClient({
 			origin: 'https://' + data.server,
 			credential: data.token
