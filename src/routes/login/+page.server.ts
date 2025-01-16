@@ -1,7 +1,7 @@
 import { fail, type Actions } from "@sveltejs/kit";
 
 export const actions: Actions = {
-    default: async ({ request, cookies }) => {
+    login: async ({ request, cookies }) => {
         const data = await request.formData();
         const server = data.get('server');
         const token = data.get('token');

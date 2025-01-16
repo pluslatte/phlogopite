@@ -3,10 +3,11 @@
 	import Input from '@/components/ui/input/input.svelte';
 </script>
 
-<div>
-	<form method="POST">
+<div class="flex flex-col items-center justify-center h-full">
+	<form method="POST" action="?/login" class="flex flex-row">
 		<Input name="server" placeholder="Server" />
-		<Input name="token" type="password" placeholder="Token" />
-		<Button type="submit">Log in</Button>
+		<Button type="submit">Authenticate</Button>
 	</form>
+	<div class="text-4xl font-extrabold m-4 mb-1">Phlogopite</div>
+	<div class="text-sm text-muted-foreground m-4 mt-0">Misskey client</div>
 </div>
