@@ -43,12 +43,15 @@
 		<AvatarFallback>...</AvatarFallback>
 	</Avatar>
 	<div class="flex-grow gap-1 ml-2">
-		<div class="grid grid-flow-col gap-2">
-			<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap">{note.user.name}</span
-			>
-			<span class="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">
-				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
-			</span>
+		<div class="grid grid-flow-col">
+			<div class="grid grid-flow-row pb-2">
+				<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap"
+					>{note.user.name}</span
+				>
+				<span class="text-muted-foreground text-sm overflow-hidden text-ellipsis whitespace-nowrap">
+					{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
+				</span>
+			</div>
 			<span class="text-right text-muted-foreground whitespace-nowrap">{note.createdAt}</span>
 		</div>
 		<p style="white-space: pre-wrap; word-break: break-word;">
