@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Avatar from '@/components/ui/avatar/avatar.svelte';
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
-	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
 	import Button from '@/components/ui/button/button.svelte';
-	import Separator from '@/components/ui/separator/separator.svelte';
 
 	import IconReply from 'lucide-svelte/icons/reply';
 	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';

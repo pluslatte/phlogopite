@@ -1,10 +1,6 @@
 <script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
-	import { ResizablePane } from '@/components/ui/resizable';
-	import ResizableHandle from '@/components/ui/resizable/resizable-handle.svelte';
-	import ResizablePaneGroup from '@/components/ui/resizable/resizable-pane-group.svelte';
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
-	import Textarea from '@/components/ui/textarea/textarea.svelte';
 	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
@@ -17,14 +13,9 @@
 	import IconHousePlus from 'lucide-svelte/icons/house-plus';
 	import IconServer from 'lucide-svelte/icons/server';
 	import IconGlobe from 'lucide-svelte/icons/globe';
-	import IconSettings from 'lucide-svelte/icons/settings';
 	import IconPaperclip from 'lucide-svelte/icons/paperclip';
 	import IconSearch from 'lucide-svelte/icons/search';
 	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
-	import IconReply from 'lucide-svelte/icons/reply';
-	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
-	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
-	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 
 	import { useSidebar } from '@/components/ui/sidebar';
