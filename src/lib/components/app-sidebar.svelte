@@ -21,19 +21,21 @@
 	import IconSettings from 'lucide-svelte/icons/settings';
 
 	import { toggleMode } from 'mode-watcher';
-	import { api as misskeyApi } from 'misskey-js';
+	import { api as misskeyApi, Stream } from 'misskey-js';
+	import type { IResponse } from 'misskey-js/entities.js';
+	import { onMount } from 'svelte';
 
 	let { data } = $props();
+	const cli = new misskeyApi.APIClient({
+		origin: 'https://' + data.server,
+		credential: data.token
+	});
 
 	let notifications = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newNote = $state('');
+	let self: IResponse | null = $state(null);
 
 	async function addNote() {
-		const cli = new misskeyApi.APIClient({
-			origin: 'https://' + data.server,
-			credential: data.token
-		});
-
 		const request = cli.request('notes/create', {
 			visibility: 'home',
 			text: newNote
@@ -41,6 +43,12 @@
 
 		await request;
 	}
+
+	onMount(() => {
+		cli.request('i', {}).then((got) => {
+			self = got;
+		});
+	});
 </script>
 
 <Sidebar>
@@ -49,16 +57,13 @@
 			<div class="grid gap-4">
 				<div class="flex flex-row">
 					<Avatar class="rounded-lg">
-						<AvatarImage
-							src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
-							alt="@pluslatte"
-						/>
+						<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
 						<AvatarFallback>...</AvatarFallback>
 					</Avatar>
 					<div class="flex-frow grid grid-flow-row ml-2 text-sm">
-						<span class="font-bold text-ellipsis overflow-hidden">Username</span>
+						<span class="font-bold text-ellipsis overflow-hidden">{self?.name}</span>
 						<span class="text-muted-foreground text-ellipsis overflow-hidden"
-							>@id@long_long_looong_server_name</span
+							>{'@' + self?.username + '@' + data.server}</span
 						>
 					</div>
 				</div>
