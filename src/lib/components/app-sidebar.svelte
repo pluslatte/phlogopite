@@ -41,7 +41,13 @@
 			text: newNote
 		});
 
-		await request;
+		const result = await request;
+		if (result) {
+			// TODO: show created note in timeline if visible.
+			newNote = '';
+		} else {
+			console.error('Note creation failed');
+		}
 	}
 
 	onMount(() => {
