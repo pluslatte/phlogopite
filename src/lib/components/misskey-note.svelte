@@ -36,18 +36,16 @@
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 		<AvatarFallback>...</AvatarFallback>
 	</Avatar>
-	<div class="flex-grow flex flex-col gap-1 ml-2">
-		<div class="flex flex-row items-center gap-2">
-			<span class="font-bold">{note.user.name}</span>
-			<span class="text-muted-foreground">
+	<div class="flex-grow gap-1 ml-2">
+		<div class="grid grid-flow-col gap-2 w-full">
+			<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap">{note.user.name}</span
+			>
+			<span class="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 			</span>
-			<span class="flex-grow"></span>
-			<span class="text-muted-foreground">{note.createdAt}</span>
+			<span class="flex-grow min-w-16"></span>
+			<span class="text-muted-foreground whitespace-nowrap">{note.createdAt}</span>
 		</div>
-		<!-- ながい文を表示すると画面があふれる -->
-		<!-- <p style="white-space: pre-wrap;">{note}</p> -->
-		<!-- これで直ったが、どうして？ -->
 		<p style="white-space: pre-wrap; word-break: break-word;">
 			{note.text}
 		</p>

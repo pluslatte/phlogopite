@@ -30,10 +30,11 @@
 	import { useSidebar } from '@/components/ui/sidebar';
 	import { onMount } from 'svelte';
 	import { api as misskeyApi, Stream } from 'misskey-js';
-	import type { Note } from 'misskey-js/entities.js';
+	import type { IResponse, Note } from 'misskey-js/entities.js';
 	import MisskeyNote from '@/components/misskey-note.svelte';
 
 	let { data } = $props();
+	let self: IResponse | null = $state(null);
 
 	const sidebar = useSidebar();
 	const cli = new misskeyApi.APIClient({
@@ -70,6 +71,10 @@
 		channelGlobalTimeline.on('note', (note) => {
 			timelineFeed.add_note(note);
 		});
+
+		cli.request('i', {}).then((got) => {
+			self = got;
+		});
 	});
 </script>
 
@@ -85,10 +90,7 @@
 				<IconArrowLeftFromLine />
 			{:else}
 				<Avatar class="rounded-md size-8">
-					<AvatarImage
-						src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
-						alt="@pluslatte"
-					/>
+					<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
 					<AvatarFallback>...</AvatarFallback>
 				</Avatar>
 			{/if}
