@@ -25,14 +25,12 @@
 	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
 	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
-	import IconArrowRightFromLine from 'lucide-svelte/icons/arrow-right-from-line';
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 
 	import { useSidebar } from '@/components/ui/sidebar';
 	import { onMount } from 'svelte';
 	import { Stream } from 'misskey-js';
 	import type { Note } from 'misskey-js/entities.js';
-	import { pushState } from '$app/navigation';
 
 	let { data } = $props();
 
@@ -117,18 +115,17 @@
 		{#each timelineFeed.notes as note}
 			<div class="flex flex-row items-start gap-1 text-sm">
 				<Avatar class="rounded-lg mt-1">
-					<AvatarImage
-						src="https://media.virtualkemomimi.net/files/d55bc44c-46b5-4f92-80fd-c8a66ab0b4b5.png"
-						alt="@pluslatte"
-					/>
+					<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 					<AvatarFallback>...</AvatarFallback>
 				</Avatar>
 				<div class="flex-grow flex flex-col gap-1 ml-2">
 					<div class="flex flex-row items-center gap-2">
-						<span class="font-bold">Username</span>
-						<span class="text-muted-foreground">@id@server</span>
+						<span class="font-bold">{note.user.name}</span>
+						<span class="text-muted-foreground">
+							{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
+						</span>
 						<span class="flex-grow"></span>
-						<span class="text-muted-foreground">Time</span>
+						<span class="text-muted-foreground">{note.createdAt}</span>
 					</div>
 					<!-- ながい文を表示すると画面があふれる -->
 					<!-- <p style="white-space: pre-wrap;">{note}</p> -->
