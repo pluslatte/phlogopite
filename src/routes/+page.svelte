@@ -129,11 +129,15 @@
 	<Separator />
 	<ScrollArea type="auto" class="p-4 flex-grow">
 		{#each timelineFeed.notes as note}
-			{#if note.renote}
+			{#if note.renote && !note.text}
 				<MisskeyNote note={note.renote} renotedBy={note.user} {data} />
+			{:else if note.renote && note.text}
+				<MisskeyNote {note} {data} />
+				<MisskeyNote note={note.renote} quotedBy={note.user} {data} />
 			{:else}
 				<MisskeyNote {note} {data} />
 			{/if}
+			<Separator class="mb-4" />
 		{/each}
 	</ScrollArea>
 </div>

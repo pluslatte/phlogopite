@@ -15,7 +15,12 @@
 	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 
-	let { note, renotedBy, data }: { note: Note; renotedBy?: User; data: any } = $props();
+	let {
+		note,
+		renotedBy,
+		quotedBy,
+		data
+	}: { note: Note; renotedBy?: User; quotedBy?: User; data: any } = $props();
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
@@ -29,6 +34,12 @@
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">{'Renoted by ' + renotedBy.name}</div>
+	</div>
+{:else if quotedBy}
+	<div class="flex flex-row gap-2 items-center m-2">
+		<div class="w-3"></div>
+		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
+		<div class="text-sm text-muted-foreground">{'Quoted by ' + quotedBy.name}</div>
 	</div>
 {/if}
 <div class="flex flex-row items-start gap-1 text-sm">
@@ -83,4 +94,3 @@
 		<IconEllipsis class="h-4 w-4" />
 	</Button>
 </div>
-<Separator class="mb-4" />
