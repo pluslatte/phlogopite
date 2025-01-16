@@ -29,21 +29,33 @@
 
 	import { useSidebar } from '@/components/ui/sidebar';
 	import { onMount } from 'svelte';
-	import { Stream } from 'misskey-js';
+	import { api as misskeyApi, Stream } from 'misskey-js';
 	import type { Note } from 'misskey-js/entities.js';
 
 	let { data } = $props();
 
 	const sidebar = useSidebar();
+	const cli = new misskeyApi.APIClient({
+		origin: 'https://' + data.server,
+		credential: data.token
+	});
 
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 
 		add_note(note: Note): void {
-			if (this.notes.length > 10) {
+			if (this.notes.length > 32) {
 				this.notes.pop();
 			}
 			this.notes.unshift(note);
+		}
+
+		init(): void {
+			cli.request('notes/global-timeline', { limit: 10 }).then((got) => {
+				got.forEach((note) => {
+					this.notes.unshift(note);
+				});
+			});
 		}
 	}
 
@@ -53,6 +65,7 @@
 		if (!data.server || !data.token) return;
 		const stream = new Stream(`https://${data.server}`, { token: data.token });
 		const channelGlobalTimeline = stream.useChannel('globalTimeline');
+		timelineFeed.init();
 		channelGlobalTimeline.on('note', (note) => {
 			timelineFeed.add_note(note);
 		});
@@ -114,6 +127,14 @@
 	<ScrollArea type="auto" class="p-4 flex-grow">
 		{#each timelineFeed.notes as note}
 			<div class="flex flex-row items-start gap-1 text-sm">
+				<Avatar class="h-4 w-4">
+					{#if note.user.host}
+						<AvatarImage src={'http://www.google.com/s2/favicons?domain=' + note.user.host} />
+					{:else}
+						<AvatarImage src={'http://www.google.com/s2/favicons?domain=' + data.server} />
+					{/if}
+					<AvatarFallback>...</AvatarFallback>
+				</Avatar>
 				<Avatar class="rounded-lg mt-1">
 					<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 					<AvatarFallback>...</AvatarFallback>
