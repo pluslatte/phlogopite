@@ -26,9 +26,15 @@
 <div class="flex flex-row items-start gap-1 text-sm">
 	<Avatar class="h-4 w-4">
 		{#if note.user.host}
-			<AvatarImage src={'http://www.google.com/s2/favicons?domain=' + note.user.host} />
+			<AvatarImage
+				class="rounded-sm"
+				src={'http://www.google.com/s2/favicons?domain=' + note.user.host}
+			/>
 		{:else}
-			<AvatarImage src={'http://www.google.com/s2/favicons?domain=' + data.server} />
+			<AvatarImage
+				class="rounded-sm"
+				src={'http://www.google.com/s2/favicons?domain=' + data.server}
+			/>
 		{/if}
 		<AvatarFallback>...</AvatarFallback>
 	</Avatar>
@@ -37,14 +43,13 @@
 		<AvatarFallback>...</AvatarFallback>
 	</Avatar>
 	<div class="flex-grow gap-1 ml-2">
-		<div class="grid grid-flow-col gap-2 w-full">
+		<div class="grid grid-flow-col gap-2">
 			<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap">{note.user.name}</span
 			>
 			<span class="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 			</span>
-			<span class="flex-grow min-w-16"></span>
-			<span class="text-muted-foreground whitespace-nowrap">{note.createdAt}</span>
+			<span class="text-right text-muted-foreground whitespace-nowrap">{note.createdAt}</span>
 		</div>
 		<p style="white-space: pre-wrap; word-break: break-word;">
 			{note.text}
