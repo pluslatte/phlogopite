@@ -1,6 +1,4 @@
 <script lang="ts">
-	let { data } = $props();
-
 	import SidebarContent from './ui/sidebar/sidebar-content.svelte';
 	import SidebarHeader from './ui/sidebar/sidebar-header.svelte';
 	import Sidebar from './ui/sidebar/sidebar.svelte';
@@ -24,6 +22,8 @@
 
 	import { toggleMode } from 'mode-watcher';
 	import { api as misskeyApi } from 'misskey-js';
+
+	let { data } = $props();
 
 	let notifications = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newNote = $state('');
