@@ -42,10 +42,10 @@
 	});
 </script>
 
-<div class="flex flex-col rounded-lg h-full">
-	<div class="flex flex-row relative justify-center">
+<div class="flex h-full flex-col rounded-lg">
+	<div class="relative flex flex-row justify-center">
 		<Button
-			class="absolute left-0 border rounded-lg flex flex-row items-center m-2 gap-4"
+			class="absolute left-0 m-2 flex flex-row items-center gap-4 rounded-lg border"
 			size="icon"
 			variant="ghost"
 			onclick={sidebar.toggle}
@@ -53,7 +53,7 @@
 			{#if sidebar.open}
 				<IconArrowLeftFromLine />
 			{:else}
-				<Avatar class="rounded-md size-8">
+				<Avatar class="size-8 rounded-md">
 					<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
 					<AvatarFallback>...</AvatarFallback>
 				</Avatar>
@@ -84,14 +84,14 @@
 		<form class="p-2">
 			<div class="relative">
 				<IconSearch
-					class="text-muted-foreground absolute left-2 top-[50%] h-4 w-4 translate-y-[-50%]"
+					class="absolute left-2 top-[50%] h-4 w-4 translate-y-[-50%] text-muted-foreground"
 				/>
 				<Input placeholder="Search" class="pl-8" />
 			</div>
 		</form>
 	</div>
 	<Separator />
-	<ScrollArea type="auto" class="p-4 flex-grow">
+	<ScrollArea type="auto" class="flex-grow p-4">
 		<TimelineFeed {data} />
 	</ScrollArea>
 </div>

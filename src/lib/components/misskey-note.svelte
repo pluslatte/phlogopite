@@ -28,13 +28,13 @@
 </script>
 
 {#if renotedBy}
-	<div class="flex flex-row gap-2 items-center m-2">
+	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">{'Renoted by ' + renotedBy.name}</div>
 	</div>
 {:else if quotedBy}
-	<div class="flex flex-row gap-2 items-center m-2">
+	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">{'Quoted by ' + quotedBy.name}</div>
@@ -55,21 +55,21 @@
 		{/if}
 		<AvatarFallBackAnim />
 	</Avatar>
-	<Avatar class="rounded-lg mt-1">
+	<Avatar class="mt-1 rounded-lg">
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 		<AvatarFallBackAnim />
 	</Avatar>
-	<div class="flex-grow gap-1 ml-2">
+	<div class="ml-2 flex-grow gap-1">
 		<div class="grid grid-flow-col">
 			<div class="grid grid-flow-row pb-2">
-				<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+				<span class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
 					{note.user.name}
 				</span>
-				<span class="text-muted-foreground text-sm overflow-hidden text-ellipsis whitespace-nowrap">
+				<span class="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
 					{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 				</span>
 			</div>
-			<span class="text-right text-muted-foreground whitespace-nowrap">
+			<span class="whitespace-nowrap text-right text-muted-foreground">
 				{GetTimestampFromISO8601(note.createdAt)}
 			</span>
 		</div>
@@ -78,7 +78,7 @@
 		</p>
 	</div>
 </div>
-<div class="flex flex-row p-2 gap-8">
+<div class="flex flex-row gap-8 p-2">
 	<Button variant="ghost" size="icon" class="rounded-full">
 		<IconReply class="h-4 w-4" />
 	</Button>

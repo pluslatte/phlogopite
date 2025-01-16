@@ -56,9 +56,9 @@
 				<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
 				<AvatarFallBackAnim />
 			</Avatar>
-			<div class="flex-frow grid grid-flow-row ml-2 text-sm">
-				<span class="font-bold text-ellipsis overflow-hidden">{self?.name}</span>
-				<span class="text-muted-foreground text-ellipsis overflow-hidden"
+			<div class="flex-frow ml-2 grid grid-flow-row text-sm">
+				<span class="overflow-hidden text-ellipsis font-bold">{self?.name}</span>
+				<span class="overflow-hidden text-ellipsis text-muted-foreground"
 					>{'@' + self?.username + '@' + data.server}</span
 				>
 			</div>
@@ -75,11 +75,11 @@
 				<span class="sr-only">Toggle theme</span>
 			</Button>
 			<div class="flex-grow"></div>
-			<Button variant="outline" size="icon" class="rounded-r-none border-r-0 shrink-0">
+			<Button variant="outline" size="icon" class="shrink-0 rounded-r-none border-r-0">
 				<IconGlobe />
 			</Button>
 			<Separator orientation="vertical" />
-			<Button variant="outline" size="icon" class="rounded-l-none border-l-0 shrink-0">
+			<Button variant="outline" size="icon" class="shrink-0 rounded-l-none border-l-0">
 				<IconRocket />
 			</Button>
 			<Separator orientation="vertical" class="mx-4" />

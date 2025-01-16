@@ -53,14 +53,14 @@
 		<Separator />
 	</SidebarHeader>
 	<SidebarContent>
-		<div class="flex flex-row items-center gap-2 ml-4 mr-4 mb-2">
+		<div class="mb-2 ml-4 mr-4 flex flex-row items-center gap-2">
 			<IconBell class="h-4 w-4" />
 			<p class="flex-grow">Notification</p>
 			<Button variant="ghost" size="icon" class="rounded-full">
 				<IconSettings class="h-4 w-4" />
 			</Button>
 		</div>
-		<ScrollArea type="auto" class="flex-grow m-4 mt-0">
+		<ScrollArea type="auto" class="m-4 mt-0 flex-grow">
 			{#each notifications as notification}
 				<div>{notification}</div>
 			{/each}
