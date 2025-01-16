@@ -12,7 +12,7 @@
 	{#if page.url.pathname !== '/auth'}
 		<AppSidebar {data} />
 	{/if}
-	<main class="w-screen h-screen">
+	<main class="h-screen w-screen">
 		{@render children?.()}
 	</main>
 </SidebarProvider>
