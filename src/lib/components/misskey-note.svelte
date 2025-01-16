@@ -13,6 +13,7 @@
 	import type { Note, User } from 'misskey-js/entities.js';
 	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 	import { formatDistanceStrict, parseISO } from 'date-fns';
+	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 
 	let { note, renotedBy, data }: { note: Note; renotedBy?: User; data: any } = $props();
 
@@ -43,11 +44,11 @@
 				src={'http://www.google.com/s2/favicons?domain=' + data.server}
 			/>
 		{/if}
-		<AvatarFallback>...</AvatarFallback>
+		<AvatarFallBackAnim />
 	</Avatar>
 	<Avatar class="rounded-lg mt-1">
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
-		<AvatarFallback>...</AvatarFallback>
+		<AvatarFallBackAnim />
 	</Avatar>
 	<div class="flex-grow gap-1 ml-2">
 		<div class="grid grid-flow-col">

@@ -24,6 +24,7 @@
 	import { api as misskeyApi, Stream } from 'misskey-js';
 	import type { IResponse } from 'misskey-js/entities.js';
 	import { onMount } from 'svelte';
+	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 
 	let { data } = $props();
 	const cli = new misskeyApi.APIClient({
@@ -64,7 +65,7 @@
 				<div class="flex flex-row">
 					<Avatar class="rounded-lg">
 						<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
-						<AvatarFallback>...</AvatarFallback>
+						<AvatarFallBackAnim />
 					</Avatar>
 					<div class="flex-frow grid grid-flow-row ml-2 text-sm">
 						<span class="font-bold text-ellipsis overflow-hidden">{self?.name}</span>
