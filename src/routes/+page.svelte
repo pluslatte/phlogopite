@@ -29,21 +29,36 @@
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 
 	import { useSidebar } from '@/components/ui/sidebar';
+	import { onMount } from 'svelte';
+	import { Stream } from 'misskey-js';
+	import type { Note } from 'misskey-js/entities.js';
+	import { pushState } from '$app/navigation';
+
+	let { data } = $props();
 
 	const sidebar = useSidebar();
 
-	let notes = $state([
-		'Hello, Misskey',
-		'Hello, SvelteKit',
-		'hoge',
-		'longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong',
-		'hoge',
-		'hoge',
-		'hoge',
-		'huga',
-		'hoge',
-		'hoge'
-	]);
+	class TimelineFeed {
+		notes: Note[] = $state([]);
+
+		add_note(note: Note): void {
+			if (this.notes.length > 10) {
+				this.notes.pop();
+			}
+			this.notes.unshift(note);
+		}
+	}
+
+	const timelineFeed = new TimelineFeed();
+
+	onMount(() => {
+		if (!data.server || !data.token) return;
+		const stream = new Stream(`https://${data.server}`, { token: data.token });
+		const channelGlobalTimeline = stream.useChannel('globalTimeline');
+		channelGlobalTimeline.on('note', (note) => {
+			timelineFeed.add_note(note);
+		});
+	});
 </script>
 
 <div class="flex flex-col rounded-lg h-full">
@@ -99,7 +114,7 @@
 	</div>
 	<Separator />
 	<ScrollArea type="auto" class="p-4 flex-grow">
-		{#each notes as note}
+		{#each timelineFeed.notes as note}
 			<div class="flex flex-row items-start gap-1 text-sm">
 				<Avatar class="rounded-lg mt-1">
 					<AvatarImage
@@ -119,7 +134,7 @@
 					<!-- <p style="white-space: pre-wrap;">{note}</p> -->
 					<!-- これで直ったが、どうして？ -->
 					<p style="white-space: pre-wrap; word-break: break-word;">
-						{note}
+						{note.text}
 					</p>
 				</div>
 			</div>
