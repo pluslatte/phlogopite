@@ -59,21 +59,19 @@
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 		<AvatarFallBackAnim />
 	</Avatar>
-	<div class="ml-2 flex-grow gap-1">
-		<div class="grid grid-flow-col">
-			<div class="grid grid-flow-row pb-2">
-				<span class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-					{note.user.name}
-				</span>
-				<span class="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
-					{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
-				</span>
-			</div>
-			<span class="whitespace-nowrap text-right text-muted-foreground">
+	<div class="ml-2 flex-grow overflow-hidden">
+		<div class="flex w-full items-center overflow-hidden">
+			<span class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+				{note.user.name}
+			</span>
+			<span class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
+				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
+			</span>
+			<span class="ml-auto whitespace-nowrap text-right text-muted-foreground">
 				{GetTimestampFromISO8601(note.createdAt)}
 			</span>
 		</div>
-		<p style="white-space: pre-wrap; word-break: break-word;">
+		<p class="whitespace-pre-wrap break-words">
 			{note.text}
 		</p>
 	</div>
