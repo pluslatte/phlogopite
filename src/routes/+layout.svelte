@@ -9,7 +9,7 @@
 </script>
 
 <SidebarProvider style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;">
-	{#if page.url.pathname !== '/login'}
+	{#if page.url.pathname !== '/auth'}
 		<AppSidebar {data} />
 	{/if}
 	<main class="w-screen h-screen">
