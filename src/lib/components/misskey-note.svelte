@@ -45,9 +45,9 @@
 	<div class="flex-grow gap-1 ml-2">
 		<div class="grid grid-flow-col">
 			<div class="grid grid-flow-row pb-2">
-				<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap"
-					>{note.user.name}</span
-				>
+				<span class="font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+					{note.user.name}
+				</span>
 				<span class="text-muted-foreground text-sm overflow-hidden text-ellipsis whitespace-nowrap">
 					{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 				</span>
