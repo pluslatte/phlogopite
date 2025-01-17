@@ -32,7 +32,9 @@
 	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
-		<div class="text-sm text-muted-foreground">{'Renoted by ' + renotedBy.name}</div>
+		<div class="text-sm text-muted-foreground">
+			<MfmText rawText={'Renoted by ' + renotedBy.name} host={renotedBy.host} />
+		</div>
 	</div>
 {:else if quotedBy}
 	<div class="m-2 flex flex-row items-center gap-2">
