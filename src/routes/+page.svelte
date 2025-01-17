@@ -26,6 +26,7 @@
 
 	let { data } = $props();
 	let self: IResponse | null = $state(null);
+	let timelineSelector = $state('timelineGlobal');
 
 	const sidebar = useSidebar();
 	const cli = new misskeyApi.APIClient({
@@ -59,17 +60,17 @@
 				</Avatar>
 			{/if}
 		</Button>
-		<ToggleGroup type="single" class="p-2">
-			<ToggleGroupItem value="timeline home">
+		<ToggleGroup type="single" bind:value={timelineSelector} class="p-2">
+			<ToggleGroupItem value="timelineHome">
 				<IconHouse />
 			</ToggleGroupItem>
-			<ToggleGroupItem value="timeline social">
+			<ToggleGroupItem value="timelineSocial">
 				<IconHousePlus />
 			</ToggleGroupItem>
-			<ToggleGroupItem value="timeline local">
+			<ToggleGroupItem value="timelineLocal">
 				<IconServer />
 			</ToggleGroupItem>
-			<ToggleGroupItem value="timeline global">
+			<ToggleGroupItem value="timelineGlobal">
 				<IconGlobe />
 			</ToggleGroupItem>
 			<Separator orientation="vertical" />
@@ -87,6 +88,14 @@
 	</div>
 	<Separator />
 	<ScrollArea type="auto" class="flex-grow p-4">
-		<TimelineFeed {data} />
+		{#if timelineSelector == 'timelineHome'}
+			<TimelineFeed {data} timelineType={timelineSelector} />
+		{:else if timelineSelector == 'timelineSocial'}
+			<TimelineFeed {data} timelineType={timelineSelector} />
+		{:else if timelineSelector == 'timelineLocal'}
+			<TimelineFeed {data} timelineType={timelineSelector} />
+		{:else if timelineSelector == 'timelineGlobal'}
+			<TimelineFeed {data} timelineType={timelineSelector} />
+		{/if}
 	</ScrollArea>
 </div>

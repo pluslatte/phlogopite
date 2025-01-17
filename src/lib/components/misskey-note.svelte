@@ -41,20 +41,6 @@
 	</div>
 {/if}
 <div class="flex flex-row items-start text-sm">
-	<!-- <Avatar class="h-4 w-4">
-		{#if note.user.host}
-			<AvatarImage
-				class="rounded-sm"
-				src={'http://www.google.com/s2/favicons?domain=' + note.user.host}
-			/>
-		{:else}
-			<AvatarImage
-				class="rounded-sm"
-				src={'http://www.google.com/s2/favicons?domain=' + data.server}
-			/>
-		{/if}
-		<AvatarFallBackAnim />
-	</Avatar> -->
 	<Avatar class="ml-2 mt-1 rounded-lg">
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 		<AvatarFallBackAnim />

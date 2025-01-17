@@ -6,7 +6,7 @@
 	import MisskeyNote from '@/components/misskey-note.svelte';
 	import { onMount } from 'svelte';
 
-	let { data } = $props();
+	let { data, timelineType }: { data: any; timelineType: string } = $props();
 
 	const cli = new misskeyApi.APIClient({
 		origin: 'https://' + data.server,
@@ -15,6 +15,11 @@
 
 	class TimelineFeed {
 		notes: Note[] = $state([]);
+		timelineType: string;
+
+		constructor(timelineType: string) {
+			this.timelineType = timelineType;
+		}
 
 		add_note(note: Note): void {
 			if (this.notes.length > 32) {
@@ -24,23 +29,62 @@
 		}
 
 		init(): void {
-			cli.request('notes/global-timeline', { limit: 10 }).then((got) => {
-				got.forEach((note) => {
-					this.notes.unshift(note);
-				});
-			});
+			if (!data.server || !data.token) return;
+			const stream = new Stream(`https://${data.server}`, { token: data.token });
+			switch (timelineType) {
+				case 'timelineHome':
+					cli.request('notes/timeline', { limit: 10 }).then((got) => {
+						got.forEach((note) => {
+							this.notes.unshift(note);
+						});
+					});
+					const channelHomeTimeline = stream.useChannel('homeTimeline');
+					channelHomeTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				case 'timelineSocial':
+					cli.request('notes/hybrid-timeline', { limit: 10 }).then((got) => {
+						got.forEach((note) => {
+							this.notes.unshift(note);
+						});
+					});
+					const channelHybridTimeline = stream.useChannel('hybridTimeline');
+					channelHybridTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				case 'timelineLocal':
+					cli.request('notes/local-timeline', { limit: 10 }).then((got) => {
+						got.forEach((note) => {
+							this.notes.unshift(note);
+						});
+					});
+					const channelLocalTimeline = stream.useChannel('localTimeline');
+					channelLocalTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				case 'timelineGlobal':
+					cli.request('notes/global-timeline', { limit: 10 }).then((got) => {
+						got.forEach((note) => {
+							this.notes.unshift(note);
+						});
+					});
+					const channelGlobalTimeline = stream.useChannel('globalTimeline');
+					channelGlobalTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				default:
+					return;
+			}
 		}
 	}
-	const timelineFeed = new TimelineFeed();
+	const timelineFeed = new TimelineFeed(timelineType);
 
 	onMount(() => {
-		if (!data.server || !data.token) return;
-		const stream = new Stream(`https://${data.server}`, { token: data.token });
-		const channelGlobalTimeline = stream.useChannel('globalTimeline');
 		timelineFeed.init();
-		channelGlobalTimeline.on('note', (note) => {
-			timelineFeed.add_note(note);
-		});
 	});
 </script>
 
