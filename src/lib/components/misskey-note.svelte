@@ -58,7 +58,7 @@
 				{GetTimestampFromISO8601(note.createdAt)}
 			</div>
 		</div>
-		<p class="whitespace-pre-wrap break-words">
+		<p class="whitespace-pre-wrap break-all">
 			{note.text}
 		</p>
 	</div>
