@@ -40,7 +40,9 @@
 	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
-		<div class="text-sm text-muted-foreground">{'Quoted by ' + quotedBy.name}</div>
+		<div class="text-sm text-muted-foreground">
+			<MfmText rawText={'Quoted by ' + quotedBy.name} host={quotedBy.host} />
+		</div>
 	</div>
 {/if}
 <div class="flex flex-row items-start text-sm">
