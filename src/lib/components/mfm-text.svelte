@@ -48,9 +48,16 @@
 	{/if}
 {/snippet}
 
-{#each nodes as node}
+{#snippet prime(node: mfm.MfmNode)}
 	{#if node.type == 'text'}
 		<span>{node.props.text}</span>
+	{:else if node.type == 'bold'}
+		{@const childNodes = mfm.parse(mfm.toString(node.children))}
+		{#each childNodes as childNode}
+			<span class="font-bold">
+				{@render prime(childNode)}
+			</span>
+		{/each}
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'emojiCode'}
@@ -62,4 +69,8 @@
 	{:else}
 		<span>{'![' + node.type + ']'}</span>
 	{/if}
+{/snippet}
+
+{#each nodes as node}
+	{@render prime(node)}
 {/each}
