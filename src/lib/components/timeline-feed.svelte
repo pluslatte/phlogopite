@@ -35,7 +35,7 @@
 				case 'timelineHome':
 					cli.request('notes/timeline', { limit: 10 }).then((got) => {
 						got.forEach((note) => {
-							this.notes.unshift(note);
+							this.notes.push(note);
 						});
 					});
 					const channelHomeTimeline = stream.useChannel('homeTimeline');
@@ -46,7 +46,7 @@
 				case 'timelineSocial':
 					cli.request('notes/hybrid-timeline', { limit: 10 }).then((got) => {
 						got.forEach((note) => {
-							this.notes.unshift(note);
+							this.notes.push(note);
 						});
 					});
 					const channelHybridTimeline = stream.useChannel('hybridTimeline');
@@ -57,7 +57,7 @@
 				case 'timelineLocal':
 					cli.request('notes/local-timeline', { limit: 10 }).then((got) => {
 						got.forEach((note) => {
-							this.notes.unshift(note);
+							this.notes.push(note);
 						});
 					});
 					const channelLocalTimeline = stream.useChannel('localTimeline');
@@ -68,7 +68,7 @@
 				case 'timelineGlobal':
 					cli.request('notes/global-timeline', { limit: 10 }).then((got) => {
 						got.forEach((note) => {
-							this.notes.unshift(note);
+							this.notes.push(note);
 						});
 					});
 					const channelGlobalTimeline = stream.useChannel('globalTimeline');
