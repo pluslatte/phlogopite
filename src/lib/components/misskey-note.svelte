@@ -59,10 +59,9 @@
 				{GetTimestampFromISO8601(note.createdAt)}
 			</div>
 		</div>
-		<!-- <p class="whitespace-pre-wrap break-all">
-			{note.text}
-		</p> -->
-		<MfmText rawText={note.text} host={note.user.host} />
+		<div class="whitespace-pre-wrap break-all">
+			<MfmText rawText={note.text} host={note.user.host} />
+		</div>
 	</div>
 </div>
 <div class="flex flex-row gap-8 p-2">

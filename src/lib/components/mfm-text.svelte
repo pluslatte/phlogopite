@@ -32,7 +32,7 @@
 <div>
 	{#each nodes as node}
 		{#if node.type == 'text'}
-			<span class="whitespace-pre-wrap break-all">{node.props.text}</span>
+			<span>{node.props.text}</span>
 		{:else if node.type == 'unicodeEmoji'}
 			<span>{node.props.emoji}</span>
 		{:else if node.type == 'emojiCode'}
