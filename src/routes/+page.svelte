@@ -92,14 +92,8 @@
 	</div>
 	<Separator />
 	<ScrollArea type="auto" class="flex-grow p-4">
-		{#if timelineSelector == 'timelineHome'}
+		{#key timelineSelector}
 			<TimelineFeed {data} timelineType={timelineSelector} />
-		{:else if timelineSelector == 'timelineSocial'}
-			<TimelineFeed {data} timelineType={timelineSelector} />
-		{:else if timelineSelector == 'timelineLocal'}
-			<TimelineFeed {data} timelineType={timelineSelector} />
-		{:else if timelineSelector == 'timelineGlobal'}
-			<TimelineFeed {data} timelineType={timelineSelector} />
-		{/if}
+		{/key}
 	</ScrollArea>
 </div>
