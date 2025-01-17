@@ -12,6 +12,7 @@
 	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
+	import MfmText from './mfm-text.svelte';
 
 	let {
 		note,
@@ -58,9 +59,10 @@
 				{GetTimestampFromISO8601(note.createdAt)}
 			</div>
 		</div>
-		<p class="whitespace-pre-wrap break-all">
+		<!-- <p class="whitespace-pre-wrap break-all">
 			{note.text}
-		</p>
+		</p> -->
+		<MfmText rawText={note.text} />
 	</div>
 </div>
 <div class="flex flex-row gap-8 p-2">

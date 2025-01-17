@@ -88,7 +88,7 @@
 	});
 </script>
 
-{#each timelineFeed.notes as note}
+{#each timelineFeed.notes as note (note.id)}
 	{#if note.renote && !note.text}
 		<MisskeyNote note={note.renote} renotedBy={note.user} {data} />
 	{:else if note.renote && note.text}
