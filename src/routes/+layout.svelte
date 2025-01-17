@@ -8,11 +8,14 @@
 	let { children, data } = $props();
 </script>
 
-<SidebarProvider style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;">
+<SidebarProvider
+	style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;"
+	class="flex h-screen w-screen flex-row"
+>
 	{#if page.url.pathname !== '/auth'}
 		<AppSidebar {data} />
 	{/if}
-	<main class="h-screen w-screen">
+	<main class="flex-grow">
 		{@render children?.()}
 	</main>
 </SidebarProvider>

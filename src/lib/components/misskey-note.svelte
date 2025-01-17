@@ -40,8 +40,8 @@
 		<div class="text-sm text-muted-foreground">{'Quoted by ' + quotedBy.name}</div>
 	</div>
 {/if}
-<div class="flex flex-row items-start gap-1 text-sm">
-	<Avatar class="h-4 w-4">
+<div class="flex flex-row items-start text-sm">
+	<!-- <Avatar class="h-4 w-4">
 		{#if note.user.host}
 			<AvatarImage
 				class="rounded-sm"
@@ -54,22 +54,23 @@
 			/>
 		{/if}
 		<AvatarFallBackAnim />
-	</Avatar>
-	<Avatar class="mt-1 rounded-lg">
+	</Avatar> -->
+	<Avatar class="ml-2 mt-1 rounded-lg">
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 		<AvatarFallBackAnim />
 	</Avatar>
-	<div class="ml-2 flex-grow overflow-hidden">
-		<div class="flex w-full items-center overflow-hidden">
-			<span class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+	<div class="ml-2 grid flex-grow">
+		<div class="flex w-full flex-row overflow-hidden">
+			<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
 				{note.user.name}
-			</span>
-			<span class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
+			</div>
+			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
-			</span>
-			<span class="ml-auto whitespace-nowrap text-right text-muted-foreground">
+			</div>
+			<div class="w-4"></div>
+			<div class="ml-auto whitespace-nowrap text-muted-foreground">
 				{GetTimestampFromISO8601(note.createdAt)}
-			</span>
+			</div>
 		</div>
 		<p class="whitespace-pre-wrap break-words">
 			{note.text}
