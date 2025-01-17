@@ -4,23 +4,23 @@
 	import * as mfm from 'mfm-js';
 
 	const {
-		rawText,
-		host,
-		emojis
+		mfmNodes,
+		assets
 	}: {
-		rawText: string | null;
-		host: string | null;
-		emojis?: { [key: string]: string | undefined };
+		mfmNodes: mfm.MfmNode[];
+		assets: {
+			host: string | null;
+			emojis?: { [key: string]: string | undefined };
+		};
 	} = $props();
-	let nodes: mfm.MfmNode[] = $state([]);
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 
 	async function getEmojiData(
 		emojiCode: string,
 		host: string | null
 	): Promise<{ url: string; alt: string }> {
-		if (emojis) {
-			let url = emojis[emojiCode];
+		if (assets.emojis) {
+			let url = assets.emojis[emojiCode];
 			if (url) {
 				return { url: url, alt: emojiCode };
 			}
@@ -38,11 +38,6 @@
 			return { url: json.url, alt: json.name };
 		}
 	}
-
-	onMount(() => {
-		if (!rawText) return;
-		nodes = mfm.parse(rawText);
-	});
 </script>
 
 <!-- bold -->
@@ -87,7 +82,7 @@
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'emojiCode'}
-		{@render customEmoji(node, host)}
+		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'url'}
 		<a href={node.props.url} class="border-b text-muted-foreground">{node.props.url}</a>
 	{:else if node.type == 'link' && node.children}
@@ -97,6 +92,6 @@
 	{/if}
 {/snippet}
 
-{#each nodes as node}
+{#each mfmNodes as node}
 	{@render prime(node)}
 {/each}

@@ -13,6 +13,7 @@
 	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 	import MfmText from './mfm-text.svelte';
+	import * as mfm from 'mfm-js';
 
 	let {
 		note,
@@ -29,19 +30,25 @@
 </script>
 
 {#if renotedBy}
+	{@const text = 'Renoted by ' + renotedBy.name}
+	{@const mfmNodes = mfm.parse(text)}
+	{@const assets = { host: renotedBy.host }}
 	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">
-			<MfmText rawText={'Renoted by ' + renotedBy.name} host={renotedBy.host} />
+			<MfmText {mfmNodes} {assets} />
 		</div>
 	</div>
 {:else if quotedBy}
+	{@const text = 'Quoted by ' + quotedBy.name}
+	{@const mfmNodes = mfm.parse(text)}
+	{@const assets = { host: quotedBy.host }}
 	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">
-			<MfmText rawText={'Quoted by ' + quotedBy.name} host={quotedBy.host} />
+			<MfmText {mfmNodes} {assets} />
 		</div>
 	</div>
 {/if}
@@ -52,9 +59,11 @@
 	</Avatar>
 	<div class="ml-2 grid flex-grow">
 		<div class="flex w-full flex-row overflow-hidden">
-			<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-				<MfmText rawText={note.user.name} host={note.user.host} />
-			</div>
+			{#if note.user.name}
+				<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+					<MfmText mfmNodes={mfm.parse(note.user.name)} assets={{ host: note.user.host }} />
+				</div>
+			{/if}
 			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 			</div>
@@ -65,9 +74,14 @@
 		</div>
 		<!-- main text -->
 		<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
-		<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
-			<MfmText rawText={note.text} host={note.user.host} emojis={note.emojis} />
-		</div>
+		{#if note.text}
+			<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
+				<MfmText
+					mfmNodes={mfm.parse(note.text)}
+					assets={{ host: note.user.host, emojis: note.emojis }}
+				/>
+			</div>
+		{/if}
 		<!-- image -->
 		{#if note.files}
 			<div class="flex flex-row flex-wrap">
