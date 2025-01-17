@@ -63,10 +63,19 @@
 				{GetTimestampFromISO8601(note.createdAt)}
 			</div>
 		</div>
+		<!-- main text -->
 		<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
 		<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
 			<MfmText rawText={note.text} host={note.user.host} />
 		</div>
+		<!-- image -->
+		{#if note.files}
+			<div class="flex flex-row flex-wrap">
+				{#each note.files as file}
+					<img src={file.thumbnailUrl} alt={file.name} class="m-2 max-w-64 rounded-lg" />
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
 <div class="flex flex-row gap-8 p-2">
