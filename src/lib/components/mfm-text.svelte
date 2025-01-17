@@ -3,7 +3,15 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 
-	const { rawText, host }: { rawText: string | null; host: string | null } = $props();
+	const {
+		rawText,
+		host,
+		emojis
+	}: {
+		rawText: string | null;
+		host: string | null;
+		emojis?: { [key: string]: string | undefined };
+	} = $props();
 	let nodes: mfm.MfmNode[] = $state([]);
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 
@@ -11,10 +19,18 @@
 		emojiCode: string,
 		host: string | null
 	): Promise<{ url: string; alt: string }> {
+		if (emojis) {
+			let url = emojis[emojiCode];
+			if (url) {
+				return { url: url, alt: emojiCode };
+			}
+		}
 		if (!host) {
+			// if host is local
 			let got = await cli.request('emoji', { name: emojiCode });
 			return { url: got.url, alt: got.name };
 		} else {
+			// if host is remote
 			let got = await fetch(`https://${host}/api/emoji?name=${emojiCode}`, {
 				method: 'GET'
 			});
@@ -57,6 +73,8 @@
 		<span class="inline-block">
 			<img src={emojiData.url} alt={emojiData.alt} class="h-5 align-middle" />
 		</span>
+	{:catch}
+		<span>{':' + node.props.name + ':'}</span>
 	{/await}
 {/snippet}
 
