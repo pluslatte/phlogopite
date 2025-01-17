@@ -1,9 +1,16 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
+	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 
 	const { rawText }: { rawText: string | null } = $props();
 	let nodes: mfm.MfmNode[] = $state([]);
+	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
+
+	async function getEmojiUrl(emojiCode: string): Promise<string> {
+		let got = await cli.request('emoji', { name: emojiCode });
+		return got.url;
+	}
 
 	onMount(() => {
 		if (!rawText) return;
@@ -18,7 +25,11 @@
 		{:else if node.type == 'unicodeEmoji'}
 			<span>{node.props.emoji}</span>
 		{:else if node.type == 'emojiCode'}
-			<span>{'emoji:' + node.props.name}</span>
+			{#await getEmojiUrl(node.props.name)}
+				<span>...</span>
+			{:then emojiUrl}
+				<img src={emojiUrl} />
+			{/await}
 		{:else}
 			<span>{node.type}</span>
 		{/if}

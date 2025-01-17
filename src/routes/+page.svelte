@@ -19,7 +19,7 @@
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 
 	import { useSidebar } from '@/components/ui/sidebar';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import type { IResponse } from 'misskey-js/entities.js';
 	import TimelineFeed from '@/components/timeline-feed.svelte';
@@ -40,6 +40,10 @@
 		cli.request('i', {}).then((got) => {
 			self = got;
 		});
+	});
+
+	setContext('client', {
+		cli
 	});
 </script>
 
