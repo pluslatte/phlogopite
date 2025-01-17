@@ -48,20 +48,18 @@
 	{/if}
 {/snippet}
 
-<div>
-	{#each nodes as node}
-		{#if node.type == 'text'}
-			<span>{node.props.text}</span>
-		{:else if node.type == 'unicodeEmoji'}
-			<span>{node.props.emoji}</span>
-		{:else if node.type == 'emojiCode'}
-			{@render emoji(node, host)}
-		{:else if node.type == 'url'}
-			<a href={node.props.url} class="border-b text-muted-foreground">{node.props.url}</a>
-		{:else if node.type == 'link' && node.children}
-			{@render link(node)}
-		{:else}
-			<span>{'![' + node.type + ']'}</span>
-		{/if}
-	{/each}
-</div>
+{#each nodes as node}
+	{#if node.type == 'text'}
+		<span>{node.props.text}</span>
+	{:else if node.type == 'unicodeEmoji'}
+		<span>{node.props.emoji}</span>
+	{:else if node.type == 'emojiCode'}
+		{@render emoji(node, host)}
+	{:else if node.type == 'url'}
+		<a href={node.props.url} class="border-b text-muted-foreground">{node.props.url}</a>
+	{:else if node.type == 'link' && node.children}
+		{@render link(node)}
+	{:else}
+		<span>{'![' + node.type + ']'}</span>
+	{/if}
+{/each}
