@@ -63,7 +63,8 @@
 				{GetTimestampFromISO8601(note.createdAt)}
 			</div>
 		</div>
-		<div class="whitespace-pre-wrap break-all">
+		<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
+		<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
 			<MfmText rawText={note.text} host={note.user.host} />
 		</div>
 	</div>
