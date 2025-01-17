@@ -11,10 +11,16 @@
 	});
 </script>
 
-{#each nodes as node}
-	{#if node.type == 'text'}
-		<span>{node.props.text}</span>
-	{:else if node.type == 'emojiCode'}
-		<span>{node.props.name}</span>
-	{/if}
-{/each}
+<div>
+	{#each nodes as node}
+		{#if node.type == 'text'}
+			<span>{node.props.text}</span>
+		{:else if node.type == 'unicodeEmoji'}
+			<span>{node.props.emoji}</span>
+		{:else if node.type == 'emojiCode'}
+			<span>{'emoji:' + node.props.name}</span>
+		{:else}
+			<span>{node.type}</span>
+		{/if}
+	{/each}
+</div>
