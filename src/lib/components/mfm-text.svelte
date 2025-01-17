@@ -3,13 +3,24 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 
-	const { rawText }: { rawText: string | null } = $props();
+	const { rawText, host }: { rawText: string | null; host: string | null } = $props();
 	let nodes: mfm.MfmNode[] = $state([]);
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 
-	async function getEmojiUrl(emojiCode: string): Promise<string> {
-		let got = await cli.request('emoji', { name: emojiCode });
-		return got.url;
+	async function getEmojiData(
+		emojiCode: string,
+		host: string | null
+	): Promise<{ url: string; alt: string }> {
+		if (!host) {
+			let got = await cli.request('emoji', { name: emojiCode });
+			return { url: got.url, alt: got.name };
+		} else {
+			let got = await fetch(`https://${host}/api/emoji?name=${emojiCode}`, {
+				method: 'GET'
+			});
+			let json: { url: string; name: string } = await got.json();
+			return { url: json.url, alt: json.name };
+		}
 	}
 
 	onMount(() => {
@@ -25,10 +36,12 @@
 		{:else if node.type == 'unicodeEmoji'}
 			<span>{node.props.emoji}</span>
 		{:else if node.type == 'emojiCode'}
-			{#await getEmojiUrl(node.props.name)}
+			{#await getEmojiData(node.props.name, host)}
 				<span>...</span>
-			{:then emojiUrl}
-				<img src={emojiUrl} />
+			{:then emojiData}
+				<span class="inline-block">
+					<img src={emojiData.url} alt={emojiData.alt} class="h-5 align-middle" />
+				</span>
 			{/await}
 		{:else}
 			<span>{node.type}</span>

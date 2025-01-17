@@ -49,7 +49,7 @@
 	<div class="ml-2 grid flex-grow">
 		<div class="flex w-full flex-row overflow-hidden">
 			<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-				{note.user.name}
+				<MfmText rawText={note.user.name} host={note.user.host} />
 			</div>
 			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
@@ -62,7 +62,7 @@
 		<!-- <p class="whitespace-pre-wrap break-all">
 			{note.text}
 		</p> -->
-		<MfmText rawText={note.text} />
+		<MfmText rawText={note.text} host={note.user.host} />
 	</div>
 </div>
 <div class="flex flex-row gap-8 p-2">
