@@ -29,16 +29,17 @@
 	});
 </script>
 
-{#snippet emoji(node: mfm.MfmEmojiCode, host: string | null)}
-	{#await getEmojiData(node.props.name, host)}
-		<span>...</span>
-	{:then emojiData}
-		<span class="inline-block">
-			<img src={emojiData.url} alt={emojiData.alt} class="h-5 align-middle" />
+<!-- bold -->
+{#snippet bold(node: mfm.MfmBold)}
+	{@const childNodes = mfm.parse(mfm.toString(node.children))}
+	{#each childNodes as childNode}
+		<span class="font-bold">
+			{@render prime(childNode)}
 		</span>
-	{/await}
+	{/each}
 {/snippet}
 
+<!-- link -->
 {#snippet link(node: mfm.MfmLink)}
 	{@const childNodeFirst = mfm.parseSimple(mfm.toString(node.children))[0]}
 	{#if childNodeFirst.type == 'text'}
@@ -48,20 +49,27 @@
 	{/if}
 {/snippet}
 
+<!-- custom emoji -->
+{#snippet customEmoji(node: mfm.MfmEmojiCode, host: string | null)}
+	{#await getEmojiData(node.props.name, host)}
+		<span>...</span>
+	{:then emojiData}
+		<span class="inline-block">
+			<img src={emojiData.url} alt={emojiData.alt} class="h-5 align-middle" />
+		</span>
+	{/await}
+{/snippet}
+
+<!-- main -->
 {#snippet prime(node: mfm.MfmNode)}
 	{#if node.type == 'text'}
 		<span>{node.props.text}</span>
 	{:else if node.type == 'bold'}
-		{@const childNodes = mfm.parse(mfm.toString(node.children))}
-		{#each childNodes as childNode}
-			<span class="font-bold">
-				{@render prime(childNode)}
-			</span>
-		{/each}
+		{@render bold(node)}
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'emojiCode'}
-		{@render emoji(node, host)}
+		{@render customEmoji(node, host)}
 	{:else if node.type == 'url'}
 		<a href={node.props.url} class="border-b text-muted-foreground">{node.props.url}</a>
 	{:else if node.type == 'link' && node.children}
