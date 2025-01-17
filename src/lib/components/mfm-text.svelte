@@ -43,8 +43,17 @@
 					<img src={emojiData.url} alt={emojiData.alt} class="h-5 align-middle" />
 				</span>
 			{/await}
+		{:else if node.type == 'url'}
+			<a href={node.props.url} class="border-b text-muted-foreground">{node.props.url}</a>
+		{:else if node.type == 'link' && node.children}
+			{@const childNodeFirst = mfm.parseSimple(mfm.toString(node.children))[0]}
+			{#if childNodeFirst.type == 'text'}
+				<a href={node.props.url} class="border-b text-muted-foreground">
+					{childNodeFirst.props.text}
+				</a>
+			{/if}
 		{:else}
-			<span>{node.type}</span>
+			<span>{'![' + node.type + ']'}</span>
 		{/if}
 	{/each}
 </div>
