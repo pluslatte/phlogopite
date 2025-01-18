@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
+	import { getContext } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 	import { codeToHtml } from 'shiki';
@@ -39,18 +39,6 @@
 			let json: { url: string; name: string } = await got.json();
 			return { url: json.url, alt: json.name };
 		}
-	}
-
-	function validateTime(time: string | boolean | null | undefined) {
-		if (time == null) {
-			return null;
-		}
-
-		if (typeof time === 'boolean') {
-			return null;
-		}
-
-		return time.match(/^\-?[0-9.]+s$/) ? time : null;
 	}
 </script>
 

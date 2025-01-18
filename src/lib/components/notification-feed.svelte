@@ -1,16 +1,9 @@
 <script lang="ts">
-	import Avatar from '@/components/ui/avatar/avatar.svelte';
-	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
-	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
-
 	import { Stream } from 'misskey-js';
 	import { api as misskeyApi } from 'misskey-js';
 	import type { Notification } from 'misskey-js/entities.js';
 	import { onMount } from 'svelte';
 
-	import MfmText from './mfm-text.svelte';
-	import * as mfm from 'mfm-js';
-	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import MisskeyNote from './misskey-note.svelte';
 	import Separator from './ui/separator/separator.svelte';
 
@@ -36,12 +29,6 @@
 		}
 	}
 	const notificationFeed = new NotificationFeed();
-
-	function GetTimestampFromISO8601(iso_string: string): string {
-		const gotDate = parseISO(iso_string);
-		const currentDate = new Date();
-		return formatDistanceStrict(currentDate, gotDate, { addSuffix: true });
-	}
 
 	onMount(() => {
 		notificationFeed.init();

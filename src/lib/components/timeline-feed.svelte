@@ -6,10 +6,7 @@
 	import MisskeyNote from '@/components/misskey-note.svelte';
 	import { onMount } from 'svelte';
 	import MisskeyNoteActions from './misskey-note-actions.svelte';
-	import MfmText from './mfm-text.svelte';
-	import * as mfm from 'mfm-js';
 
-	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 	import MisskeyRenote from './misskey-renote.svelte';
 	import MisskeyQuote from './misskey-quote.svelte';
 
