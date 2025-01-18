@@ -14,6 +14,7 @@
 	import type { IResponse } from 'misskey-js/entities.js';
 	import { onMount } from 'svelte';
 	import CreateNote from './create-note.svelte';
+	import NotificationFeed from './notification-feed.svelte';
 
 	let { data } = $props();
 	const cli = new misskeyApi.APIClient({
@@ -61,9 +62,7 @@
 			</Button>
 		</div>
 		<ScrollArea type="auto" class="m-4 mt-0 flex-grow">
-			{#each notifications as notification}
-				<div>{notification}</div>
-			{/each}
+			<NotificationFeed {data} />
 		</ScrollArea>
 	</SidebarContent>
 </Sidebar>
