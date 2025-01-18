@@ -65,7 +65,7 @@
 				<IconSettings class="h-4 w-4" />
 			</Button>
 		</div>
-		<ScrollArea type="auto" class="m-4 mt-0 flex-grow">
+		<ScrollArea type="auto" class="flex-grow p-2 pr-4">
 			<NotificationFeed {data} />
 		</ScrollArea>
 	</SidebarContent>

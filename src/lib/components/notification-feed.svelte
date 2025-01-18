@@ -11,6 +11,7 @@
 	import MfmText from './mfm-text.svelte';
 	import * as mfm from 'mfm-js';
 	import { formatDistanceStrict, parseISO } from 'date-fns';
+	import MisskeyNote from './misskey-note.svelte';
 
 	let { data } = $props();
 	const cli = new misskeyApi.APIClient({
@@ -48,50 +49,8 @@
 
 {#each notificationFeed.notifications as notification (notification.id)}
 	{#if notification.type == 'mention'}
-		<div class="flex flex-row items-start text-sm">
-			<Avatar class="mt-1 rounded-lg">
-				<AvatarImage src={notification.user.avatarUrl} alt={'@' + notification.user.username} />
-				<AvatarFallBackAnim />
-			</Avatar>
-			<div class="ml-2 grid flex-grow">
-				<div class="flex w-full flex-row overflow-hidden">
-					{#if notification.user.name}
-						<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-							<MfmText
-								mfmNodes={mfm.parse(notification.user.name)}
-								assets={{ host: notification.user.host, emojis: notification.user.emojis }}
-							/>
-						</div>
-					{/if}
-					<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
-						{'@' +
-							notification.user.username +
-							(notification.user.host ? '@' + notification.user.host : '')}
-					</div>
-					<div class="w-4"></div>
-					<div class="ml-auto whitespace-nowrap text-muted-foreground">
-						{GetTimestampFromISO8601(notification.createdAt)}
-					</div>
-				</div>
-				<!-- main text -->
-				{#if notification.note.text}
-					<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
-					<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
-						<MfmText
-							mfmNodes={mfm.parse(notification.note.text)}
-							assets={{ host: notification.note.user.host, emojis: notification.note.emojis }}
-						/>
-					</div>
-				{/if}
-				<!-- image -->
-				{#if notification.note.files}
-					<div class="flex flex-row flex-wrap">
-						{#each notification.note.files as file}
-							<img src={file.thumbnailUrl} alt={file.name} class="m-2 max-w-32 rounded-lg" />
-						{/each}
-					</div>
-				{/if}
-			</div>
-		</div>
+		<MisskeyNote note={notification.note} />
+	{:else}
+		<div>{notification.type}</div>
 	{/if}
 {/each}
