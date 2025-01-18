@@ -178,6 +178,10 @@
 		<span class="text-blue-500">{'#' + node.props.hashtag}</span>
 	{:else if node.type == 'blockCode'}
 		{@render blockCode(node)}
+	{:else if node.type == 'inlineCode'}
+		<span class="rounded-sm bg-muted-foreground bg-opacity-20 px-1 font-mono">
+			{node.props.code}
+		</span>
 	{:else if node.type == 'emojiCode'}
 		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'unicodeEmoji'}
