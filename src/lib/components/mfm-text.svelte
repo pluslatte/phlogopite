@@ -143,6 +143,8 @@
 		<a href={node.props.url} class="border-b text-muted-foreground">{node.props.url}</a>
 	{:else if node.type == 'link' && node.children}
 		{@render link(node)}
+	{:else if node.type == 'mention'}
+		<span class="text-muted-foreground">{node.props.acct}</span>
 	{:else if node.type == 'emojiCode'}
 		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'unicodeEmoji'}
