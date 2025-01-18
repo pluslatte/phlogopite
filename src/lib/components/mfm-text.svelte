@@ -3,6 +3,7 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 	import { codeToHtml } from 'shiki';
+	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 
 	const {
 		mfmNodes,
@@ -173,9 +174,14 @@
 	{:else if node.type == 'link' && node.children}
 		{@render link(node)}
 	{:else if node.type == 'mention'}
-		<span class="mr-1 rounded-sm bg-muted-foreground bg-opacity-10 px-1 text-muted-foreground">
-			{node.props.acct}
-		</span>
+		<PhlogopiteUserLink
+			username={node.props.username}
+			host={node.props.host ? node.props.host : ''}
+		>
+			<span class="mr-1 rounded-sm bg-muted-foreground bg-opacity-10 px-1 text-muted-foreground">
+				{node.props.acct}
+			</span>
+		</PhlogopiteUserLink>
 	{:else if node.type == 'hashtag'}
 		<span class="text-blue-500">{'#' + node.props.hashtag}</span>
 	{:else if node.type == 'blockCode'}
