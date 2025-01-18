@@ -91,12 +91,12 @@
 
 {#each timelineFeed.notes as note (note.id)}
 	{#if note.renote && !note.text}
-		<MisskeyNote note={note.renote} renotedBy={note.user} {data} />
+		<MisskeyNote note={note.renote} renotedBy={note.user} />
 	{:else if note.renote && note.text}
-		<MisskeyNote {note} {data} />
-		<MisskeyNote note={note.renote} quotedBy={note.user} {data} />
+		<MisskeyNote {note} />
+		<MisskeyNote note={note.renote} quotedBy={note.user} />
 	{:else}
-		<MisskeyNote {note} {data} />
+		<MisskeyNote {note} />
 	{/if}
 	<Separator class="mb-4" />
 {/each}

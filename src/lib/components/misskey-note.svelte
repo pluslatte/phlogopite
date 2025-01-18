@@ -15,12 +15,7 @@
 	import MfmText from './mfm-text.svelte';
 	import * as mfm from 'mfm-js';
 
-	let {
-		note,
-		renotedBy,
-		quotedBy,
-		data
-	}: { note: Note; renotedBy?: User; quotedBy?: User; data: any } = $props();
+	let { note, renotedBy, quotedBy }: { note: Note; renotedBy?: User; quotedBy?: User } = $props();
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
