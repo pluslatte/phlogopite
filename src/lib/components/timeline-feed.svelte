@@ -10,6 +10,8 @@
 	import * as mfm from 'mfm-js';
 
 	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
+	import MisskeyRenote from './misskey-renote.svelte';
+	import MisskeyQuote from './misskey-quote.svelte';
 
 	let { data, timelineType }: { data: any; timelineType: string } = $props();
 
@@ -96,34 +98,11 @@
 
 {#each timelineFeed.notes as note (note.id)}
 	{#if note.renote && !note.text}
-		<div class="m-2 flex flex-row items-center gap-2">
-			<div class="w-3"></div>
-			<Repeat_2 class="h-4 w-4 text-muted-foreground" />
-			<div class="text-sm text-muted-foreground">
-				<MfmText
-					mfmNodes={mfm.parse('Renoted by ' + note.user.name)}
-					assets={{ host: note.user.host, emojis: note.user.emojis }}
-				/>
-			</div>
-		</div>
-		<MisskeyNote note={note.renote} />
+		<MisskeyRenote renotedBy={note.user} renote={note.renote} />
 		<MisskeyNoteActions />
 		<Separator class="mb-4" />
 	{:else if note.renote && note.text}
-		<MisskeyNote {note} />
-		<MisskeyNoteActions />
-		<Separator class="mb-4" />
-		<div class="m-2 flex flex-row items-center gap-2">
-			<div class="w-3"></div>
-			<Repeat_2 class="h-4 w-4 text-muted-foreground" />
-			<div class="text-sm text-muted-foreground">
-				<MfmText
-					mfmNodes={mfm.parse('Quoted by ' + note.user.name)}
-					assets={{ host: note.user.host, emojis: note.user.emojis }}
-				/>
-			</div>
-		</div>
-		<MisskeyNote note={note.renote} />
+		<MisskeyQuote quotedBy={note.user} {note} quote={note.renote} />
 		<MisskeyNoteActions />
 		<Separator class="mb-4" />
 	{:else}
