@@ -18,10 +18,14 @@
 </script>
 
 <div class="flex flex-row items-start text-sm">
-	<Avatar class="ml-2 mt-1 rounded-lg">
-		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
-		<AvatarFallBackAnim />
-	</Avatar>
+	<a
+		href={`/user?username=${note.user.username}${note.user.host ? '&host=' + note.user.host : ''}`}
+	>
+		<Avatar class="ml-2 mt-1 rounded-lg">
+			<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
+			<AvatarFallBackAnim />
+		</Avatar>
+	</a>
 	<div class="ml-2 grid flex-grow">
 		<div class="flex w-full flex-row overflow-hidden">
 			{#if note.user.name}

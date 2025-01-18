@@ -2,13 +2,12 @@
 	import type { User } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 
 	let {
 		data
 	}: {
 		data: {
-			username: string;
-			host: string;
 			cookies: {
 				server: string;
 				token: string;
@@ -26,12 +25,29 @@
 	onMount(() => {
 		if (!data.cookies.server || !data.cookies.token) return;
 
-		cli
-			.request('users/show', { username: data.username, host: data.host })
-			.then((got) => {
-				user = got;
-			})
-			.catch((err) => console.error(err));
+		const urlSearchParams = page.url.searchParams;
+		const username = urlSearchParams.get('username');
+		const host = urlSearchParams.get('host');
+
+		if (username && host) {
+			cli
+				.request('users/show', { username: username, host: host })
+				.then((got) => {
+					user = got;
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		} else if (username) {
+			cli
+				.request('users/show', { username: username })
+				.then((got) => {
+					user = got;
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		}
 	});
 </script>
 
