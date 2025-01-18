@@ -12,6 +12,7 @@
 	import * as mfm from 'mfm-js';
 	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import MisskeyNote from './misskey-note.svelte';
+	import Separator from './ui/separator/separator.svelte';
 
 	let { data } = $props();
 	const cli = new misskeyApi.APIClient({
@@ -50,7 +51,10 @@
 {#each notificationFeed.notifications as notification (notification.id)}
 	{#if notification.type == 'mention'}
 		<MisskeyNote note={notification.note} />
+	{:else if notification.type == 'reply'}
+		<MisskeyNote note={notification.note} />
 	{:else}
-		<div>{notification.type}</div>
+		<div>{'WIP:[notification.type = ' + notification.type + ']'}</div>
 	{/if}
+	<Separator class="my-2" />
 {/each}
