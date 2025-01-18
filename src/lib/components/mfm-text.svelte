@@ -194,6 +194,8 @@
 		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
+	{:else if node.type == 'plain'}
+		<span>{mfm.toString(node.children)}</span>
 	{:else}
 		<span>{'![' + node.type + ']'}</span>
 	{/if}
