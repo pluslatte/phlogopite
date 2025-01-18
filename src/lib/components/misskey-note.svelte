@@ -36,7 +36,7 @@
 		<div class="text-sm text-muted-foreground">
 			<MfmText
 				mfmNodes={mfm.parse('Renoted by ' + renotedBy.name)}
-				assets={{ host: renotedBy.host }}
+				assets={{ host: renotedBy.host, emojis: renotedBy.emojis }}
 			/>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 		<div class="text-sm text-muted-foreground">
 			<MfmText
 				mfmNodes={mfm.parse('Quoted by ' + quotedBy.name)}
-				assets={{ host: quotedBy.host }}
+				assets={{ host: quotedBy.host, emojis: quotedBy.emojis }}
 			/>
 		</div>
 	</div>
@@ -61,7 +61,10 @@
 		<div class="flex w-full flex-row overflow-hidden">
 			{#if note.user.name}
 				<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-					<MfmText mfmNodes={mfm.parse(note.user.name)} assets={{ host: note.user.host }} />
+					<MfmText
+						mfmNodes={mfm.parse(note.user.name)}
+						assets={{ host: note.user.host, emojis: note.user.emojis }}
+					/>
 				</div>
 			{/if}
 			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
