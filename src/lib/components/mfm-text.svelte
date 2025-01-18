@@ -103,6 +103,15 @@
 	{/if}
 {/snippet}
 
+<!-- mention -->
+{#snippet mention(node: mfm.MfmMention)}
+	<PhlogopiteUserLink username={node.props.username} host={node.props.host ? node.props.host : ''}>
+		<span class="mr-1 rounded-sm bg-muted-foreground bg-opacity-10 px-1 text-muted-foreground">
+			{node.props.acct}
+		</span>
+	</PhlogopiteUserLink>
+{/snippet}
+
 <!-- block code -->
 {#snippet blockCode(node: mfm.MfmCodeBlock)}
 	{#if node.props.lang}
@@ -174,14 +183,7 @@
 	{:else if node.type == 'link' && node.children}
 		{@render link(node)}
 	{:else if node.type == 'mention'}
-		<PhlogopiteUserLink
-			username={node.props.username}
-			host={node.props.host ? node.props.host : ''}
-		>
-			<span class="mr-1 rounded-sm bg-muted-foreground bg-opacity-10 px-1 text-muted-foreground">
-				{node.props.acct}
-			</span>
-		</PhlogopiteUserLink>
+		{@render mention(node)}
 	{:else if node.type == 'hashtag'}
 		<span class="text-blue-500">{'#' + node.props.hashtag}</span>
 	{:else if node.type == 'blockCode'}
