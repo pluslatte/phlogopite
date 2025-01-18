@@ -73,6 +73,16 @@
 	{/each}
 {/snippet}
 
+<!-- italic -->
+{#snippet italic(node: mfm.MfmItalic)}
+	{@const childNodes = mfm.parse(mfm.toString(node.children))}
+	{#each childNodes as childNode}
+		<span class="italic">
+			{@render prime(childNode)}
+		</span>
+	{/each}
+{/snippet}
+
 <!-- link -->
 {#snippet link(node: mfm.MfmLink)}
 	{@const childNodeFirst = mfm.parseSimple(mfm.toString(node.children))[0]}
@@ -104,6 +114,8 @@
 		{@render bold(node)}
 	{:else if node.type == 'strike'}
 		{@render strike(node)}
+	{:else if node.type == 'italic'}
+		{@render italic(node)}
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'emojiCode'}
