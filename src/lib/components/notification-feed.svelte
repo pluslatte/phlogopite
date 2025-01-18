@@ -49,7 +49,7 @@
 {#each notificationFeed.notifications as notification (notification.id)}
 	{#if notification.type == 'mention'}
 		<div class="flex flex-row items-start text-sm">
-			<Avatar class="ml-2 mt-1 rounded-lg">
+			<Avatar class="mt-1 rounded-lg">
 				<AvatarImage src={notification.user.avatarUrl} alt={'@' + notification.user.username} />
 				<AvatarFallBackAnim />
 			</Avatar>
