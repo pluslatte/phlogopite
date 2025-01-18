@@ -3,8 +3,6 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 	import { codeToHtml } from 'shiki';
-	import { mode } from 'mode-watcher';
-	import { get } from 'svelte/store';
 
 	const {
 		mfmNodes,
@@ -118,11 +116,26 @@
 <!-- block code -->
 {#snippet blockCode(node: mfm.MfmCodeBlock)}
 	{#if node.props.lang}
-		<div class="mb-2 mt-2">
+		<div class="relative mb-2 mt-2">
 			{#await codeToHtml(node.props.code, { lang: node.props.lang, theme: 'github-dark-dimmed' })}
-				<span>...</span>
+				<span>{`[code...(lang=${node.props.lang})]`}</span>
 			{:then html}
-				{@html html}
+				{@html html.replace(/<pre class="/, '<pre class="p-4 rounded ')}
+				<button
+					onclick={() => {
+						navigator.clipboard
+							.writeText(node.props.code)
+							.then(() => {
+								console.log('copied the code');
+							})
+							.catch((err) => {
+								console.error('failed to copy: ', err);
+							});
+					}}
+					class="absolute right-3 top-2 rounded-sm px-1 text-muted-foreground hover:bg-muted-foreground hover:bg-opacity-25"
+				>
+					{node.props.lang}
+				</button>
 			{/await}
 		</div>
 	{/if}
