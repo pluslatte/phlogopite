@@ -30,25 +30,25 @@
 </script>
 
 {#if renotedBy}
-	{@const text = 'Renoted by ' + renotedBy.name}
-	{@const mfmNodes = mfm.parse(text)}
-	{@const assets = { host: renotedBy.host }}
 	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">
-			<MfmText {mfmNodes} {assets} />
+			<MfmText
+				mfmNodes={mfm.parse('Renoted by ' + renotedBy.name)}
+				assets={{ host: renotedBy.host }}
+			/>
 		</div>
 	</div>
 {:else if quotedBy}
-	{@const text = 'Quoted by ' + quotedBy.name}
-	{@const mfmNodes = mfm.parse(text)}
-	{@const assets = { host: quotedBy.host }}
 	<div class="m-2 flex flex-row items-center gap-2">
 		<div class="w-3"></div>
 		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 		<div class="text-sm text-muted-foreground">
-			<MfmText {mfmNodes} {assets} />
+			<MfmText
+				mfmNodes={mfm.parse('Quoted by ' + quotedBy.name)}
+				assets={{ host: quotedBy.host }}
+			/>
 		</div>
 	</div>
 {/if}
