@@ -145,6 +145,8 @@
 		{@render link(node)}
 	{:else if node.type == 'mention'}
 		<span class="text-muted-foreground">{node.props.acct}</span>
+	{:else if node.type == 'hashtag'}
+		<span class="text-blue-500">{'#' + node.props.hashtag}</span>
 	{:else if node.type == 'emojiCode'}
 		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'unicodeEmoji'}
