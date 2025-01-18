@@ -12,7 +12,7 @@
 
 	import { api as misskeyApi } from 'misskey-js';
 	import type { IResponse } from 'misskey-js/entities.js';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import CreateNote from './create-note.svelte';
 	import NotificationFeed from './notification-feed.svelte';
 
@@ -45,6 +45,10 @@
 		cli.request('i', {}).then((got) => {
 			self = got;
 		});
+	});
+
+	setContext('client', {
+		cli
 	});
 </script>
 
