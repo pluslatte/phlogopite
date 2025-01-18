@@ -173,7 +173,7 @@
 	{:else if node.type == 'link' && node.children}
 		{@render link(node)}
 	{:else if node.type == 'mention'}
-		<span class="mx-1 rounded-sm bg-muted-foreground bg-opacity-10 px-1 text-muted-foreground">
+		<span class="mr-1 rounded-sm bg-muted-foreground bg-opacity-10 px-1 text-muted-foreground">
 			{node.props.acct}
 		</span>
 	{:else if node.type == 'hashtag'}
