@@ -141,6 +141,17 @@
 	{/if}
 {/snippet}
 
+<!-- quote -->
+{#snippet quote(node: mfm.MfmQuote)}
+	{@const childNodes = mfm.parse(mfm.toString(node.children))}
+	<div class="my-1 flex flex-row text-muted-foreground">
+		<div class="ml-2 mr-2 w-[2px] flex-shrink-0 bg-muted-foreground opacity-50"></div>
+		{#each childNodes as childNode}
+			{@render prime(childNode)}
+		{/each}
+	</div>
+{/snippet}
+
 <!-- custom emoji -->
 {#snippet customEmoji(node: mfm.MfmEmojiCode, host: string | null)}
 	{#await getEmojiData(node.props.name, host)}
@@ -183,13 +194,7 @@
 			{node.props.code}
 		</span>
 	{:else if node.type == 'quote'}
-		{@const childNodes = mfm.parse(mfm.toString(node.children))}
-		<div class="my-1 flex flex-row text-muted-foreground">
-			<div class="ml-2 mr-2 w-[2px] flex-shrink-0 bg-muted-foreground opacity-50"></div>
-			{#each childNodes as childNode}
-				{@render prime(childNode)}
-			{/each}
-		</div>
+		{@render quote(node)}
 	{:else if node.type == 'emojiCode'}
 		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'unicodeEmoji'}
