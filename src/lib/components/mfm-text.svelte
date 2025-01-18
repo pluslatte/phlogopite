@@ -92,6 +92,16 @@
 	{/each}
 {/snippet}
 
+<!-- center -->
+{#snippet center(node: mfm.MfmCenter)}
+	{@const childNodes = mfm.parse(mfm.toString(node.children))}
+	{#each childNodes as childNode}
+		<div class="text-center">
+			{@render prime(childNode)}
+		</div>
+	{/each}
+{/snippet}
+
 <!-- link -->
 {#snippet link(node: mfm.MfmLink)}
 	{@const childNodeFirst = mfm.parseSimple(mfm.toString(node.children))[0]}
@@ -127,6 +137,8 @@
 		{@render italic(node)}
 	{:else if node.type == 'small'}
 		{@render small(node)}
+	{:else if node.type == 'center'}
+		{@render center(node)}
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'emojiCode'}
