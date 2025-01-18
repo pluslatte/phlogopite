@@ -3,13 +3,12 @@
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
 
 	import type { Note, User } from 'misskey-js/entities.js';
-	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 	import MfmText from './mfm-text.svelte';
 	import * as mfm from 'mfm-js';
 
-	let { note, renotedBy, quotedBy }: { note: Note; renotedBy?: User; quotedBy?: User } = $props();
+	let { note }: { note: Note } = $props();
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
@@ -18,29 +17,6 @@
 	}
 </script>
 
-{#if renotedBy}
-	<div class="m-2 flex flex-row items-center gap-2">
-		<div class="w-3"></div>
-		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
-		<div class="text-sm text-muted-foreground">
-			<MfmText
-				mfmNodes={mfm.parse('Renoted by ' + renotedBy.name)}
-				assets={{ host: renotedBy.host, emojis: renotedBy.emojis }}
-			/>
-		</div>
-	</div>
-{:else if quotedBy}
-	<div class="m-2 flex flex-row items-center gap-2">
-		<div class="w-3"></div>
-		<Repeat_2 class="h-4 w-4 text-muted-foreground" />
-		<div class="text-sm text-muted-foreground">
-			<MfmText
-				mfmNodes={mfm.parse('Quoted by ' + quotedBy.name)}
-				assets={{ host: quotedBy.host, emojis: quotedBy.emojis }}
-			/>
-		</div>
-	</div>
-{/if}
 <div class="flex flex-row items-start text-sm">
 	<Avatar class="ml-2 mt-1 rounded-lg">
 		<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
