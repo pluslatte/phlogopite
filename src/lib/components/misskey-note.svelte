@@ -7,6 +7,7 @@
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 	import MfmText from './mfm-text.svelte';
 	import * as mfm from 'mfm-js';
+	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 
 	let { note }: { note: Note } = $props();
 
@@ -18,14 +19,12 @@
 </script>
 
 <div class="flex flex-row items-start text-sm">
-	<a
-		href={`/user?username=${note.user.username}${note.user.host ? '&host=' + note.user.host : ''}`}
-	>
+	<PhlogopiteUserLink username={note.user.username} host={note.user.host ? note.user.host : ''}>
 		<Avatar class="ml-2 mt-1 rounded-lg">
 			<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
 			<AvatarFallBackAnim />
 		</Avatar>
-	</a>
+	</PhlogopiteUserLink>
 	<div class="ml-2 grid flex-grow">
 		<div class="flex w-full flex-row overflow-hidden">
 			{#if note.user.name}

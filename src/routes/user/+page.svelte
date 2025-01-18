@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type { User } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { page } from '$app/state';
+	import MfmText from '@/components/mfm-text.svelte';
+	import * as mfm from 'mfm-js';
+
+	// /user?username=<username>&host=<host>
 
 	let {
 		data
@@ -49,11 +53,15 @@
 				});
 		}
 	});
+
+	setContext('client', {
+		cli
+	});
 </script>
 
 <div>
-	{#if user}
-		{user.name}
+	{#if user && user.name}
+		<MfmText mfmNodes={mfm.parse(user.name)} assets={{ host: user.host, emojis: user.emojis }} />
 	{:else}
 		{'Loading...'}
 	{/if}

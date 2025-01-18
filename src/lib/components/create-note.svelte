@@ -16,6 +16,7 @@
 	import IconGlobe from 'lucide-svelte/icons/globe';
 	import IconSend from 'lucide-svelte/icons/send';
 	import IconRocket from 'lucide-svelte/icons/rocket';
+	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 
 	let { data } = $props();
 
@@ -51,10 +52,14 @@
 <form onsubmit={addNote} class="m-2">
 	<div class="grid gap-4">
 		<div class="flex flex-row">
-			<Avatar class="rounded-lg">
-				<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
-				<AvatarFallBackAnim />
-			</Avatar>
+			{#if self}
+				<PhlogopiteUserLink username={self.username}>
+					<Avatar class="rounded-lg">
+						<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
+						<AvatarFallBackAnim />
+					</Avatar>
+				</PhlogopiteUserLink>
+			{/if}
 			<div class="flex-frow ml-2 grid grid-flow-row text-sm">
 				<span class="overflow-hidden text-ellipsis font-bold">{self?.name}</span>
 				<span class="overflow-hidden text-ellipsis text-muted-foreground"
