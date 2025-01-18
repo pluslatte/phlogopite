@@ -2,6 +2,9 @@
 	import { getContext, onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
+	import { codeToHtml } from 'shiki';
+	import { mode } from 'mode-watcher';
+	import { get } from 'svelte/store';
 
 	const {
 		mfmNodes,
@@ -112,6 +115,19 @@
 	{/if}
 {/snippet}
 
+<!-- block code -->
+{#snippet blockCode(node: mfm.MfmCodeBlock)}
+	{#if node.props.lang}
+		<div class="mb-2 mt-2">
+			{#await codeToHtml(node.props.code, { lang: node.props.lang, theme: 'github-dark-dimmed' })}
+				<span>...</span>
+			{:then html}
+				{@html html}
+			{/await}
+		</div>
+	{/if}
+{/snippet}
+
 <!-- custom emoji -->
 {#snippet customEmoji(node: mfm.MfmEmojiCode, host: string | null)}
 	{#await getEmojiData(node.props.name, host)}
@@ -147,6 +163,8 @@
 		<span class="text-muted-foreground">{node.props.acct}</span>
 	{:else if node.type == 'hashtag'}
 		<span class="text-blue-500">{'#' + node.props.hashtag}</span>
+	{:else if node.type == 'blockCode'}
+		{@render blockCode(node)}
 	{:else if node.type == 'emojiCode'}
 		{@render customEmoji(node, assets.host)}
 	{:else if node.type == 'unicodeEmoji'}

@@ -31,9 +31,10 @@
 		init(): void {
 			if (!data.server || !data.token) return;
 			const stream = new Stream(`https://${data.server}`, { token: data.token });
+			const LIMIT: number = 20;
 			switch (timelineType) {
 				case 'timelineHome':
-					cli.request('notes/timeline', { limit: 10 }).then((got) => {
+					cli.request('notes/timeline', { limit: LIMIT }).then((got) => {
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
@@ -44,7 +45,7 @@
 					});
 					break;
 				case 'timelineSocial':
-					cli.request('notes/hybrid-timeline', { limit: 10 }).then((got) => {
+					cli.request('notes/hybrid-timeline', { limit: LIMIT }).then((got) => {
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
@@ -55,7 +56,7 @@
 					});
 					break;
 				case 'timelineLocal':
-					cli.request('notes/local-timeline', { limit: 10 }).then((got) => {
+					cli.request('notes/local-timeline', { limit: LIMIT }).then((got) => {
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
@@ -66,7 +67,7 @@
 					});
 					break;
 				case 'timelineGlobal':
-					cli.request('notes/global-timeline', { limit: 10 }).then((got) => {
+					cli.request('notes/global-timeline', { limit: LIMIT }).then((got) => {
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
