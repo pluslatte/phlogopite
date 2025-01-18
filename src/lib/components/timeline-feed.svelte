@@ -5,6 +5,7 @@
 	import { api as misskeyApi, Stream } from 'misskey-js';
 	import MisskeyNote from '@/components/misskey-note.svelte';
 	import { onMount } from 'svelte';
+	import MisskeyNoteActions from './misskey-note-actions.svelte';
 
 	let { data, timelineType }: { data: any; timelineType: string } = $props();
 
@@ -92,11 +93,18 @@
 {#each timelineFeed.notes as note (note.id)}
 	{#if note.renote && !note.text}
 		<MisskeyNote note={note.renote} renotedBy={note.user} />
+		<MisskeyNoteActions />
+		<Separator class="mb-4" />
 	{:else if note.renote && note.text}
 		<MisskeyNote {note} />
+		<MisskeyNoteActions />
+		<Separator class="mb-4" />
 		<MisskeyNote note={note.renote} quotedBy={note.user} />
+		<MisskeyNoteActions />
+		<Separator class="mb-4" />
 	{:else}
 		<MisskeyNote {note} />
+		<MisskeyNoteActions />
+		<Separator class="mb-4" />
 	{/if}
-	<Separator class="mb-4" />
 {/each}
