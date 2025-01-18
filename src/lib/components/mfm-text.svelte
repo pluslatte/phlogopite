@@ -13,6 +13,7 @@
 			emojis?: { [key: string]: string | undefined };
 		};
 	} = $props();
+
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 
 	async function getEmojiData(
@@ -38,6 +39,18 @@
 			return { url: json.url, alt: json.name };
 		}
 	}
+
+	function validateTime(time: string | boolean | null | undefined) {
+		if (time == null) {
+			return null;
+		}
+
+		if (typeof time === 'boolean') {
+			return null;
+		}
+
+		return time.match(/^\-?[0-9.]+s$/) ? time : null;
+	}
 </script>
 
 <!-- bold -->
@@ -47,6 +60,16 @@
 		<span class="font-bold">
 			{@render prime(childNode)}
 		</span>
+	{/each}
+{/snippet}
+
+<!-- strike -->
+{#snippet strike(node: mfm.MfmStrike)}
+	{@const childNodes = mfm.parse(mfm.toString(node.children))}
+	{#each childNodes as childNode}
+		<del>
+			{@render prime(childNode)}
+		</del>
 	{/each}
 {/snippet}
 
@@ -79,6 +102,8 @@
 		<span>{node.props.text}</span>
 	{:else if node.type == 'bold'}
 		{@render bold(node)}
+	{:else if node.type == 'strike'}
+		{@render strike(node)}
 	{:else if node.type == 'unicodeEmoji'}
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'emojiCode'}
