@@ -27,7 +27,6 @@
 		credential: cookies.token
 	});
 
-	let notifications = $state(['Hello, Misskey', 'Hello, SvelteKit']);
 	let newNote = $state('');
 	let self: IResponse | null = $state(null);
 
