@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { UserDetailed } from 'misskey-js/entities.js';
+	import type { Note, UserDetailed } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { onMount, setContext } from 'svelte';
 	import { page } from '$app/state';
@@ -120,7 +120,7 @@
 			</ToggleGroupItem>
 		</ToggleGroup>
 		{#key noteListType}
-			{#await ((user: UserDetailed, noteListType: string) => {
+			{#await ((user: UserDetailed, noteListType: string): Promise<Note[]> => {
 				switch (noteListType) {
 					case 'normal':
 						return cli.request('users/notes', { userId: user.id, withReplies: false });
@@ -129,12 +129,16 @@
 					case 'onlyFiles':
 						return cli.request('users/notes', { userId: user.id, withFiles: true });
 					default:
-						return cli.request('users/notes', { userId: user.id });
+						return Promise.reject('Undefined noteListType');
 				}
 			})(user, noteListType)}
 				<div>Loading...</div>
 			{:then notes}
-				<MisskeyNotes {notes} />
+				{#if notes.length < 1}
+					<div>no note</div>
+				{:else}
+					<MisskeyNotes {notes} />
+				{/if}
 			{:catch err}
 				<div>{`error: ${err}`}</div>
 			{/await}
