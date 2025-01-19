@@ -3,7 +3,7 @@
 
 	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 
-	import MfmText from './mfm-text.svelte';
+	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import MisskeyNote from '@/components/misskey-note.svelte';
 
@@ -17,7 +17,7 @@
 		<div class="m-2 ml-0 flex flex-row items-center gap-2">
 			<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 			<div class="text-sm text-muted-foreground">
-				<MfmText
+				<MfmTextRenderer
 					mfmNodes={mfm.parse('Quoted by ' + quotedBy.name)}
 					assets={{ host: quotedBy.host, emojis: quotedBy.emojis }}
 				/>

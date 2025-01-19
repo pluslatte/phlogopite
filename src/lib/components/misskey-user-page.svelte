@@ -2,7 +2,7 @@
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { onMount, setContext } from 'svelte';
-	import MfmText from '@/components/mfm-text.svelte';
+	import MfmTextRenderer from '@/components/mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import Avatar from '@/components/ui/avatar/avatar.svelte';
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
@@ -75,7 +75,7 @@
 					<div class="ml-4 flex max-h-52 flex-col">
 						{#if user.name}
 							<div class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-3xl">
-								<MfmText
+								<MfmTextRenderer
 									mfmNodes={mfm.parse(user.name)}
 									assets={{ host: user.host, emojis: user.emojis }}
 								/>
@@ -89,7 +89,7 @@
 						{#if user.description}
 							<ScrollArea type="auto" class="my-2 pr-2">
 								<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
-									<MfmText
+									<MfmTextRenderer
 										mfmNodes={mfm.parse(user.description)}
 										assets={{ host: user.host, emojis: user.emojis }}
 									/>

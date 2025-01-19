@@ -5,7 +5,7 @@
 	import type { Note } from 'misskey-js/entities.js';
 	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
-	import MfmText from './mfm-text.svelte';
+	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 
@@ -33,7 +33,7 @@
 					host={note.user.host ? note.user.host : ''}
 				>
 					<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-						<MfmText
+						<MfmTextRenderer
 							mfmNodes={mfm.parse(note.user.name)}
 							assets={{ host: note.user.host, emojis: note.user.emojis }}
 						/>
@@ -52,7 +52,7 @@
 		<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
 		{#if note.text}
 			<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
-				<MfmText
+				<MfmTextRenderer
 					mfmNodes={mfm.parse(note.text)}
 					assets={{ host: note.user.host, emojis: note.emojis }}
 				/>
