@@ -28,12 +28,17 @@
 	<div class="ml-2 grid flex-grow">
 		<div class="flex w-full flex-row items-center overflow-hidden">
 			{#if note.user.name}
-				<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-					<MfmText
-						mfmNodes={mfm.parse(note.user.name)}
-						assets={{ host: note.user.host, emojis: note.user.emojis }}
-					/>
-				</div>
+				<PhlogopiteUserLink
+					username={note.user.username}
+					host={note.user.host ? note.user.host : ''}
+				>
+					<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+						<MfmText
+							mfmNodes={mfm.parse(note.user.name)}
+							assets={{ host: note.user.host, emojis: note.user.emojis }}
+						/>
+					</div>
+				</PhlogopiteUserLink>
 			{/if}
 			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
