@@ -65,15 +65,15 @@
 
 <div>
 	{#if user}
-		<div class="relative flex flex-row bg-gradient-to-b from-transparent to-black">
-			<img src={user.bannerUrl} alt={'banner'} class="z-[-1] w-px max-w-3xl flex-grow" />
+		<div class="relative flex flex-row justify-center bg-gradient-to-b from-transparent to-black">
+			<img src={user.bannerUrl} alt={'banner'} class="z-[-1] h-[18rem] w-[48rem] object-cover" />
 			<div class="absolute bottom-4 left-4 mr-4">
-				<div class="flex flex-row rounded-xl bg-secondary bg-opacity-60 p-2">
+				<div class="flex flex-row rounded-xl bg-card bg-opacity-60 p-2">
 					<Avatar class="h-28 w-28 rounded-xl border-4 border-foreground">
 						<AvatarImage src={user.avatarUrl} />
 						<AvatarFallBackAnim />
 					</Avatar>
-					<div class="ml-4 flex h-52 flex-col">
+					<div class="ml-4 flex max-h-52 flex-col">
 						{#if user.name}
 							<div class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-3xl">
 								<MfmText
