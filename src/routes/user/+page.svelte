@@ -11,6 +11,8 @@
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 	import MisskeyNotes from '@/components/misskey-notes.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
+	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
+	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 
 	// /user?username=<username>&host=<host>
 
@@ -28,6 +30,7 @@
 	});
 
 	let user: UserDetailed | null = $state(null);
+	let noteListType: string = $state('normal');
 
 	onMount(() => {
 		if (!data.cookies.server || !data.cookies.token) return;
@@ -105,11 +108,37 @@
 				</div>
 			</div>
 		</ScrollArea>
-		{#await cli.request('users/notes', { userId: user.id })}
-			<div>Loading...</div>
-		{:then notes}
-			<MisskeyNotes {notes} />
-		{/await}
+		<ToggleGroup type="single" bind:value={noteListType}>
+			<ToggleGroupItem value="normal">
+				<span>notes</span>
+			</ToggleGroupItem>
+			<ToggleGroupItem value="withReplies">
+				<span>withReplies</span>
+			</ToggleGroupItem>
+			<ToggleGroupItem value="onlyFiles">
+				<span>onlyFiles</span>
+			</ToggleGroupItem>
+		</ToggleGroup>
+		{#key noteListType}
+			{#await ((user: UserDetailed, noteListType: string) => {
+				switch (noteListType) {
+					case 'normal':
+						return cli.request('users/notes', { userId: user.id, withReplies: false });
+					case 'withReplies':
+						return cli.request('users/notes', { userId: user.id, withReplies: true });
+					case 'onlyFiles':
+						return cli.request('users/notes', { userId: user.id, withFiles: true });
+					default:
+						return cli.request('users/notes', { userId: user.id });
+				}
+			})(user, noteListType)}
+				<div>Loading...</div>
+			{:then notes}
+				<MisskeyNotes {notes} />
+			{:catch err}
+				<div>{`error: ${err}`}</div>
+			{/await}
+		{/key}
 	{:else}
 		{'Loading...'}
 	{/if}
