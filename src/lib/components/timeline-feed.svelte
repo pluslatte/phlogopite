@@ -1,14 +1,9 @@
 <script lang="ts">
-	import Separator from '@/components/ui/separator/separator.svelte';
-
 	import type { Note } from 'misskey-js/entities.js';
 	import { api as misskeyApi, Stream } from 'misskey-js';
-	import MisskeyNote from '@/components/misskey-note.svelte';
 	import { onMount } from 'svelte';
-	import MisskeyNoteActions from './misskey-note-actions.svelte';
 
-	import MisskeyRenote from './misskey-renote.svelte';
-	import MisskeyQuote from './misskey-quote.svelte';
+	import MisskeyNotes from './misskey-notes.svelte';
 
 	let { data, timelineType }: { data: any; timelineType: string } = $props();
 
@@ -93,18 +88,4 @@
 	});
 </script>
 
-{#each timelineFeed.notes as note (note.id)}
-	{#if note.renote && !note.text}
-		<MisskeyRenote renotedBy={note.user} renote={note.renote} />
-		<MisskeyNoteActions />
-		<Separator class="mb-4" />
-	{:else if note.renote && note.text}
-		<MisskeyQuote quotedBy={note.user} {note} quote={note.renote} />
-		<MisskeyNoteActions />
-		<Separator class="mb-4" />
-	{:else}
-		<MisskeyNote {note} />
-		<MisskeyNoteActions />
-		<Separator class="mb-4" />
-	{/if}
-{/each}
+<MisskeyNotes notes={timelineFeed.notes} />
