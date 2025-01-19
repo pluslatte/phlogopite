@@ -17,6 +17,9 @@
 	} = $props();
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
+	if (!cli) {
+		console.error('no misskeyApiClient found');
+	}
 
 	async function getEmojiData(
 		emojiCode: string,
