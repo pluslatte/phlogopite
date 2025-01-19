@@ -5,6 +5,7 @@
 	import AppSidebar from '@/components/app-sidebar.svelte';
 	import { page } from '$app/state';
 	import type { Snippet } from 'svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	let {
 		children,
@@ -12,10 +13,7 @@
 	}: {
 		children: Snippet<[]>;
 		data: {
-			cookies: {
-				server: string;
-				token: string;
-			};
+			cookies: PhlogopiteCookies;
 		};
 	} = $props();
 </script>

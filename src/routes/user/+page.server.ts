@@ -1,5 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
+import { MakePhlogopiteCookiesData } from "@/phlogopite-cookies";
 
 export const load: PageServerLoad = ({ cookies }) => {
     const server = cookies.get('server');
@@ -10,9 +11,6 @@ export const load: PageServerLoad = ({ cookies }) => {
     }
 
     return {
-        cookies: {
-            server: server,
-            token: token
-        }
+        cookies: MakePhlogopiteCookiesData(server, token)
     };
 }

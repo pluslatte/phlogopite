@@ -10,6 +10,7 @@
 	import AvatarFallBackAnim from '@/components/avatar-fall-back-anim.svelte';
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 	import MisskeyNotes from '@/components/misskey-notes.svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	// /user?username=<username>&host=<host>
 
@@ -17,10 +18,7 @@
 		data
 	}: {
 		data: {
-			cookies: {
-				server: string;
-				token: string;
-			};
+			cookies: PhlogopiteCookies;
 		};
 	} = $props();
 

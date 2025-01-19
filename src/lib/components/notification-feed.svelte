@@ -6,14 +6,12 @@
 
 	import MisskeyNote from './misskey-note.svelte';
 	import Separator from './ui/separator/separator.svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	let {
 		cookies
 	}: {
-		cookies: {
-			server: string;
-			token: string;
-		};
+		cookies: PhlogopiteCookies;
 	} = $props();
 	const cli = new misskeyApi.APIClient({
 		origin: `https://${cookies.server}`,

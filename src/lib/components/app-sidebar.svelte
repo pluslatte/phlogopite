@@ -15,14 +15,12 @@
 	import { onMount, setContext } from 'svelte';
 	import CreateNote from './create-note.svelte';
 	import NotificationFeed from './notification-feed.svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	let {
 		cookies
 	}: {
-		cookies: {
-			server: string;
-			token: string;
-		};
+		cookies: PhlogopiteCookies;
 	} = $props();
 	const cli = new misskeyApi.APIClient({
 		origin: 'https://' + cookies.server,

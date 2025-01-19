@@ -4,15 +4,13 @@
 	import { onMount } from 'svelte';
 
 	import MisskeyNotes from './misskey-notes.svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	let {
 		cookies,
 		timelineType
 	}: {
-		cookies: {
-			server: string;
-			token: string;
-		};
+		cookies: PhlogopiteCookies;
 		timelineType: string;
 	} = $props();
 

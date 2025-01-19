@@ -17,14 +17,12 @@
 	import IconSend from 'lucide-svelte/icons/send';
 	import IconRocket from 'lucide-svelte/icons/rocket';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	let {
 		cookies
 	}: {
-		cookies: {
-			server: string;
-			token: string;
-		};
+		cookies: PhlogopiteCookies;
 	} = $props();
 
 	let newNote = $state('');

@@ -23,15 +23,13 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import type { IResponse } from 'misskey-js/entities.js';
 	import TimelineFeed from '@/components/timeline-feed.svelte';
+	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
 	let {
 		data
 	}: {
 		data: {
-			cookies: {
-				server: string;
-				token: string;
-			};
+			cookies: PhlogopiteCookies;
 		};
 	} = $props();
 
