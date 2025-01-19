@@ -13,7 +13,7 @@
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 
-	// /user?username=<username>&host=<host>
+	// /user/[username]/[host]
 
 	let {
 		cookies,
