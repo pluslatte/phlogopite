@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { User } from 'misskey-js/entities.js';
+	import type { User, UserDetailed } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { onMount, setContext } from 'svelte';
 	import { page } from '$app/state';
@@ -24,7 +24,7 @@
 		credential: data.cookies.token
 	});
 
-	let user: User | null = $state(null);
+	let user: UserDetailed | null = $state(null);
 
 	onMount(() => {
 		if (!data.cookies.server || !data.cookies.token) return;
@@ -60,8 +60,13 @@
 </script>
 
 <div>
-	{#if user && user.name}
-		<MfmText mfmNodes={mfm.parse(user.name)} assets={{ host: user.host, emojis: user.emojis }} />
+	{#if user}
+		<div class="flex flex-row justify-center">
+			<img src={user.bannerUrl} alt={'banner'} class="max-w-3xl" />
+		</div>
+		{#if user.name}
+			<MfmText mfmNodes={mfm.parse(user.name)} assets={{ host: user.host, emojis: user.emojis }} />
+		{/if}
 	{:else}
 		{'Loading...'}
 	{/if}
