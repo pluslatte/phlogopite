@@ -6,6 +6,6 @@
 		$props();
 </script>
 
-<a href={`/user?username=${username}${host ? '&host=' + host : ''}`}>
+<a href={`/user/${username}${host ? '/' + host : ''}`}>
 	{@render children?.()}
 </a>

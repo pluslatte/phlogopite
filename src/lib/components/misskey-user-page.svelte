@@ -2,7 +2,6 @@
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { onMount, setContext } from 'svelte';
-	import { page } from '$app/state';
 	import MfmText from '@/components/mfm-text.svelte';
 	import * as mfm from 'mfm-js';
 	import Avatar from '@/components/ui/avatar/avatar.svelte';
@@ -17,27 +16,25 @@
 	// /user?username=<username>&host=<host>
 
 	let {
-		data
+		cookies,
+		username,
+		host
 	}: {
-		data: {
-			cookies: PhlogopiteCookies;
-		};
+		cookies: PhlogopiteCookies;
+		username: string;
+		host?: string | null;
 	} = $props();
 
 	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.cookies.server,
-		credential: data.cookies.token
+		origin: 'https://' + cookies.server,
+		credential: cookies.token
 	});
 
 	let user: UserDetailed | null = $state(null);
 	let noteListType: string = $state('normal');
 
 	onMount(() => {
-		if (!data.cookies.server || !data.cookies.token) return;
-
-		const urlSearchParams = page.url.searchParams;
-		const username = urlSearchParams.get('username');
-		const host = urlSearchParams.get('host');
+		if (!cookies.server || !cookies.token) return;
 
 		if (username && host) {
 			cli
