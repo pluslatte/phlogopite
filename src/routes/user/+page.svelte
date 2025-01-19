@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { User, UserDetailed } from 'misskey-js/entities.js';
+	import type { UserDetailed } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { onMount, setContext } from 'svelte';
 	import { page } from '$app/state';
