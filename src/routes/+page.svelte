@@ -55,23 +55,23 @@
 	});
 </script>
 
-<div class="flex h-full flex-col rounded-lg">
-	<div class="relative flex flex-row justify-center">
-		<Button
-			class="absolute left-0 m-2 flex flex-row items-center gap-4 rounded-lg border"
-			size="icon"
-			variant="ghost"
-			onclick={sidebar.toggle}
-		>
-			{#if sidebar.open}
-				<IconArrowLeftFromLine />
-			{:else}
-				<Avatar class="size-8 rounded-md">
-					<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
-					<AvatarFallback>...</AvatarFallback>
-				</Avatar>
-			{/if}
-		</Button>
+<div class="relative flex h-full flex-col rounded-lg">
+	<Button
+		class="absolute left-0 m-2 flex flex-row items-center gap-4 rounded-lg border"
+		size="icon"
+		variant="ghost"
+		onclick={sidebar.toggle}
+	>
+		{#if sidebar.open}
+			<IconArrowLeftFromLine />
+		{:else}
+			<Avatar class="size-8 rounded-md">
+				<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
+				<AvatarFallback>...</AvatarFallback>
+			</Avatar>
+		{/if}
+	</Button>
+	<div class="flex flex-row justify-center">
 		<ToggleGroup type="single" bind:value={timelineSelector} class="p-2">
 			<ToggleGroupItem value="timelineHome">
 				<IconHouse />
