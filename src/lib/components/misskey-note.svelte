@@ -26,7 +26,7 @@
 		</Avatar>
 	</PhlogopiteUserLink>
 	<div class="ml-2 grid flex-grow">
-		<div class="flex w-full flex-row overflow-hidden">
+		<div class="flex w-full flex-row items-center overflow-hidden">
 			{#if note.user.name}
 				<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
 					<MfmText
