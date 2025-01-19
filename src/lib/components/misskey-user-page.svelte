@@ -62,45 +62,9 @@
 	});
 </script>
 
-<div>
-	{#if user}
-		<div class="relative flex flex-row justify-center bg-gradient-to-b from-transparent to-black">
-			<img src={user.bannerUrl} alt={'banner'} class="z-[-1] h-[18rem] w-[48rem] object-cover" />
-			<div class="absolute bottom-4 left-4 mr-4">
-				<div class="flex flex-row rounded-xl bg-card bg-opacity-60 p-2">
-					<Avatar class="h-28 w-28 rounded-xl border-4 border-foreground">
-						<AvatarImage src={user.avatarUrl} />
-						<AvatarFallBackAnim />
-					</Avatar>
-					<div class="ml-4 flex max-h-52 flex-col">
-						{#if user.name}
-							<div class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-3xl">
-								<MfmTextRenderer
-									mfmNodes={mfm.parse(user.name)}
-									assets={{ host: user.host, emojis: user.emojis }}
-								/>
-							</div>
-						{/if}
-						<div
-							class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground"
-						>
-							{'@' + user.username + (user.host ? '@' + user.host : '')}
-						</div>
-						{#if user.description}
-							<ScrollArea type="auto" class="my-2 pr-2">
-								<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
-									<MfmTextRenderer
-										mfmNodes={mfm.parse(user.description)}
-										assets={{ host: user.host, emojis: user.emojis }}
-									/>
-								</div>
-							</ScrollArea>
-						{/if}
-					</div>
-				</div>
-			</div>
-		</div>
-		<ToggleGroup type="single" bind:value={noteListType}>
+<div class="flex h-full flex-col">
+	<div class="flex flex-row justify-center">
+		<ToggleGroup type="single" bind:value={noteListType} class="p-2">
 			<ToggleGroupItem value="normal">
 				<span>notes</span>
 			</ToggleGroupItem>
@@ -111,30 +75,73 @@
 				<span>onlyFiles</span>
 			</ToggleGroupItem>
 		</ToggleGroup>
-		{#key noteListType}
-			{#await ((user: UserDetailed, noteListType: string): Promise<Note[]> => {
-				switch (noteListType) {
-					case 'normal':
-						return cli.request('users/notes', { userId: user.id, withReplies: false });
-					case 'withReplies':
-						return cli.request('users/notes', { userId: user.id, withReplies: true });
-					case 'onlyFiles':
-						return cli.request('users/notes', { userId: user.id, withFiles: true });
-					default:
-						return Promise.reject('Undefined noteListType');
-				}
-			})(user, noteListType)}
-				<div>Loading...</div>
-			{:then notes}
-				{#if notes.length < 1}
-					<div>no note</div>
-				{:else}
-					<MisskeyNotes {notes} />
-				{/if}
-			{:catch err}
-				<div>{`error: ${err}`}</div>
-			{/await}
-		{/key}
+	</div>
+	{#if user}
+		<ScrollArea type="auto">
+			<div class="relative flex flex-row justify-center bg-gradient-to-b from-transparent to-black">
+				<img src={user.bannerUrl} alt={'banner'} class="z-[-1] h-[18rem] w-[48rem] object-cover" />
+				<div class="absolute bottom-4 left-4 mr-4">
+					<div class="flex flex-row rounded-xl bg-card bg-opacity-60 p-2">
+						<Avatar class="h-28 w-28 rounded-xl border-4 border-foreground">
+							<AvatarImage src={user.avatarUrl} />
+							<AvatarFallBackAnim />
+						</Avatar>
+						<div class="ml-4 flex max-h-52 flex-col">
+							{#if user.name}
+								<div class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-3xl">
+									<MfmTextRenderer
+										mfmNodes={mfm.parse(user.name)}
+										assets={{ host: user.host, emojis: user.emojis }}
+									/>
+								</div>
+							{/if}
+							<div
+								class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground"
+							>
+								{'@' + user.username + (user.host ? '@' + user.host : '')}
+							</div>
+							{#if user.description}
+								<ScrollArea type="auto" class="my-2 pr-2">
+									<div
+										class="min-w-0 whitespace-pre-wrap text-wrap"
+										style="word-break: break-word;"
+									>
+										<MfmTextRenderer
+											mfmNodes={mfm.parse(user.description)}
+											assets={{ host: user.host, emojis: user.emojis }}
+										/>
+									</div>
+								</ScrollArea>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+			{#key noteListType}
+				{#await ((user: UserDetailed, noteListType: string): Promise<Note[]> => {
+					switch (noteListType) {
+						case 'normal':
+							return cli.request('users/notes', { userId: user.id, withReplies: false });
+						case 'withReplies':
+							return cli.request('users/notes', { userId: user.id, withReplies: true });
+						case 'onlyFiles':
+							return cli.request('users/notes', { userId: user.id, withFiles: true });
+						default:
+							return Promise.reject('Undefined noteListType');
+					}
+				})(user, noteListType)}
+					<div>Loading...</div>
+				{:then notes}
+					{#if notes.length < 1}
+						<div>no note</div>
+					{:else}
+						<MisskeyNotes {notes} />
+					{/if}
+				{:catch err}
+					<div>{`error: ${err}`}</div>
+				{/await}
+			{/key}
+		</ScrollArea>
 	{:else}
 		{'Loading...'}
 	{/if}
