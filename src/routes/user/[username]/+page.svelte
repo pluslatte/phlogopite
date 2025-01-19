@@ -11,6 +11,7 @@
 	import { api as misskeyApi } from 'misskey-js';
 
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
+	import IconHouse from 'lucide-svelte/icons/house';
 
 	// /user?username=<username>&host=<host>
 
@@ -55,5 +56,11 @@
 			</Avatar>
 		{/if}
 	</Button>
+	<a
+		href="/"
+		class="absolute right-0 m-2 flex size-10 flex-row items-center justify-center gap-4 rounded-lg border"
+	>
+		<IconHouse class="size-4" />
+	</a>
 	<MisskeyUserPage cookies={data.cookies} username={data.username} />
 </div>
