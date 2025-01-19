@@ -18,14 +18,21 @@
 	import IconRocket from 'lucide-svelte/icons/rocket';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 
-	let { data } = $props();
+	let {
+		cookies
+	}: {
+		cookies: {
+			server: string;
+			token: string;
+		};
+	} = $props();
 
 	let newNote = $state('');
 	let self: IResponse | null = $state(null);
 
 	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.server,
-		credential: data.token
+		origin: 'https://' + cookies.server,
+		credential: cookies.token
 	});
 
 	async function addNote() {
@@ -63,7 +70,7 @@
 			<div class="flex-frow ml-2 grid grid-flow-row text-sm">
 				<span class="overflow-hidden text-ellipsis font-bold">{self?.name}</span>
 				<span class="overflow-hidden text-ellipsis text-muted-foreground"
-					>{'@' + self?.username + '@' + data.server}</span
+					>{'@' + self?.username + '@' + cookies.server}</span
 				>
 			</div>
 		</div>

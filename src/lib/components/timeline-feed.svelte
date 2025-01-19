@@ -5,11 +5,20 @@
 
 	import MisskeyNotes from './misskey-notes.svelte';
 
-	let { data, timelineType }: { data: any; timelineType: string } = $props();
+	let {
+		cookies,
+		timelineType
+	}: {
+		cookies: {
+			server: string;
+			token: string;
+		};
+		timelineType: string;
+	} = $props();
 
 	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.server,
-		credential: data.token
+		origin: 'https://' + cookies.server,
+		credential: cookies.token
 	});
 
 	class TimelineFeed {
@@ -28,8 +37,8 @@
 		}
 
 		init(): void {
-			if (!data.server || !data.token) return;
-			const stream = new Stream(`https://${data.server}`, { token: data.token });
+			if (!cookies.server || !cookies.token) return;
+			const stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 			const LIMIT: number = 20;
 			switch (timelineType) {
 				case 'timelineHome':

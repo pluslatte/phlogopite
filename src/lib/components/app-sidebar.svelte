@@ -16,10 +16,17 @@
 	import CreateNote from './create-note.svelte';
 	import NotificationFeed from './notification-feed.svelte';
 
-	let { data } = $props();
+	let {
+		cookies
+	}: {
+		cookies: {
+			server: string;
+			token: string;
+		};
+	} = $props();
 	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.server,
-		credential: data.token
+		origin: 'https://' + cookies.server,
+		credential: cookies.token
 	});
 
 	let notifications = $state(['Hello, Misskey', 'Hello, SvelteKit']);
@@ -54,7 +61,7 @@
 
 <Sidebar>
 	<SidebarHeader>
-		<CreateNote {data} />
+		<CreateNote {cookies} />
 		<Separator />
 	</SidebarHeader>
 	<SidebarContent>
@@ -66,7 +73,7 @@
 			</Button>
 		</div>
 		<ScrollArea type="auto" class="flex-grow p-2 pr-4">
-			<NotificationFeed {data} />
+			<NotificationFeed {cookies} />
 		</ScrollArea>
 	</SidebarContent>
 </Sidebar>

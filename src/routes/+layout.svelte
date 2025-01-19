@@ -4,8 +4,20 @@
 	import SidebarProvider from '@/components/ui/sidebar/sidebar-provider.svelte';
 	import AppSidebar from '@/components/app-sidebar.svelte';
 	import { page } from '$app/state';
+	import type { Snippet } from 'svelte';
 
-	let { children, data } = $props();
+	let {
+		children,
+		data
+	}: {
+		children: Snippet<[]>;
+		data: {
+			cookies: {
+				server: string;
+				token: string;
+			};
+		};
+	} = $props();
 </script>
 
 <SidebarProvider
@@ -13,7 +25,7 @@
 	class="flex h-screen w-screen flex-row"
 >
 	{#if page.url.pathname !== '/auth'}
-		<AppSidebar {data} />
+		<AppSidebar cookies={data.cookies} />
 	{/if}
 	<main class="flex-grow">
 		{@render children?.()}

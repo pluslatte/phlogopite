@@ -7,23 +7,30 @@
 	import MisskeyNote from './misskey-note.svelte';
 	import Separator from './ui/separator/separator.svelte';
 
-	let { data } = $props();
+	let {
+		cookies
+	}: {
+		cookies: {
+			server: string;
+			token: string;
+		};
+	} = $props();
 	const cli = new misskeyApi.APIClient({
-		origin: `https://${data.server}`,
-		credential: data.token
+		origin: `https://${cookies.server}`,
+		credential: cookies.token
 	});
 
 	class NotificationFeed {
 		notifications: Notification[] = $state([]);
 
 		init(): void {
-			if (!data.server || !data.token) return;
+			if (!cookies.server || !cookies.token) return;
 			cli.request('i/notifications', { limit: 20 }).then((got) => {
 				got.forEach((notication) => {
 					this.notifications.push(notication);
 				});
 			});
-			const stream = new Stream(`https://${data.server}`, { token: data.token });
+			const stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 			const channelMain = stream.useChannel('main');
 			// channelMain.on('');
 		}

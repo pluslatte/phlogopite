@@ -5,7 +5,9 @@ export const load: LayoutServerLoad = ({ cookies }) => {
     const token = cookies.get("token");
 
     return {
-        server,
-        token,
+        cookies: {
+            server: server,
+            token: token,
+        }
     };
 };

@@ -24,18 +24,28 @@
 	import type { IResponse } from 'misskey-js/entities.js';
 	import TimelineFeed from '@/components/timeline-feed.svelte';
 
-	let { data } = $props();
+	let {
+		data
+	}: {
+		data: {
+			cookies: {
+				server: string;
+				token: string;
+			};
+		};
+	} = $props();
+
 	let self: IResponse | null = $state(null);
 	let timelineSelector = $state('timelineGlobal');
 
 	const sidebar = useSidebar();
 	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.server,
-		credential: data.token
+		origin: 'https://' + data.cookies.server,
+		credential: data.cookies.token
 	});
 
 	onMount(() => {
-		if (!data.server || !data.token) return;
+		if (!data.cookies.server || !data.cookies.token) return;
 
 		cli.request('i', {}).then((got) => {
 			self = got;
@@ -93,7 +103,7 @@
 	<Separator />
 	<ScrollArea type="auto" class="flex-grow p-4">
 		{#key timelineSelector}
-			<TimelineFeed {data} timelineType={timelineSelector} />
+			<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
 		{/key}
 	</ScrollArea>
 </div>
