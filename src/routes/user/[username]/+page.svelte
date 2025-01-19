@@ -39,7 +39,7 @@
 	});
 </script>
 
-<div class="relative">
+<div class="relative flex h-full flex-col overflow-auto">
 	<Button
 		class="absolute left-0 m-2 flex flex-row items-center gap-4 rounded-lg border"
 		size="icon"
