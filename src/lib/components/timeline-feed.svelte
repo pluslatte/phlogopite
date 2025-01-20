@@ -7,6 +7,9 @@
 	import MisskeyNotes from './misskey-notes.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 
+	import IconArrowUpToLine from 'lucide-svelte/icons/arrow-up-to-line';
+	import Button from './ui/button/button.svelte';
+
 	let {
 		cookies,
 		timelineType
@@ -22,42 +25,14 @@
 
 	class TimelineFeed {
 		notes: Note[] = $state([]);
-		timelineType: string;
 		stream: Stream;
-		isChannelUp: boolean;
+		isChannelUp: boolean = $state(false);
 
-		constructor(timelineType: string) {
-			this.timelineType = timelineType;
-			this.isChannelUp = false;
+		constructor() {
 			if (!cookies.server || !cookies.token) {
 				throw new Error('No server or token in cookies');
 			}
 			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
-		}
-
-		resetStream(reason: string): void {
-			this.closeStream(reason);
-			if (!cookies.server || !cookies.token) {
-				throw new Error('No server or token in cookies');
-			}
-			this.openStream(new Stream(`https://${cookies.server}`, { token: cookies.token }), 'reset');
-		}
-
-		closeStream(reason: string): void {
-			this.stream.close();
-			this.setIsChannelUp(false, 'closeStream');
-			console.log(`websocket connection intentionally closed (reason: ${reason})`);
-		}
-
-		openStream(stream: Stream, reason: string): void {
-			this.stream = stream;
-			console.log(`websocket connection intentionally opened (reason: ${reason})`);
-		}
-
-		setIsChannelUp(value: boolean, reason: string): void {
-			if (this.isChannelUp == value) return;
-			this.isChannelUp = value;
-			console.log(`channel is ${value ? 'up' : 'down'} (reason: ${reason})`);
 		}
 
 		add_note(note: Note): void {
@@ -67,18 +42,16 @@
 			this.notes.unshift(note);
 		}
 
-		initFeedAndSetChannel(): void {
+		initFeed(): void {
+			this.notes = [];
 			const LIMIT: number = 20;
+
 			switch (timelineType) {
 				case 'timelineHome':
 					cli.request('notes/timeline', { limit: LIMIT }).then((got) => {
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
-					});
-					const channelHomeTimeline = this.stream.useChannel('homeTimeline');
-					channelHomeTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
 					});
 					break;
 				case 'timelineSocial':
@@ -87,20 +60,12 @@
 							this.notes.push(note);
 						});
 					});
-					const channelHybridTimeline = this.stream.useChannel('hybridTimeline');
-					channelHybridTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
-					});
 					break;
 				case 'timelineLocal':
 					cli.request('notes/local-timeline', { limit: LIMIT }).then((got) => {
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
-					});
-					const channelLocalTimeline = this.stream.useChannel('localTimeline');
-					channelLocalTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
 					});
 					break;
 				case 'timelineGlobal':
@@ -109,6 +74,33 @@
 							this.notes.push(note);
 						});
 					});
+					break;
+				default:
+					return;
+			}
+		}
+
+		setChannel(): void {
+			switch (timelineType) {
+				case 'timelineHome':
+					const channelHomeTimeline = this.stream.useChannel('homeTimeline');
+					channelHomeTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				case 'timelineSocial':
+					const channelHybridTimeline = this.stream.useChannel('hybridTimeline');
+					channelHybridTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				case 'timelineLocal':
+					const channelLocalTimeline = this.stream.useChannel('localTimeline');
+					channelLocalTimeline.on('note', (note) => {
+						timelineFeed.add_note(note);
+					});
+					break;
+				case 'timelineGlobal':
 					const channelGlobalTimeline = this.stream.useChannel('globalTimeline');
 					channelGlobalTimeline.on('note', (note) => {
 						timelineFeed.add_note(note);
@@ -117,25 +109,48 @@
 				default:
 					return;
 			}
-			this.setIsChannelUp(true, 'init TimelineFeed');
+			this.isChannelUp = true;
+			console.log('channel is up');
 		}
 	}
-	const timelineFeed = new TimelineFeed(timelineType);
+	const timelineFeed = new TimelineFeed();
 
 	onMount(() => {
-		timelineFeed.initFeedAndSetChannel();
+		timelineFeed.initFeed();
+		timelineFeed.setChannel();
 		return () => {
-			timelineFeed.closeStream('component destroyed');
+			timelineFeed.stream.close();
 		};
 	});
 
 	function onscroll() {
 		if (timelineFeed.isChannelUp) {
-			timelineFeed.resetStream('timelineFeed has been scrolled');
+			timelineFeed.stream.close();
+			timelineFeed.isChannelUp = false;
+			console.log('channel is down');
+			if (!cookies.server || !cookies.token) {
+				throw new Error('No server or token in cookies');
+			}
+			timelineFeed.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 		}
 	}
 </script>
 
+{#if !timelineFeed.isChannelUp}
+	<div class="relative">
+		<Button
+			class="absolute left-1/2 top-2 z-10 h-8 w-12"
+			size="icon"
+			variant="secondary"
+			onclick={() => {
+				timelineFeed.initFeed();
+				timelineFeed.setChannel();
+			}}
+		>
+			<IconArrowUpToLine />
+		</Button>
+	</div>
+{/if}
 <ScrollArea type="auto" class="flex-grow p-4" {onscroll}>
 	<MisskeyNotes notes={timelineFeed.notes} />
 </ScrollArea>
