@@ -22,7 +22,7 @@
 	style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;"
 	class="flex h-screen w-screen flex-row"
 >
-	{#if page.url.pathname !== '/auth'}
+	{#if page.url.pathname !== '/auth' && page.url.pathname !== '/auth/callback'}
 		<AppSidebar cookies={data.cookies} />
 	{/if}
 	<main class="flex-grow">
