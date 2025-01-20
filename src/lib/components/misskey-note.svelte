@@ -22,7 +22,7 @@
 	onMount(() => {
 		const interval = setInterval(() => {
 			timeStampHash = Math.random();
-		}, 10000);
+		}, 3000);
 		return () => {
 			clearInterval(interval);
 		};
