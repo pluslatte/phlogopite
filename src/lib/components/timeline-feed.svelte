@@ -2,6 +2,7 @@
 	import type { Note } from 'misskey-js/entities.js';
 	import { api as misskeyApi, Stream } from 'misskey-js';
 	import { onMount } from 'svelte';
+	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 
 	import MisskeyNotes from './misskey-notes.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
@@ -23,13 +24,41 @@
 		notes: Note[] = $state([]);
 		timelineType: string;
 		stream: Stream;
+		isChannelUp: boolean;
 
 		constructor(timelineType: string) {
 			this.timelineType = timelineType;
+			this.isChannelUp = false;
 			if (!cookies.server || !cookies.token) {
 				throw new Error('No server or token in cookies');
 			}
 			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
+			console.log('constructor: TimelineFeed');
+		}
+
+		resetStream(reason: string): void {
+			this.closeStream(reason);
+			if (!cookies.server || !cookies.token) {
+				throw new Error('No server or token in cookies');
+			}
+			this.openStream(new Stream(`https://${cookies.server}`, { token: cookies.token }), 'reset');
+		}
+
+		closeStream(reason: string): void {
+			this.stream.close();
+			this.setIsChannelUp(false, 'closeStream');
+			console.log(`websocket connection intentionally closed (reason: ${reason})`);
+		}
+
+		openStream(stream: Stream, reason: string): void {
+			this.stream = stream;
+			console.log(`websocket connection intentionally opened (reason: ${reason})`);
+		}
+
+		setIsChannelUp(value: boolean, reason: string): void {
+			if (this.isChannelUp == value) return;
+			this.isChannelUp = value;
+			console.log(`channel is ${value ? 'up' : 'down'} (reason: ${reason})`);
 		}
 
 		add_note(note: Note): void {
@@ -39,7 +68,7 @@
 			this.notes.unshift(note);
 		}
 
-		init(): void {
+		initFeedAndSetChannel(): void {
 			const LIMIT: number = 20;
 			switch (timelineType) {
 				case 'timelineHome':
@@ -89,24 +118,25 @@
 				default:
 					return;
 			}
-		}
-
-		killStream(): void {
-			this.stream.close();
-			if (!cookies.server || !cookies.token) {
-				throw new Error('No server or token in cookies');
-			}
-			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
+			this.setIsChannelUp(true, 'init TimelineFeed');
 		}
 	}
 	const timelineFeed = new TimelineFeed(timelineType);
 
 	onMount(() => {
-		timelineFeed.init();
+		timelineFeed.initFeedAndSetChannel();
 		return () => {
-			timelineFeed.stream.close();
+			timelineFeed.closeStream('component destroyed');
 		};
 	});
+
+	function onscroll() {
+		if (timelineFeed.isChannelUp) {
+			timelineFeed.resetStream('timelineFeed has been scrolled');
+		}
+	}
 </script>
 
-<MisskeyNotes notes={timelineFeed.notes} />
+<ScrollArea type="auto" class="flex-grow p-4" {onscroll}>
+	<MisskeyNotes notes={timelineFeed.notes} />
+</ScrollArea>

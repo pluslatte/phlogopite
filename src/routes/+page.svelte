@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from '@/components/ui/button/button.svelte';
-	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 	import ToggleGroupItem from '@/components/ui/toggle-group/toggle-group-item.svelte';
 	import ToggleGroup from '@/components/ui/toggle-group/toggle-group.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
@@ -98,9 +97,7 @@
 		</ToggleGroup>
 	</div>
 	<Separator />
-	<ScrollArea type="auto" class="flex-grow p-4">
-		{#key timelineSelector}
-			<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
-		{/key}
-	</ScrollArea>
+	{#key timelineSelector}
+		<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
+	{/key}
 </div>
