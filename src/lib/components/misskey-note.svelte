@@ -8,14 +8,25 @@
 	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
+	import { onMount } from 'svelte';
 
 	let { note }: { note: Note } = $props();
+	let timeStampHash: number = $state(Math.random() * 256);
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
 		const currentDate = new Date();
 		return formatDistanceStrict(currentDate, gotDate, { addSuffix: true });
 	}
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			timeStampHash = Math.random() * 256;
+		}, 10000);
+		return () => {
+			clearInterval(interval);
+		};
+	});
 </script>
 
 <div class="flex flex-row items-start text-sm">
@@ -44,9 +55,11 @@
 				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
 			</div>
 			<div class="w-4"></div>
-			<div class="ml-auto whitespace-nowrap text-muted-foreground">
-				{GetTimestampFromISO8601(note.createdAt)}
-			</div>
+			{#key timeStampHash}
+				<div class="ml-auto whitespace-nowrap text-muted-foreground">
+					{GetTimestampFromISO8601(note.createdAt)}
+				</div>
+			{/key}
 		</div>
 		<!-- main text -->
 		<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
