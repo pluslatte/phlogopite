@@ -22,9 +22,14 @@
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		timelineType: string;
+		stream: Stream;
 
 		constructor(timelineType: string) {
 			this.timelineType = timelineType;
+			if (!cookies.server || !cookies.token) {
+				throw new Error('No server or token in cookies');
+			}
+			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 		}
 
 		add_note(note: Note): void {
@@ -35,8 +40,6 @@
 		}
 
 		init(): void {
-			if (!cookies.server || !cookies.token) return;
-			const stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 			const LIMIT: number = 20;
 			switch (timelineType) {
 				case 'timelineHome':
@@ -45,7 +48,7 @@
 							this.notes.push(note);
 						});
 					});
-					const channelHomeTimeline = stream.useChannel('homeTimeline');
+					const channelHomeTimeline = this.stream.useChannel('homeTimeline');
 					channelHomeTimeline.on('note', (note) => {
 						timelineFeed.add_note(note);
 					});
@@ -56,7 +59,7 @@
 							this.notes.push(note);
 						});
 					});
-					const channelHybridTimeline = stream.useChannel('hybridTimeline');
+					const channelHybridTimeline = this.stream.useChannel('hybridTimeline');
 					channelHybridTimeline.on('note', (note) => {
 						timelineFeed.add_note(note);
 					});
@@ -67,7 +70,7 @@
 							this.notes.push(note);
 						});
 					});
-					const channelLocalTimeline = stream.useChannel('localTimeline');
+					const channelLocalTimeline = this.stream.useChannel('localTimeline');
 					channelLocalTimeline.on('note', (note) => {
 						timelineFeed.add_note(note);
 					});
@@ -78,7 +81,7 @@
 							this.notes.push(note);
 						});
 					});
-					const channelGlobalTimeline = stream.useChannel('globalTimeline');
+					const channelGlobalTimeline = this.stream.useChannel('globalTimeline');
 					channelGlobalTimeline.on('note', (note) => {
 						timelineFeed.add_note(note);
 					});
