@@ -13,7 +13,7 @@
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 	import IconHouse from 'lucide-svelte/icons/house';
 
-	// /user?username=<username>&host=<host>
+	// /user?username=<username>
 
 	let {
 		data
