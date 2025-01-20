@@ -33,7 +33,6 @@
 				throw new Error('No server or token in cookies');
 			}
 			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
-			console.log('constructor: TimelineFeed');
 		}
 
 		resetStream(reason: string): void {
