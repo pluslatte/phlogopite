@@ -62,7 +62,11 @@
 		{#if note.files}
 			<div class="flex flex-row flex-wrap">
 				{#each note.files as file}
-					<img src={file.thumbnailUrl} alt={file.name} class="m-2 max-w-64 rounded-lg" />
+					<img
+						src={file.thumbnailUrl}
+						alt={file.name}
+						class="m-2 max-w-64 rounded-lg object-cover"
+					/>
 				{/each}
 			</div>
 		{/if}
