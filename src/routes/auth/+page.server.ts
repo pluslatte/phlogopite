@@ -20,7 +20,7 @@ export const actions: Actions = {
                 secure: process.env.NODE_ENV === 'production',
                 maxAge: 60 * 60 * 24 * 7
             });
-            return { success: true };
+            redirect(307, "/");
         }
 
         const callbackUrl = data.get('clientUrl') + `?host=${server}`;

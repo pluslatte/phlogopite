@@ -1,13 +1,14 @@
-import { error } from "@sveltejs/kit";
-import type { LayoutServerLoad } from "./$types";
+
+import { error, redirect } from "@sveltejs/kit";
+import type { LayoutServerLoad, PageServerLoad } from "./$types";
 import { MakePhlogopiteCookiesData, type PhlogopiteCookies } from "@/phlogopite-cookies";
 
-export const load: LayoutServerLoad = ({ cookies }) => {
+export const load: PageServerLoad = ({ cookies }) => {
     const server = cookies.get("server");
     const token = cookies.get("token");
 
     if (!server || !token) {
-        return;
+        redirect(307, "/auth");
     }
 
     return {
