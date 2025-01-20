@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 
 	let { note }: { note: Note } = $props();
-	let timeStampHash: number = $state(Math.random() * 256);
+	let timeStampHash: number = $state(Math.random());
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
@@ -21,7 +21,7 @@
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			timeStampHash = Math.random() * 256;
+			timeStampHash = Math.random();
 		}, 10000);
 		return () => {
 			clearInterval(interval);
