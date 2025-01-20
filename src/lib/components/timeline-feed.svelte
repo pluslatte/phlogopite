@@ -95,6 +95,9 @@
 
 	onMount(() => {
 		timelineFeed.init();
+		return () => {
+			timelineFeed.stream.close();
+		};
 	});
 </script>
 
