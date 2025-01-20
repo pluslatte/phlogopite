@@ -90,6 +90,14 @@
 					return;
 			}
 		}
+
+		killStream(): void {
+			this.stream.close();
+			if (!cookies.server || !cookies.token) {
+				throw new Error('No server or token in cookies');
+			}
+			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
+		}
 	}
 	const timelineFeed = new TimelineFeed(timelineType);
 
