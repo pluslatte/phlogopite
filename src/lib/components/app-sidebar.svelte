@@ -57,7 +57,7 @@
 
 <Sidebar>
 	<SidebarHeader>
-		<CreateNote {cookies} />
+		<CreateNote />
 		<Separator />
 	</SidebarHeader>
 	<SidebarContent>

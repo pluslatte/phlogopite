@@ -80,7 +80,7 @@
 		</DialogHeader>
 		<CreateNote
 			quote={note}
-			callback={() => {
+			onNoteSubmissionSuccess={() => {
 				dialogOpen = false;
 			}}
 		/>
