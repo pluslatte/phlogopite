@@ -5,6 +5,8 @@
 	import MisskeyQuote from '@/components/misskey-quote.svelte';
 	import MisskeyNote from '@/components/misskey-note.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
+	import MisskeyReply from './misskey-reply.svelte';
+	import MisskeyReplyingQuote from './misskey-replying-quote.svelte';
 
 	let { notes }: { notes: Note[] } = $props();
 </script>
@@ -15,12 +17,22 @@
 		<MisskeyNoteActions note={note.renote} />
 		<Separator class="mb-4" />
 	{:else if note.renote && note.text}
-		<MisskeyQuote quotedBy={note.user} {note} quote={note.renote} />
-		<MisskeyNoteActions {note} />
+		{#if note.reply}
+			<MisskeyReplyingQuote {note} quote={note.renote} />
+			<MisskeyNoteActions {note} />
+		{:else}
+			<MisskeyQuote quotedBy={note.user} {note} quote={note.renote} />
+			<MisskeyNoteActions {note} />
+		{/if}
 		<Separator class="mb-4" />
 	{:else}
-		<MisskeyNote {note} />
-		<MisskeyNoteActions {note} />
+		{#if note.reply}
+			<MisskeyReply {note} />
+			<MisskeyNoteActions {note} />
+		{:else}
+			<MisskeyNote {note} />
+			<MisskeyNoteActions {note} />
+		{/if}
 		<Separator class="mb-4" />
 	{/if}
 {/each}
