@@ -10,13 +10,16 @@
 		DropdownMenuContent,
 		DropdownMenuItem
 	} from '@/components/ui/dropdown-menu';
+	import { Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 
 	import IconReply from 'lucide-svelte/icons/reply';
 	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
 	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
+	import CreateNote from './create-note.svelte';
 
 	let { note }: { note: Note } = $props();
+	let dialogOpen: boolean = $state(false);
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 	if (!cli) {
@@ -32,7 +35,9 @@
 			});
 	};
 
-	const quote = () => {};
+	const openDialog = () => {
+		dialogOpen = true;
+	};
 </script>
 
 <div class="flex flex-row gap-8 p-2">
@@ -49,7 +54,7 @@
 			<DropdownMenuGroup>
 				<!-- <DropdownMenuGroupHeading>Renote</DropdownMenuGroupHeading> -->
 				<DropdownMenuItem onclick={renote}>Renote</DropdownMenuItem>
-				<DropdownMenuItem onclick={quote}>Quote</DropdownMenuItem>
+				<DropdownMenuItem onclick={openDialog}>Quote</DropdownMenuItem>
 			</DropdownMenuGroup>
 		</DropdownMenuContent>
 	</DropdownMenu>
@@ -60,3 +65,17 @@
 		<IconEllipsis class="h-4 w-4" />
 	</Button>
 </div>
+<!-- https://github.com/huntabyte/shadcn-svelte/issues/902 -->
+<Dialog
+	bind:open={dialogOpen}
+	onOpenChange={(open) => {
+		dialogOpen = open;
+	}}
+>
+	<DialogContent>
+		<DialogHeader>
+			<DialogTitle>Quote</DialogTitle>
+		</DialogHeader>
+		<CreateNote />
+	</DialogContent>
+</Dialog>

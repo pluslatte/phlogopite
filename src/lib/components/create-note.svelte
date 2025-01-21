@@ -15,7 +15,7 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 	import type { IResponse } from 'misskey-js/entities.js';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import { toggleMode } from 'mode-watcher';
 
 	import IconSun from 'lucide-svelte/icons/sun';
@@ -26,14 +26,7 @@
 	import IconLock from 'lucide-svelte/icons/lock';
 	import IconMain from 'lucide-svelte/icons/mail';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
-	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
-
-	let {
-		cookies
-	}: {
-		cookies: PhlogopiteCookies;
-	} = $props();
 
 	let newNote = $state('');
 	let self: IResponse | null = $state(null);
@@ -52,10 +45,10 @@
 		}
 	});
 
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + cookies.server,
-		credential: cookies.token
-	});
+	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
+	if (!cli) {
+		console.error('no misskeyApiClient found');
+	}
 
 	async function addNote() {
 		const request = cli.request('notes/create', {
@@ -91,9 +84,9 @@
 			{/if}
 			<div class="flex-frow ml-2 grid grid-flow-row text-sm">
 				<span class="overflow-hidden text-ellipsis font-bold">{self?.name}</span>
-				<span class="overflow-hidden text-ellipsis text-muted-foreground"
-					>{'@' + self?.username + '@' + cookies.server}</span
-				>
+				<span class="overflow-hidden text-ellipsis text-muted-foreground">
+					{'@' + self?.username}
+				</span>
 			</div>
 		</div>
 		<Textarea bind:value={newNote} placeholder="Type something..." class="h-40 border"></Textarea>
