@@ -78,6 +78,11 @@
 			<DialogTitle>Quote</DialogTitle>
 			<MisskeyNote {note} />
 		</DialogHeader>
-		<CreateNote quote={note} />
+		<CreateNote
+			quote={note}
+			callback={() => {
+				dialogOpen = false;
+			}}
+		/>
 	</DialogContent>
 </Dialog>

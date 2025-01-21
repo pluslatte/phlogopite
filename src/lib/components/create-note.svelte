@@ -28,7 +28,13 @@
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
-	let { quote }: { quote?: Note } = $props();
+	let {
+		quote,
+		callback // called on successful note creation
+	}: {
+		quote?: Note;
+		callback?: () => void;
+	} = $props();
 
 	type Visibility = 'public' | 'home' | 'followers' | 'specified';
 
@@ -62,6 +68,9 @@
 		const result = await request;
 		if (result) {
 			newNote = '';
+			if (callback) {
+				callback();
+			}
 		} else {
 			console.error('Note creation failed');
 		}
