@@ -22,10 +22,24 @@
 	} = $props();
 
 	let clipId: string = $state('');
+	let clipName: string = $state('');
 
 	const cli = new misskeyApi.APIClient({
 		origin: 'https://' + cookies.server,
 		credential: cookies.token
+	});
+
+	$effect(() => {
+		let isCancelled = false;
+		cli.request('clips/show', { clipId: clipId }).then((got) => {
+			if (!isCancelled) {
+				clipName = got.name;
+			}
+		});
+
+		return () => {
+			isCancelled = true;
+		};
 	});
 </script>
 
@@ -34,7 +48,11 @@
 		<Select type="single" bind:value={clipId}>
 			<SelectTrigger class="w-full shrink-0">
 				<IconPaperclip class="h-4 w-4" />
-				<span>Select a clip to show</span>
+				{#if clipId}
+					<span>{`Selected: ${clipName}`}</span>
+				{:else}
+					<span>Select a clip to show</span>
+				{/if}
 			</SelectTrigger>
 			<SelectGroup>
 				<SelectContent>
