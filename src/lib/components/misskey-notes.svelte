@@ -15,7 +15,13 @@
 		<MisskeyNoteActions note={note.renote} />
 		<Separator class="mb-4" />
 	{:else if note.renote && note.text}
-		<MisskeyQuote quotedBy={note.user} {note} quote={note.renote} withReply={note.reply != null} />
+		<MisskeyQuote
+			quotedBy={note.user}
+			{note}
+			quote={note.renote}
+			withReply={note.reply != null}
+			withReplyOfQuote={note.renote.reply != null}
+		/>
 		<MisskeyNoteActions {note} />
 		<Separator class="mb-4" />
 	{:else}

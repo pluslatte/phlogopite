@@ -11,8 +11,10 @@
 		quotedBy,
 		note,
 		quote,
-		withReply
-	}: { quotedBy: User; note: Note; quote: Note; withReply?: boolean } = $props();
+		withReply,
+		withReplyOfQuote
+	}: { quotedBy: User; note: Note; quote: Note; withReply?: boolean; withReplyOfQuote?: boolean } =
+		$props();
 </script>
 
 <MisskeyNote {note} hideQuoteExistenceIndicator={true} {withReply} />
@@ -29,7 +31,7 @@
 			</div>
 		</div>
 		<div class="rounded-md border-2 bg-secondary bg-opacity-50 p-2 opacity-80">
-			<MisskeyNote note={quote} />
+			<MisskeyNote note={quote} withReply={withReplyOfQuote} />
 		</div>
 	</div>
 </div>
