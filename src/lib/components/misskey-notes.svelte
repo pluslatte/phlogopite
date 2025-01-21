@@ -12,15 +12,15 @@
 {#each notes as note (note.id)}
 	{#if note.renote && !note.text}
 		<MisskeyRenote renotedBy={note.user} renote={note.renote} />
-		<MisskeyNoteActions />
+		<MisskeyNoteActions note={note.renote} />
 		<Separator class="mb-4" />
 	{:else if note.renote && note.text}
 		<MisskeyQuote quotedBy={note.user} {note} quote={note.renote} />
-		<MisskeyNoteActions />
+		<MisskeyNoteActions {note} />
 		<Separator class="mb-4" />
 	{:else}
 		<MisskeyNote {note} />
-		<MisskeyNoteActions />
+		<MisskeyNoteActions {note} />
 		<Separator class="mb-4" />
 	{/if}
 {/each}

@@ -44,10 +44,10 @@
 {#each notificationFeed.notifications as notification (notification.id)}
 	{#if notification.type == 'mention'}
 		<MisskeyNote note={notification.note} />
-		<MisskeyNoteActions />
+		<MisskeyNoteActions note={notification.note} />
 	{:else if notification.type == 'reply'}
 		<MisskeyNote note={notification.note} />
-		<MisskeyNoteActions />
+		<MisskeyNoteActions note={notification.note} />
 	{:else}
 		<div>{'WIP:[notification.type = ' + notification.type + ']'}</div>
 	{/if}
