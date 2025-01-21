@@ -14,7 +14,7 @@
 
 	import { api as misskeyApi } from 'misskey-js';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
-	import type { IResponse } from 'misskey-js/entities.js';
+	import type { IResponse, Note } from 'misskey-js/entities.js';
 	import { getContext, onMount } from 'svelte';
 	import { toggleMode } from 'mode-watcher';
 
@@ -28,10 +28,12 @@
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
-	let newNote = $state('');
-	let self: IResponse | null = $state(null);
+	let { quote }: { quote?: Note } = $props();
 
 	type Visibility = 'public' | 'home' | 'followers' | 'specified';
+
+	let newNote = $state('');
+	let self: IResponse | null = $state(null);
 	let rawVisibility: string = $state('public');
 	let visibility: Visibility = $derived.by(() => {
 		switch (rawVisibility) {
@@ -53,7 +55,8 @@
 	async function addNote() {
 		const request = cli.request('notes/create', {
 			visibility: visibility,
-			text: newNote
+			text: newNote,
+			renoteId: quote ? quote.id : null
 		});
 
 		const result = await request;

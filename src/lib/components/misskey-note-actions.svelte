@@ -17,6 +17,7 @@
 	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 	import CreateNote from './create-note.svelte';
+	import MisskeyNote from './misskey-note.svelte';
 
 	let { note }: { note: Note } = $props();
 	let dialogOpen: boolean = $state(false);
@@ -75,7 +76,8 @@
 	<DialogContent>
 		<DialogHeader>
 			<DialogTitle>Quote</DialogTitle>
+			<MisskeyNote {note} />
 		</DialogHeader>
-		<CreateNote />
+		<CreateNote quote={note} />
 	</DialogContent>
 </Dialog>
