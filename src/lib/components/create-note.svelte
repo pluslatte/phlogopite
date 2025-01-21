@@ -4,6 +4,13 @@
 	import Separator from '@/components/ui/separator/separator.svelte';
 	import Avatar from '@/components/ui/avatar/avatar.svelte';
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
+	import {
+		Select,
+		SelectContent,
+		SelectGroup,
+		SelectItem,
+		SelectTrigger
+	} from '@/components/ui/select';
 
 	import { api as misskeyApi } from 'misskey-js';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
@@ -16,8 +23,12 @@
 	import IconGlobe from 'lucide-svelte/icons/globe';
 	import IconSend from 'lucide-svelte/icons/send';
 	import IconRocket from 'lucide-svelte/icons/rocket';
+	import IconHouse from 'lucide-svelte/icons/house';
+	import IconLock from 'lucide-svelte/icons/lock';
+	import IconMain from 'lucide-svelte/icons/mail';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
+	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
 	let {
 		cookies
@@ -28,6 +39,20 @@
 	let newNote = $state('');
 	let self: IResponse | null = $state(null);
 
+	type Visibility = 'public' | 'home' | 'followers' | 'specified';
+	let rawVisibility: string = $state('public');
+	let visibility: Visibility = $derived.by(() => {
+		switch (rawVisibility) {
+			case 'public':
+			case 'home':
+			case 'followers':
+			case 'specified':
+				return rawVisibility as Visibility;
+			default:
+				return 'public' as Visibility;
+		}
+	});
+
 	const cli = new misskeyApi.APIClient({
 		origin: 'https://' + cookies.server,
 		credential: cookies.token
@@ -35,7 +60,7 @@
 
 	async function addNote() {
 		const request = cli.request('notes/create', {
-			visibility: 'home',
+			visibility: visibility,
 			text: newNote
 		});
 
@@ -84,13 +109,40 @@
 				<span class="sr-only">Toggle theme</span>
 			</Button>
 			<div class="flex-grow"></div>
-			<Button variant="outline" size="icon" class="shrink-0 rounded-r-none border-r-0">
-				<IconGlobe />
-			</Button>
-			<Separator orientation="vertical" />
-			<Button variant="outline" size="icon" class="shrink-0 rounded-l-none border-l-0">
-				<IconRocket />
-			</Button>
+			<Select type="single" bind:value={rawVisibility}>
+				<SelectTrigger class="w-[64px] shrink-0">
+					{#if visibility == 'public'}
+						<IconGlobe class="h-4 w-4" />
+					{:else if visibility == 'home'}
+						<IconHouse class="h-4 w-4" />
+					{:else if visibility == 'followers'}
+						<IconLock class="h-4 w-4" />
+					{:else if visibility == 'specified'}
+						<IconMain class="h-4 w-4" />
+					{/if}
+				</SelectTrigger>
+				<SelectGroup>
+					<SelectContent>
+						<SelectGroupHeading>visibility</SelectGroupHeading>
+						<SelectItem value="public">
+							<IconGlobe class="h-4 w-4" />
+							<span class="pl-2">public</span>
+						</SelectItem>
+						<SelectItem value="home">
+							<IconHouse class="h-4 w-4" />
+							<span class="pl-2">home only</span>
+						</SelectItem>
+						<SelectItem value="followers">
+							<IconLock class="h-4 w-4" />
+							<span class="pl-2">followers only</span>
+						</SelectItem>
+						<SelectItem value="specified">
+							<IconMain class="h-4 w-4" />
+							<span class="pl-2">DM</span>
+						</SelectItem>
+					</SelectContent>
+				</SelectGroup>
+			</Select>
 			<Separator orientation="vertical" class="mx-4" />
 			<Button type="submit" size="icon" class="shrink-0">
 				<IconSend class="h-4 w-4" />
