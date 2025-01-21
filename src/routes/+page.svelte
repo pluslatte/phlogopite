@@ -100,7 +100,7 @@
 	<Separator />
 	{#key timelineSelector}
 		{#if timelineSelector == 'clip'}
-			<MisskeyClipNotes cookies={data.cookies} clipId={'9chgvr65dg'} />
+			<MisskeyClipNotes cookies={data.cookies} />
 		{:else}
 			<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
 		{/if}
