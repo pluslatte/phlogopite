@@ -13,7 +13,7 @@
 	} from '@/components/ui/select';
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
-	import IconPaperclip from 'lucide-svelte/icons/paperclip';
+	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
 
 	let {
 		cookies
@@ -21,8 +21,8 @@
 		cookies: PhlogopiteCookies;
 	} = $props();
 
-	let clipId: string = $state('');
-	let clipName: string = $state('');
+	let listId: string = $state('');
+	let listName: string = $state('');
 
 	const cli = new misskeyApi.APIClient({
 		origin: 'https://' + cookies.server,
@@ -31,10 +31,10 @@
 
 	$effect(() => {
 		let isCancelled = false;
-		if (!clipId) return;
-		cli.request('clips/show', { clipId: clipId }).then((got) => {
+		if (!listId) return;
+		cli.request('users/lists/show', { listId: listId }).then((got) => {
 			if (!isCancelled) {
-				clipName = got.name;
+				listName = got.name;
 			}
 		});
 
@@ -46,24 +46,24 @@
 
 <div class="flex h-full flex-col overflow-auto">
 	<div class="m-2">
-		<Select type="single" bind:value={clipId}>
+		<Select type="single" bind:value={listId}>
 			<SelectTrigger class="w-full shrink-0">
-				<IconPaperclip class="h-4 w-4" />
-				{#if clipId}
-					<span>{`Selected: ${clipName}`}</span>
+				<IconClipboardList class="h-4 w-4" />
+				{#if listId}
+					<span>{`Selected: ${listName}`}</span>
 				{:else}
-					<span>{'Select a clip to show'}</span>
+					<span>{'Select a list to show'}</span>
 				{/if}
 			</SelectTrigger>
 			<SelectGroup>
 				<SelectContent>
 					<SelectGroupHeading>clips</SelectGroupHeading>
-					{#await cli.request('clips/list', {})}
+					{#await cli.request('users/lists/list', {})}
 						Loading...
-					{:then clips}
-						{#each clips as clip}
-							<SelectItem value={clip.id}>
-								<span class="pl-2">{clip.name}</span>
+					{:then lists}
+						{#each lists as list}
+							<SelectItem value={list.id}>
+								<span class="pl-2">{list.name}</span>
 							</SelectItem>
 						{/each}
 					{/await}
@@ -72,8 +72,8 @@
 		</Select>
 	</div>
 	<ScrollArea type="auto" class="flex-grow p-4">
-		{#if clipId}
-			{#await cli.request('clips/notes', { clipId })}
+		{#if listId}
+			{#await cli.request('notes/user-list-timeline', { listId: listId })}
 				Loading...
 			{:then notes: Note[]}
 				<MisskeyNotes {notes} />

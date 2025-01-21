@@ -23,6 +23,7 @@
 	import TimelineFeed from '@/components/timeline-feed.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import MisskeyClipNotes from '@/components/misskey-clip-notes.svelte';
+	import MisskeyListNotes from '@/components/misskey-list-notes.svelte';
 
 	let {
 		data
@@ -101,6 +102,8 @@
 	{#key timelineSelector}
 		{#if timelineSelector == 'clip'}
 			<MisskeyClipNotes cookies={data.cookies} />
+		{:else if timelineSelector == 'list'}
+			<MisskeyListNotes cookies={data.cookies} />
 		{:else}
 			<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
 		{/if}
