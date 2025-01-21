@@ -43,9 +43,10 @@
 	let user: UserDetailed | null = $state(null);
 	let noteListType: string = $state('normal');
 
-	onMount(() => {
+	$effect(() => {
 		if (!cookies.server || !cookies.token) return;
 
+		let isCancelled = false;
 		cli.request('i', {}).then((got) => {
 			self = got;
 		});
@@ -53,7 +54,9 @@
 			cli
 				.request('users/show', { username: username, host: host })
 				.then((got) => {
-					user = got;
+					if (!isCancelled) {
+						user = got;
+					}
 				})
 				.catch((err) => {
 					console.error(err);
@@ -62,12 +65,18 @@
 			cli
 				.request('users/show', { username: username })
 				.then((got) => {
-					user = got;
+					if (!isCancelled) {
+						user = got;
+					}
 				})
 				.catch((err) => {
 					console.error(err);
 				});
 		}
+
+		return () => {
+			isCancelled = true;
+		};
 	});
 
 	setContext('client', {
