@@ -10,7 +10,14 @@
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import { onMount } from 'svelte';
 
-	let { note }: { note: Note } = $props();
+	let {
+		note,
+		hideQuoteExistenceIndicator
+	}: {
+		note: Note;
+		hideQuoteExistenceIndicator?: boolean;
+	} = $props();
+
 	let timeStampHash: number = $state(Math.random());
 
 	function GetTimestampFromISO8601(iso_string: string): string {
@@ -69,6 +76,9 @@
 					mfmNodes={mfm.parse(note.text)}
 					assets={{ host: note.user.host, emojis: note.emojis }}
 				/>
+				{#if note.renote && !hideQuoteExistenceIndicator}
+					<div class="text-muted-foreground">...quote...</div>
+				{/if}
 			</div>
 		{/if}
 		<!-- image -->

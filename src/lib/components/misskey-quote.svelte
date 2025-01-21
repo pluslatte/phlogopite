@@ -10,7 +10,7 @@
 	let { quotedBy, note, quote }: { quotedBy: User; note: Note; quote: Note } = $props();
 </script>
 
-<MisskeyNote {note} />
+<MisskeyNote {note} hideQuoteExistenceIndicator={true} />
 <div class="flex flex-row">
 	<div class="w-8"></div>
 	<div class="flex-grow">
@@ -25,9 +25,6 @@
 		</div>
 		<div class="rounded-md border-2 bg-secondary bg-opacity-50 p-2 opacity-80">
 			<MisskeyNote note={quote} />
-			{#if quote.renote && quote.renote.text}
-				<div class="text-muted-foreground">...quote...</div>
-			{/if}
 		</div>
 	</div>
 </div>
