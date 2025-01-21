@@ -30,9 +30,11 @@
 
 	let {
 		quote,
+		replyTo,
 		onNoteSubmissionSuccess
 	}: {
 		quote?: Note;
+		replyTo?: Note;
 		onNoteSubmissionSuccess?: () => void;
 	} = $props();
 
@@ -62,6 +64,7 @@
 		const request = cli.request('notes/create', {
 			visibility: visibility,
 			text: newNote,
+			replyId: replyTo ? replyTo.id : null,
 			renoteId: quote ? quote.id : null
 		});
 

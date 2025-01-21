@@ -20,7 +20,8 @@
 	import MisskeyNote from './misskey-note.svelte';
 
 	let { note }: { note: Note } = $props();
-	let dialogOpen: boolean = $state(false);
+	let isQuoteDialogOpen: boolean = $state(false);
+	let isReplyDialogOpen: boolean = $state(false);
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 	if (!cli) {
@@ -35,14 +36,17 @@
 				console.error('renote failed');
 			});
 	};
-
-	const openDialog = () => {
-		dialogOpen = true;
-	};
 </script>
 
 <div class="flex flex-row gap-8 p-2">
-	<Button variant="ghost" size="icon" class="rounded-full">
+	<Button
+		variant="ghost"
+		size="icon"
+		class="rounded-full"
+		onclick={() => {
+			isReplyDialogOpen = true;
+		}}
+	>
 		<IconReply class="h-4 w-4" />
 	</Button>
 	<DropdownMenu>
@@ -55,7 +59,11 @@
 			<DropdownMenuGroup>
 				<!-- <DropdownMenuGroupHeading>Renote</DropdownMenuGroupHeading> -->
 				<DropdownMenuItem onclick={renote}>Renote</DropdownMenuItem>
-				<DropdownMenuItem onclick={openDialog}>Quote</DropdownMenuItem>
+				<DropdownMenuItem
+					onclick={() => {
+						isQuoteDialogOpen = true;
+					}}>Quote</DropdownMenuItem
+				>
 			</DropdownMenuGroup>
 		</DropdownMenuContent>
 	</DropdownMenu>
@@ -67,10 +75,11 @@
 	</Button>
 </div>
 <!-- https://github.com/huntabyte/shadcn-svelte/issues/902 -->
+<!-- quote dialog -->
 <Dialog
-	bind:open={dialogOpen}
+	bind:open={isQuoteDialogOpen}
 	onOpenChange={(open) => {
-		dialogOpen = open;
+		isQuoteDialogOpen = open;
 	}}
 >
 	<DialogContent>
@@ -81,7 +90,27 @@
 		<CreateNote
 			quote={note}
 			onNoteSubmissionSuccess={() => {
-				dialogOpen = false;
+				isQuoteDialogOpen = false;
+			}}
+		/>
+	</DialogContent>
+</Dialog>
+<!-- reply dialog -->
+<Dialog
+	bind:open={isReplyDialogOpen}
+	onOpenChange={(open) => {
+		isReplyDialogOpen = open;
+	}}
+>
+	<DialogContent>
+		<DialogHeader>
+			<DialogTitle>Reply</DialogTitle>
+			<MisskeyNote {note} />
+		</DialogHeader>
+		<CreateNote
+			replyTo={note}
+			onNoteSubmissionSuccess={() => {
+				isReplyDialogOpen = false;
 			}}
 		/>
 	</DialogContent>
