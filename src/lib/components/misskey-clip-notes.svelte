@@ -31,6 +31,7 @@
 
 	$effect(() => {
 		let isCancelled = false;
+		if (!clipId) return;
 		cli.request('clips/show', { clipId: clipId }).then((got) => {
 			if (!isCancelled) {
 				clipName = got.name;
