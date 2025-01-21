@@ -13,7 +13,7 @@
 
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
 	import { api as misskeyApi } from 'misskey-js';
-	import { onMount, setContext } from 'svelte';
+	import { setContext } from 'svelte';
 	import * as mfm from 'mfm-js';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import type { IResponse } from 'misskey-js/entities.js';
