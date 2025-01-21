@@ -22,6 +22,7 @@
 	import type { IResponse } from 'misskey-js/entities.js';
 	import TimelineFeed from '@/components/timeline-feed.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
+	import MisskeyClipNotes from '@/components/misskey-clip-notes.svelte';
 
 	let {
 		data
@@ -98,6 +99,10 @@
 	</div>
 	<Separator />
 	{#key timelineSelector}
-		<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
+		{#if timelineSelector == 'clip'}
+			<MisskeyClipNotes cookies={data.cookies} clipId={'9chgvr65dg'} />
+		{:else}
+			<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
+		{/if}
 	{/key}
 </div>
