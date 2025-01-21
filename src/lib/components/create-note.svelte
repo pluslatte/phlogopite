@@ -22,7 +22,6 @@
 	import IconMoon from 'lucide-svelte/icons/moon';
 	import IconGlobe from 'lucide-svelte/icons/globe';
 	import IconSend from 'lucide-svelte/icons/send';
-	import IconRocket from 'lucide-svelte/icons/rocket';
 	import IconHouse from 'lucide-svelte/icons/house';
 	import IconLock from 'lucide-svelte/icons/lock';
 	import IconMain from 'lucide-svelte/icons/mail';
