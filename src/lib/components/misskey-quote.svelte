@@ -25,6 +25,9 @@
 		</div>
 		<div class="rounded-md border-2 bg-secondary bg-opacity-50 p-2 opacity-80">
 			<MisskeyNote note={quote} />
+			{#if quote.renote && quote.renote.text}
+				<div class="text-muted-foreground">...quote...</div>
+			{/if}
 		</div>
 	</div>
 </div>

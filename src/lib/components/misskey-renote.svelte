@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Note, User } from 'misskey-js/entities.js';
-
-	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
-
 	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import MisskeyNote from '@/components/misskey-note.svelte';
+	import MisskeyQuote from '@/components/misskey-quote.svelte';
+
+	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 
 	let { renotedBy, renote }: { renotedBy: User; renote: Note } = $props();
 </script>
@@ -20,4 +20,8 @@
 		/>
 	</div>
 </div>
-<MisskeyNote note={renote} />
+{#if renote.renote && renote.text}
+	<MisskeyQuote quotedBy={renote.user} note={renote} quote={renote.renote} />
+{:else}
+	<MisskeyNote note={renote} />
+{/if}
