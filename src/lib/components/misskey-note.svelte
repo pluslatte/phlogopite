@@ -12,10 +12,12 @@
 
 	let {
 		note,
-		hideQuoteExistenceIndicator
+		hideQuoteExistenceIndicator,
+		withReply
 	}: {
 		note: Note;
 		hideQuoteExistenceIndicator?: boolean;
+		withReply?: boolean;
 	} = $props();
 
 	let timeStampHash: number = $state(Math.random());
@@ -36,62 +38,81 @@
 	});
 </script>
 
-<div class="flex flex-row items-start text-sm">
-	<PhlogopiteUserLink username={note.user.username} host={note.user.host ? note.user.host : ''}>
-		<Avatar class="ml-2 mt-1 rounded-lg">
-			<AvatarImage src={note.user.avatarUrl} alt={'@' + note.user.username} />
-			<AvatarFallBackAnim />
-		</Avatar>
-	</PhlogopiteUserLink>
-	<div class="ml-2 grid flex-grow">
-		<div class="flex w-full flex-row items-center overflow-hidden">
-			{#if note.user.name}
-				<PhlogopiteUserLink
-					username={note.user.username}
-					host={note.user.host ? note.user.host : ''}
-				>
-					<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-						<MfmTextRenderer
-							mfmNodes={mfm.parse(note.user.name)}
-							assets={{ host: note.user.host, emojis: note.user.emojis }}
-						/>
-					</div>
-				</PhlogopiteUserLink>
-			{/if}
-			<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
-				{'@' + note.user.username + (note.user.host ? '@' + note.user.host : '')}
-			</div>
-			<div class="w-4"></div>
-			{#key timeStampHash}
-				<div class="ml-auto whitespace-nowrap text-muted-foreground">
-					{GetTimestampFromISO8601(note.createdAt)}
-				</div>
-			{/key}
-		</div>
-		<!-- main text -->
-		<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
-		{#if note.text}
-			<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
-				<MfmTextRenderer
-					mfmNodes={mfm.parse(note.text)}
-					assets={{ host: note.user.host, emojis: note.emojis }}
-				/>
-				{#if note.renote && !hideQuoteExistenceIndicator}
-					<div class="text-muted-foreground">...quote...</div>
+{#snippet prime(noteToRender: Note)}
+	<div class="flex flex-row items-start text-sm">
+		<PhlogopiteUserLink
+			username={noteToRender.user.username}
+			host={noteToRender.user.host ? noteToRender.user.host : ''}
+		>
+			<Avatar class="ml-2 mt-1 rounded-lg">
+				<AvatarImage src={noteToRender.user.avatarUrl} alt={'@' + noteToRender.user.username} />
+				<AvatarFallBackAnim />
+			</Avatar>
+		</PhlogopiteUserLink>
+		<div class="ml-2 grid flex-grow">
+			<div class="flex w-full flex-row items-center overflow-hidden">
+				{#if noteToRender.user.name}
+					<PhlogopiteUserLink
+						username={noteToRender.user.username}
+						host={noteToRender.user.host ? noteToRender.user.host : ''}
+					>
+						<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+							<MfmTextRenderer
+								mfmNodes={mfm.parse(noteToRender.user.name)}
+								assets={{ host: noteToRender.user.host, emojis: noteToRender.user.emojis }}
+							/>
+						</div>
+					</PhlogopiteUserLink>
 				{/if}
+				<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
+					{'@' +
+						noteToRender.user.username +
+						(noteToRender.user.host ? '@' + noteToRender.user.host : '')}
+				</div>
+				<div class="w-4"></div>
+				{#key timeStampHash}
+					<div class="ml-auto whitespace-nowrap text-muted-foreground">
+						{GetTimestampFromISO8601(noteToRender.createdAt)}
+					</div>
+				{/key}
 			</div>
-		{/if}
-		<!-- image -->
-		{#if note.files}
-			<div class="flex flex-row flex-wrap">
-				{#each note.files as file}
-					<img
-						src={file.thumbnailUrl}
-						alt={file.name}
-						class="m-2 max-w-64 rounded-lg object-cover"
+			<!-- main text -->
+			<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
+			{#if noteToRender.text}
+				<div class="min-w-0 whitespace-pre-wrap text-wrap" style="word-break: break-word;">
+					<MfmTextRenderer
+						mfmNodes={mfm.parse(noteToRender.text)}
+						assets={{ host: noteToRender.user.host, emojis: noteToRender.emojis }}
 					/>
-				{/each}
-			</div>
-		{/if}
+					{#if noteToRender.renote && !hideQuoteExistenceIndicator}
+						<div class="text-muted-foreground">...quote...</div>
+					{/if}
+				</div>
+			{/if}
+			<!-- image -->
+			{#if noteToRender.files}
+				<div class="flex flex-row flex-wrap">
+					{#each noteToRender.files as file}
+						<img
+							src={file.thumbnailUrl}
+							alt={file.name}
+							class="m-2 max-w-64 rounded-lg object-cover"
+						/>
+					{/each}
+				</div>
+			{/if}
+		</div>
 	</div>
-</div>
+{/snippet}
+
+{#if note.reply && withReply}
+	<div class="flex flex-row px-2 pb-2">
+		<div class="w-8"></div>
+		<div class="flex-grow">
+			<div class="rounded-md border-2 bg-secondary bg-opacity-50 p-2 opacity-80">
+				{@render prime(note.reply)}
+			</div>
+		</div>
+	</div>
+{/if}
+{@render prime(note)}

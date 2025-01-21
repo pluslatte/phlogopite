@@ -7,10 +7,15 @@
 	import * as mfm from 'mfm-js';
 	import MisskeyNote from '@/components/misskey-note.svelte';
 
-	let { quotedBy, note, quote }: { quotedBy: User; note: Note; quote: Note } = $props();
+	let {
+		quotedBy,
+		note,
+		quote,
+		withReply
+	}: { quotedBy: User; note: Note; quote: Note; withReply?: boolean } = $props();
 </script>
 
-<MisskeyNote {note} hideQuoteExistenceIndicator={true} />
+<MisskeyNote {note} hideQuoteExistenceIndicator={true} {withReply} />
 <div class="flex flex-row">
 	<div class="w-8"></div>
 	<div class="flex-grow">
