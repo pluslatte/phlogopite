@@ -11,6 +11,7 @@
 		DropdownMenuItem
 	} from '@/components/ui/dropdown-menu';
 	import { Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
+	import { toast } from 'svelte-sonner';
 
 	import IconReply from 'lucide-svelte/icons/reply';
 	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
@@ -31,9 +32,11 @@
 	const renote = () => {
 		cli
 			.request('notes/create', { visibility: 'public', renoteId: note.id })
-			.then(() => {})
+			.then(() => {
+				toast.success('Renoted.');
+			})
 			.catch(() => {
-				console.error('renote failed');
+				toast.error('Renote failed.');
 			});
 	};
 </script>

@@ -11,6 +11,7 @@
 		SelectItem,
 		SelectTrigger
 	} from '@/components/ui/select';
+	import { toast } from 'svelte-sonner';
 
 	import { api as misskeyApi } from 'misskey-js';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
@@ -74,8 +75,9 @@
 			if (onNoteSubmissionSuccess) {
 				onNoteSubmissionSuccess();
 			}
+			toast.success('Successfully created a note.');
 		} else {
-			console.error('Note creation failed');
+			toast.error('Note creation failed');
 		}
 	}
 
