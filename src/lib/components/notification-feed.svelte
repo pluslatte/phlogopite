@@ -7,6 +7,7 @@
 	import MisskeyNote from './misskey-note.svelte';
 	import Separator from './ui/separator/separator.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
+	import MisskeyNoteActions from './misskey-note-actions.svelte';
 
 	let {
 		cookies
@@ -43,8 +44,10 @@
 {#each notificationFeed.notifications as notification (notification.id)}
 	{#if notification.type == 'mention'}
 		<MisskeyNote note={notification.note} />
+		<MisskeyNoteActions />
 	{:else if notification.type == 'reply'}
 		<MisskeyNote note={notification.note} />
+		<MisskeyNoteActions />
 	{:else}
 		<div>{'WIP:[notification.type = ' + notification.type + ']'}</div>
 	{/if}
