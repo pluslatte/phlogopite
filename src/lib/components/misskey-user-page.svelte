@@ -121,7 +121,9 @@
 	</div>
 	{#if user}
 		<ScrollArea type="auto">
-			<div class="relative flex flex-row justify-center bg-gradient-to-b from-transparent to-black">
+			<div
+				class="relative flex flex-row justify-center bg-gradient-to-b from-transparent to-white dark:to-black"
+			>
 				<img src={user.bannerUrl} alt={'banner'} class="z-[-1] h-[18rem] w-[48rem] object-cover" />
 				<div class="absolute bottom-4 left-4 mr-4">
 					<div class="flex flex-row rounded-xl bg-card bg-opacity-60 p-2">
