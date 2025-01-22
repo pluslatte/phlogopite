@@ -159,9 +159,7 @@
 	{#await getEmojiData(node.props.name, host)}
 		<span>...</span>
 	{:then emojiData}
-		<span class="inline-block">
-			<img src={emojiData.url} alt={emojiData.alt} class="h-5 align-middle" />
-		</span>
+		<img src={emojiData.url} alt={emojiData.alt} class="inline-block h-5 align-middle" />
 	{:catch}
 		<span>{':' + node.props.name + ':'}</span>
 	{/await}

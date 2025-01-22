@@ -103,6 +103,26 @@
 			{/if}
 		</div>
 	</div>
+	<!-- reactions -->
+	{#if noteToRender.reactions}
+		<div class="flex flex-row">
+			<div class="w-14"></div>
+			<div>
+				{#each Object.entries(noteToRender.reactions) as [key, value]}
+					{#if key.length == 1}
+						<span>{`[${key}]`}</span>
+					{:else}
+						<img
+							src={noteToRender.reactionEmojis[key.slice(1, -1)]}
+							alt={key}
+							class="inline-block h-5 align-middle"
+						/>
+					{/if}
+					<span>{`[${value}]`}</span>
+				{/each}
+			</div>
+		</div>
+	{/if}
 {/snippet}
 
 {#if note.reply && withReply}
