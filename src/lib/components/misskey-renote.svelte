@@ -4,6 +4,7 @@
 	import * as mfm from 'mfm-js';
 	import MisskeyNote from '@/components/misskey-note.svelte';
 	import MisskeyQuote from '@/components/misskey-quote.svelte';
+	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 
 	import Repeat_2 from 'lucide-svelte/icons/repeat-2';
 
@@ -14,10 +15,12 @@
 	<div class="w-3"></div>
 	<Repeat_2 class="h-4 w-4 text-muted-foreground" />
 	<div class="text-sm text-muted-foreground">
-		<MfmTextRenderer
-			mfmNodes={mfm.parse('Renoted by ' + renotedBy.name)}
-			assets={{ host: renotedBy.host, emojis: renotedBy.emojis }}
-		/>
+		<PhlogopiteUserLink username={renotedBy.username} host={renotedBy.host}>
+			<MfmTextRenderer
+				mfmNodes={mfm.parse('Renoted by ' + renotedBy.name)}
+				assets={{ host: renotedBy.host, emojis: renotedBy.emojis }}
+			/>
+		</PhlogopiteUserLink>
 	</div>
 </div>
 {#if renote.renote && renote.text}
