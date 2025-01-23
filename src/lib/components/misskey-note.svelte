@@ -10,6 +10,7 @@
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import { getContext, onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
+	import { toast } from 'svelte-sonner';
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 	if (!cli) {
@@ -37,6 +38,28 @@
 	async function getLocalEmojiData(emojiCode: string): Promise<{ url: string; alt: string }> {
 		let got = await cli.request('emoji', { name: emojiCode });
 		return { url: got.url, alt: got.name };
+	}
+
+	function createReaction(noteId: string, reactionName: string): void {
+		cli
+			.request('notes/reactions/create', { noteId, reaction: reactionName })
+			.then(() => {
+				toast.success('Successfully created a reaction.');
+			})
+			.catch((error) => {
+				toast.error(`Reaction creation failed: ${error}`);
+			});
+	}
+
+	function deleteReaction(noteId: string): void {
+		cli
+			.request('notes/reactions/delete', { noteId })
+			.then(() => {
+				toast.success('Successfully removed a reaction.');
+			})
+			.catch((error) => {
+				toast.error(`Reaction removement failed: ${error}`);
+			});
 	}
 
 	onMount(() => {
