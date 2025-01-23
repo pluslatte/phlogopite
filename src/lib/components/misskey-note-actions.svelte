@@ -171,7 +171,7 @@
 					{#each emojis as emoji}
 						<button
 							onclick={() => {
-								createReaction(note.id, ':' + emoji.name + ':');
+								createReaction(note.id, `:${emoji.name}:`);
 								isReactionDialogOpen = false;
 							}}
 						>
