@@ -201,6 +201,8 @@
 		<span>{node.props.emoji}</span>
 	{:else if node.type == 'plain'}
 		<span>{mfm.toString(node.children)}</span>
+	{:else if node.type == 'fn'}
+		<span>{`![fn(${mfm.toString(node)})]`}</span>
 	{:else}
 		<span>{'![' + node.type + ']'}</span>
 	{/if}
