@@ -8,7 +8,13 @@
 	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
+	import { api as misskeyApi } from 'misskey-js';
+
+	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
+	if (!cli) {
+		console.error('no misskeyApiClient found');
+	}
 
 	let {
 		note,
@@ -26,6 +32,11 @@
 		const gotDate = parseISO(iso_string);
 		const currentDate = new Date();
 		return formatDistanceStrict(currentDate, gotDate, { addSuffix: true });
+	}
+
+	async function getLocalEmojiData(emojiCode: string): Promise<{ url: string; alt: string }> {
+		let got = await cli.request('emoji', { name: emojiCode });
+		return { url: got.url, alt: got.name };
 	}
 
 	onMount(() => {
@@ -109,14 +120,20 @@
 			<div class="w-14"></div>
 			<div>
 				{#each Object.entries(noteToRender.reactions) as [key, value]}
-					{#if key.length == 1}
+					{#if !key.split('@')[1]}
 						<span>{`[${key}]`}</span>
-					{:else}
+					{:else if noteToRender.reactionEmojis[key.slice(1, -1)]}
 						<img
 							src={noteToRender.reactionEmojis[key.slice(1, -1)]}
 							alt={key}
 							class="inline-block h-5 align-middle"
 						/>
+					{:else}
+						{#await getLocalEmojiData(key.split('@')[0].slice(1))}
+							...
+						{:then { url, alt }}
+							<img src={url} {alt} class="inline-block h-5 align-middle" />
+						{/await}
 					{/if}
 					<span>{`[${value}]`}</span>
 				{/each}
