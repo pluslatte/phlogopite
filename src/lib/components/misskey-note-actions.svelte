@@ -23,6 +23,7 @@
 	let { note }: { note: Note } = $props();
 	let isQuoteDialogOpen: boolean = $state(false);
 	let isReplyDialogOpen: boolean = $state(false);
+	let isReactionDialogOpen: boolean = $state(false);
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 	if (!cli) {
@@ -46,8 +47,8 @@
 			.then(() => {
 				toast.success('Successfully created a reaction.');
 			})
-			.catch((error) => {
-				toast.error(`Reaction creation failed: ${error}`);
+			.catch((error: Error) => {
+				toast.error(`Reaction creation failed: ${error.message}`);
 			});
 	}
 
@@ -57,8 +58,8 @@
 			.then(() => {
 				toast.success('Successfully removed a reaction.');
 			})
-			.catch((error) => {
-				toast.error(`Reaction removement failed: ${error}`);
+			.catch((error: Error) => {
+				toast.error(`Reaction removement failed: ${error.message}`);
 			});
 	}
 
@@ -97,7 +98,14 @@
 			</DropdownMenuGroup>
 		</DropdownMenuContent>
 	</DropdownMenu>
-	<Button variant="ghost" size="icon" class="rounded-full">
+	<Button
+		variant="ghost"
+		size="icon"
+		class="rounded-full"
+		onclick={() => {
+			isReactionDialogOpen = true;
+		}}
+	>
 		<IconSmilePlus class="h-4 w-4" />
 	</Button>
 	<Button variant="ghost" size="icon" class="rounded-full">
@@ -143,5 +151,24 @@
 				isReplyDialogOpen = false;
 			}}
 		/>
+	</DialogContent>
+</Dialog>
+<!-- reaction dialog -->
+<Dialog
+	bind:open={isReactionDialogOpen}
+	onOpenChange={(open) => {
+		isReactionDialogOpen = open;
+	}}
+>
+	<DialogContent>
+		<DialogHeader>Reaction</DialogHeader>
+		<button
+			onclick={() => {
+				createReaction(note.id, 'star');
+				isReactionDialogOpen = false;
+			}}
+		>
+			star
+		</button>
 	</DialogContent>
 </Dialog>

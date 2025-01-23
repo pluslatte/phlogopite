@@ -76,8 +76,8 @@
 				}
 				toast.success('Successfully created a note.');
 			})
-			.catch((error) => {
-				toast.error(`Note creation failed: ${error}`);
+			.catch((error: Error) => {
+				toast.error(`Note creation failed: ${error.message}`);
 			});
 	}
 
