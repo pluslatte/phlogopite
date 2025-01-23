@@ -13,7 +13,7 @@ export const actions: Actions = {
         }
 
         const sessionId = uuidv4();
-        const permissions = "read:account,write:notes,read:channels,read:notifications"
+        const permissions = "read:account,write:notes,read:channels,read:notifications,write:reactions"
         const authUrl = `https://${server}/miauth/${sessionId}?name=phlogopite&callback=${callbackUrl}&permission=${permissions}`;
 
         redirect(303, authUrl);
