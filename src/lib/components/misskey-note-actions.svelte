@@ -19,6 +19,7 @@
 	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 	import CreateNote from './create-note.svelte';
 	import MisskeyNote from './misskey-note.svelte';
+	import ScrollArea from './ui/scroll-area/scroll-area.svelte';
 
 	let { note }: { note: Note } = $props();
 	let isQuoteDialogOpen: boolean = $state(false);
@@ -162,13 +163,23 @@
 >
 	<DialogContent>
 		<DialogHeader>Reaction</DialogHeader>
-		<button
-			onclick={() => {
-				createReaction(note.id, 'star');
-				isReactionDialogOpen = false;
-			}}
-		>
-			star
-		</button>
+		{#await getAllAvailableEmojis()}
+			{'Loading...'}
+		{:then emojis}
+			<ScrollArea class="h-52">
+				<div class="flex flex-col">
+					{#each emojis as emoji}
+						<button
+							onclick={() => {
+								createReaction(note.id, ':' + emoji.name + ':');
+								isReactionDialogOpen = false;
+							}}
+						>
+							{emoji.name}
+						</button>
+					{/each}
+				</div>
+			</ScrollArea>
+		{/await}
 	</DialogContent>
 </Dialog>
