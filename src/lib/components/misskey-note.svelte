@@ -121,7 +121,7 @@
 			<div>
 				{#each Object.entries(noteToRender.reactions) as [key, value]}
 					{#if !key.split('@')[1]}
-						<span>{`[${key}]`}</span>
+						<span>{`${key}`}</span>
 					{:else if noteToRender.reactionEmojis[key.slice(1, -1)]}
 						<img
 							src={noteToRender.reactionEmojis[key.slice(1, -1)]}
