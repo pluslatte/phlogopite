@@ -102,7 +102,7 @@
 	</Button>
 	<a
 		href="/"
-		class="absolute right-0 m-2 flex size-10 flex-row items-center justify-center gap-4 rounded-lg border"
+		class="absolute right-0 m-2 flex size-10 flex-row items-center justify-center gap-4 rounded-lg border border-primary bg-primary text-primary-foreground"
 	>
 		<IconHouse class="size-4" />
 	</a>
