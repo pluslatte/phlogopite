@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { api as misskeyApi } from 'misskey-js';
-	import type { Note } from 'misskey-js/entities.js';
+	import type { EmojiSimple, Note } from 'misskey-js/entities.js';
 	import { getContext } from 'svelte';
 	import {
 		DropdownMenu,
@@ -29,7 +29,7 @@
 		console.error('no misskeyApiClient found');
 	}
 
-	const renote = () => {
+	function renote(): void {
 		cli
 			.request('notes/create', { visibility: 'public', renoteId: note.id })
 			.then(() => {
@@ -38,7 +38,34 @@
 			.catch(() => {
 				toast.error('Renote failed.');
 			});
-	};
+	}
+
+	function createReaction(noteId: string, reactionName: string): void {
+		cli
+			.request('notes/reactions/create', { noteId, reaction: reactionName })
+			.then(() => {
+				toast.success('Successfully created a reaction.');
+			})
+			.catch((error) => {
+				toast.error(`Reaction creation failed: ${error}`);
+			});
+	}
+
+	function deleteReaction(noteId: string): void {
+		cli
+			.request('notes/reactions/delete', { noteId })
+			.then(() => {
+				toast.success('Successfully removed a reaction.');
+			})
+			.catch((error) => {
+				toast.error(`Reaction removement failed: ${error}`);
+			});
+	}
+
+	async function getAllAvailableEmojis(): Promise<EmojiSimple[]> {
+		const got = await cli.request('emojis', {});
+		return got.emojis;
+	}
 </script>
 
 <div class="flex flex-row gap-8 p-2">
