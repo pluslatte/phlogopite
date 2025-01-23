@@ -30,12 +30,12 @@
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
 	let {
-		quote,
-		replyTo,
+		quoteTarget,
+		replyTarget,
 		onNoteSubmissionSuccess
 	}: {
-		quote?: Note;
-		replyTo?: Note;
+		quoteTarget?: Note;
+		replyTarget?: Note;
 		onNoteSubmissionSuccess?: () => void;
 	} = $props();
 
@@ -66,8 +66,8 @@
 			.request('notes/create', {
 				visibility: visibility,
 				text: newNote,
-				replyId: replyTo ? replyTo.id : null,
-				renoteId: quote ? quote.id : null
+				replyId: replyTarget ? replyTarget.id : null,
+				renoteId: quoteTarget ? quoteTarget.id : null
 			})
 			.then(() => {
 				newNote = '';

@@ -126,7 +126,7 @@
 			<MisskeyNote {note} />
 		</DialogHeader>
 		<CreateNote
-			quote={note}
+			quoteTarget={note}
 			onNoteSubmissionSuccess={() => {
 				isQuoteDialogOpen = false;
 			}}
@@ -146,7 +146,7 @@
 			<MisskeyNote {note} />
 		</DialogHeader>
 		<CreateNote
-			replyTo={note}
+			replyTarget={note}
 			onNoteSubmissionSuccess={() => {
 				isReplyDialogOpen = false;
 			}}
