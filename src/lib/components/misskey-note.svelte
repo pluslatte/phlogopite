@@ -26,7 +26,7 @@
 		withReply?: boolean;
 	} = $props();
 
-	let timeStampHash: number = $state(Math.random());
+	let timeStampAutoRefreshHash: number = $state(Math.random());
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
@@ -41,7 +41,7 @@
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			timeStampHash = Math.random();
+			timeStampAutoRefreshHash = Math.random();
 		}, 3000);
 		return () => {
 			clearInterval(interval);
@@ -81,7 +81,7 @@
 						(noteToRender.user.host ? '@' + noteToRender.user.host : '')}
 				</div>
 				<div class="w-4"></div>
-				{#key timeStampHash}
+				{#key timeStampAutoRefreshHash}
 					<div class="ml-auto whitespace-nowrap text-muted-foreground">
 						{GetTimestampFromISO8601(noteToRender.createdAt)}
 					</div>
