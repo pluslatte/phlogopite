@@ -61,24 +61,24 @@
 		console.error('no misskeyApiClient found');
 	}
 
-	async function addNote() {
-		const request = cli.request('notes/create', {
-			visibility: visibility,
-			text: newNote,
-			replyId: replyTo ? replyTo.id : null,
-			renoteId: quote ? quote.id : null
-		});
-
-		const result = await request;
-		if (result) {
-			newNote = '';
-			if (onNoteSubmissionSuccess) {
-				onNoteSubmissionSuccess();
-			}
-			toast.success('Successfully created a note.');
-		} else {
-			toast.error('Note creation failed');
-		}
+	function addNote() {
+		cli
+			.request('notes/create', {
+				visibility: visibility,
+				text: newNote,
+				replyId: replyTo ? replyTo.id : null,
+				renoteId: quote ? quote.id : null
+			})
+			.then(() => {
+				newNote = '';
+				if (onNoteSubmissionSuccess) {
+					onNoteSubmissionSuccess();
+				}
+				toast.success('Successfully created a note.');
+			})
+			.catch((error) => {
+				toast.error(`Note creation failed: ${error}`);
+			});
 	}
 
 	onMount(() => {
