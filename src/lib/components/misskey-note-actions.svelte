@@ -167,7 +167,7 @@
 			{'Loading...'}
 		{:then emojis}
 			<ScrollArea class="h-52">
-				<div class="flex flex-col">
+				<div class="flex flex-wrap gap-2 overflow-auto">
 					{#each emojis as emoji}
 						<button
 							onclick={() => {
@@ -175,7 +175,7 @@
 								isReactionDialogOpen = false;
 							}}
 						>
-							{emoji.name}
+							<img src={emoji.url} alt={''} class="h-5" />
 						</button>
 					{/each}
 				</div>
