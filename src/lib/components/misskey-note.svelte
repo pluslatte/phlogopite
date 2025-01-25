@@ -50,7 +50,7 @@
 </script>
 
 {#snippet prime(noteToRender: Note)}
-	<div class="flex flex-row items-start text-sm">
+	<div class="flex flex-row items-start pl-2 pr-4 text-sm">
 		<PhlogopiteUserLink
 			username={noteToRender.user.username}
 			host={noteToRender.user.host ? noteToRender.user.host : ''}
