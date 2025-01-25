@@ -155,7 +155,7 @@
 	</div>
 {/if}
 {#key feedHash}
-	<ScrollArea type="auto" class="flex-grow p-4" {onscroll}>
+	<ScrollArea type="auto" class="flex-grow pt-2" {onscroll}>
 		<MisskeyNotes notes={timelineFeed.notes} />
 	</ScrollArea>
 {/key}
