@@ -10,6 +10,7 @@
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import { getContext, onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
+	import { toast } from 'svelte-sonner';
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 	if (!cli) {
@@ -39,6 +40,17 @@
 		return { url: got.url, alt: got.name };
 	}
 
+	function deleteReaction(_: Event, noteId: string): void {
+		cli
+			.request('notes/reactions/delete', { noteId })
+			.then(() => {
+				toast.success('Successfully removed a reaction.');
+			})
+			.catch((error: Error) => {
+				toast.error(`Reaction removement failed: ${error.message}`);
+			});
+	}
+
 	onMount(() => {
 		const interval = setInterval(() => {
 			timeStampAutoRefreshHash = Math.random();
@@ -48,6 +60,25 @@
 		};
 	});
 </script>
+
+{#snippet reaction(noteToRender: Note, key: string, value: number)}
+	{#if !key.split('@')[1]}
+		<span>{`${key}`}</span>
+	{:else if noteToRender.reactionEmojis[key.slice(1, -1)]}
+		<img
+			src={noteToRender.reactionEmojis[key.slice(1, -1)]}
+			alt={key}
+			class="inline-block h-5 align-middle"
+		/>
+	{:else}
+		{#await getLocalEmojiData(key.split('@')[0].slice(1))}
+			...
+		{:then { url, alt }}
+			<img src={url} {alt} class="inline-block h-5 align-middle" />
+		{/await}
+	{/if}
+	<span>{`[${value}]`}</span>
+{/snippet}
 
 {#snippet prime(noteToRender: Note)}
 	<div class="flex flex-row items-start pl-2 pr-4 text-sm">
@@ -116,26 +147,18 @@
 	</div>
 	<!-- reactions -->
 	{#if noteToRender.reactions}
+		{@const myReaction = noteToRender.myReaction}
 		<div class="flex flex-row">
 			<div class="w-14"></div>
 			<div>
 				{#each Object.entries(noteToRender.reactions) as [key, value]}
-					{#if !key.split('@')[1]}
-						<span>{`${key}`}</span>
-					{:else if noteToRender.reactionEmojis[key.slice(1, -1)]}
-						<img
-							src={noteToRender.reactionEmojis[key.slice(1, -1)]}
-							alt={key}
-							class="inline-block h-5 align-middle"
-						/>
+					{#if myReaction && key == myReaction}
+						<button onclick={(e) => deleteReaction(e, noteToRender.id)}>
+							{@render reaction(noteToRender, key, value)}
+						</button>
 					{:else}
-						{#await getLocalEmojiData(key.split('@')[0].slice(1))}
-							...
-						{:then { url, alt }}
-							<img src={url} {alt} class="inline-block h-5 align-middle" />
-						{/await}
+						{@render reaction(noteToRender, key, value)}
 					{/if}
-					<span>{`[${value}]`}</span>
 				{/each}
 			</div>
 		</div>

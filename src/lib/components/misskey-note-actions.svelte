@@ -53,17 +53,6 @@
 			});
 	}
 
-	function deleteReaction(noteId: string): void {
-		cli
-			.request('notes/reactions/delete', { noteId })
-			.then(() => {
-				toast.success('Successfully removed a reaction.');
-			})
-			.catch((error: Error) => {
-				toast.error(`Reaction removement failed: ${error.message}`);
-			});
-	}
-
 	async function getAllAvailableEmojis(): Promise<EmojiSimple[]> {
 		const got = await cli.request('emojis', {});
 		return got.emojis;
