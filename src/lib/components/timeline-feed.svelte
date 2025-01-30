@@ -93,27 +93,35 @@
 				case 'timelineHome':
 					const channelHomeTimeline = this.stream.useChannel('homeTimeline');
 					channelHomeTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+						}
 					});
 					break;
 				case 'timelineSocial':
 					const channelHybridTimeline = this.stream.useChannel('hybridTimeline');
 					channelHybridTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+						}
 					});
 					break;
 				case 'timelineLocal':
 					const channelLocalTimeline = this.stream.useChannel('localTimeline');
 					channelLocalTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+						}
 					});
 					break;
 				case 'timelineGlobal':
 					const channelGlobalTimeline = this.stream.useChannel('globalTimeline');
 					channelGlobalTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
-						// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
-						this.stream.send('subNote', { id: note.id });
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+							// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
+							this.stream.send('subNote', { id: note.id });
+						}
 					});
 					this.stream.on('noteUpdated', (update) => {
 						toast.info(`update! ${update.type}`);
