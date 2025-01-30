@@ -46,7 +46,7 @@
 		// Clear timeline feed, and get latest notes from specified timeline channel.
 		initFeed(): void {
 			this.notes = [];
-			const LIMIT: number = 20;
+			const LIMIT: number = 30;
 
 			switch (timelineType) {
 				case 'timelineHome':
