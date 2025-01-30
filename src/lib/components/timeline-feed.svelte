@@ -29,7 +29,7 @@
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		stream: Stream;
-		isChannelUp: boolean = $state(false);
+		doAutoUpdateOfFeed: boolean = $state(false);
 
 		constructor() {
 			if (!cookies.server || !cookies.token) {
@@ -45,6 +45,7 @@
 			this.notes.unshift(note);
 		}
 
+		// Clear timeline feed, and get latest notes from specified timeline channel.
 		initFeed(): void {
 			this.notes = [];
 			const LIMIT: number = 20;
@@ -84,6 +85,7 @@
 			}
 		}
 
+		// subscribe timeline channel through websocket connection.
 		setChannel(): void {
 			switch (timelineType) {
 				case 'timelineHome':
@@ -118,9 +120,9 @@
 				default:
 					return;
 			}
-			this.isChannelUp = true;
-			console.log('channel is up');
+			this.doAutoUpdateOfFeed = true;
 			feedHash = Math.random();
+			console.log(`channel is up: ${timelineType}`);
 		}
 	}
 	const timelineFeed = new TimelineFeed();
@@ -134,19 +136,16 @@
 	});
 
 	function onscroll() {
-		if (timelineFeed.isChannelUp) {
-			timelineFeed.stream.close();
-			timelineFeed.isChannelUp = false;
-			console.log('channel is down');
+		if (timelineFeed.doAutoUpdateOfFeed) {
+			timelineFeed.doAutoUpdateOfFeed = false;
 			if (!cookies.server || !cookies.token) {
 				throw new Error('No server or token in cookies');
 			}
-			timelineFeed.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 		}
 	}
 </script>
 
-{#if !timelineFeed.isChannelUp}
+{#if !timelineFeed.doAutoUpdateOfFeed}
 	<div class="relative">
 		<Button
 			class="absolute left-1/2 top-2 z-10 h-8 w-12"
@@ -155,6 +154,7 @@
 			onclick={() => {
 				timelineFeed.initFeed();
 				timelineFeed.setChannel();
+				console.log('going up');
 			}}
 		>
 			<IconArrowUpToLine />
