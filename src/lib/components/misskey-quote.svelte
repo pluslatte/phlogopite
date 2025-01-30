@@ -33,7 +33,7 @@
 				</PhlogopiteUserLink>
 			</div>
 		</div>
-		<div class="mr-4 rounded-md border-2 bg-secondary bg-opacity-50 p-2 opacity-80">
+		<div class="mr-4 rounded-md border-2 bg-secondary bg-opacity-50 py-2 opacity-80">
 			<MisskeyNote note={quote} withReply={withReplyOfQuote} />
 		</div>
 	</div>
