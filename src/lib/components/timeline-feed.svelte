@@ -10,6 +10,7 @@
 	import IconArrowUpToLine from 'lucide-svelte/icons/arrow-up-to-line';
 	import Button from './ui/button/button.svelte';
 	import { toast } from 'svelte-sonner';
+	import type { Connection } from 'misskey-js/streaming.js';
 
 	let {
 		cookies,
@@ -89,47 +90,42 @@
 
 		// subscribe timeline channel through websocket connection.
 		setChannel(): void {
+			let channelTimeline: Connection<{
+				params: {
+					withRenotes?: boolean;
+					withFiles?: boolean;
+				};
+				events: {
+					note: (payload: Note) => void;
+				};
+				receives: null;
+			}>;
 			switch (timelineType) {
 				case 'timelineHome':
-					const channelHomeTimeline = this.stream.useChannel('homeTimeline');
-					channelHomeTimeline.on('note', (note) => {
-						if (this.doAutoUpdateOfFeed) {
-							timelineFeed.add_note(note);
-						}
-					});
+					channelTimeline = this.stream.useChannel('homeTimeline');
 					break;
 				case 'timelineSocial':
-					const channelHybridTimeline = this.stream.useChannel('hybridTimeline');
-					channelHybridTimeline.on('note', (note) => {
-						if (this.doAutoUpdateOfFeed) {
-							timelineFeed.add_note(note);
-						}
-					});
+					channelTimeline = this.stream.useChannel('hybridTimeline');
 					break;
 				case 'timelineLocal':
-					const channelLocalTimeline = this.stream.useChannel('localTimeline');
-					channelLocalTimeline.on('note', (note) => {
-						if (this.doAutoUpdateOfFeed) {
-							timelineFeed.add_note(note);
-						}
-					});
+					channelTimeline = this.stream.useChannel('localTimeline');
 					break;
 				case 'timelineGlobal':
-					const channelGlobalTimeline = this.stream.useChannel('globalTimeline');
-					channelGlobalTimeline.on('note', (note) => {
-						if (this.doAutoUpdateOfFeed) {
-							timelineFeed.add_note(note);
-							// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
-							this.stream.send('subNote', { id: note.id });
-						}
-					});
-					this.stream.on('noteUpdated', (update) => {
-						toast.info(`update! ${update.type}`);
-					});
+					channelTimeline = this.stream.useChannel('globalTimeline');
 					break;
 				default:
 					return;
 			}
+			channelTimeline.on('note', (note) => {
+				if (this.doAutoUpdateOfFeed) {
+					timelineFeed.add_note(note);
+					// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
+					this.stream.send('subNote', { id: note.id });
+				}
+			});
+			this.stream.on('noteUpdated', (update) => {
+				toast.info(`update! ${update.type}`);
+			});
 			console.log(`channel is up: ${timelineType}`);
 		}
 	}
