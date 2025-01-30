@@ -98,9 +98,9 @@
 	>
 		<IconSmilePlus class="h-4 w-4" />
 	</Button>
-	<Button variant="ghost" size="icon" class="rounded-full">
+	<!-- <Button variant="ghost" size="icon" class="rounded-full">
 		<IconEllipsis class="h-4 w-4" />
-	</Button>
+	</Button> -->
 </div>
 <!-- https://github.com/huntabyte/shadcn-svelte/issues/902 -->
 <!-- quote dialog -->
