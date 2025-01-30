@@ -37,7 +37,7 @@
 		}
 
 		add_note(note: Note): void {
-			if (this.notes.length > 32) {
+			if (this.notes.length > 40) {
 				this.notes.pop();
 			}
 			this.notes.unshift(note);
