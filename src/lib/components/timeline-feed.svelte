@@ -24,8 +24,6 @@
 		credential: cookies.token
 	});
 
-	let feedHash: number = $state(Math.random());
-
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		stream: Stream;
@@ -121,7 +119,6 @@
 					return;
 			}
 			this.doAutoUpdateOfFeed = true;
-			feedHash = Math.random();
 			console.log(`channel is up: ${timelineType}`);
 		}
 	}
@@ -161,8 +158,6 @@
 		</Button>
 	</div>
 {/if}
-{#key feedHash}
-	<ScrollArea type="auto" class="flex-grow pt-2" {onscroll}>
-		<MisskeyNotes notes={timelineFeed.notes} />
-	</ScrollArea>
-{/key}
+<ScrollArea type="auto" class="flex-grow pt-2" {onscroll}>
+	<MisskeyNotes notes={timelineFeed.notes} />
+</ScrollArea>
