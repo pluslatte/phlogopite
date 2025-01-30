@@ -171,6 +171,6 @@
 		</Button>
 	</div>
 {/if}
-<ScrollArea type="auto" class="flex-grow pt-2" {onscroll}>
+<ScrollArea type="auto" class="flex-grow pl-2 pr-4 pt-2" {onscroll}>
 	<MisskeyNotes notes={timelineFeed.notes} />
 </ScrollArea>

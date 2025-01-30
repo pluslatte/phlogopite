@@ -1,4 +1,4 @@
-<!-- to -> /user?username=<username>&host=<host> -->
+<!-- to -> /user/<username>/<host?> -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 

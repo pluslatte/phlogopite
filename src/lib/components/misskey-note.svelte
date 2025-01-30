@@ -11,6 +11,7 @@
 	import { getContext, onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import { toast } from 'svelte-sonner';
+	import PhlogopiteNoteLink from './phlogopite-note-link.svelte';
 
 	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
 	if (!cli) {
@@ -81,7 +82,7 @@
 {/snippet}
 
 {#snippet prime(noteToRender: Note)}
-	<div class="flex flex-row items-start pl-2 pr-4 text-sm">
+	<div class="flex flex-row items-start text-sm">
 		<PhlogopiteUserLink
 			username={noteToRender.user.username}
 			host={noteToRender.user.host ? noteToRender.user.host : ''}
@@ -113,8 +114,11 @@
 				</div>
 				<div class="w-4"></div>
 				{#key timeStampAutoRefreshHash}
+					<!-- timestamp -->
 					<div class="ml-auto whitespace-nowrap text-muted-foreground">
-						{GetTimestampFromISO8601(noteToRender.createdAt)}
+						<PhlogopiteNoteLink noteId={noteToRender.id}>
+							{GetTimestampFromISO8601(noteToRender.createdAt)}
+						</PhlogopiteNoteLink>
 					</div>
 				{/key}
 			</div>
