@@ -125,6 +125,15 @@
 			});
 			this.stream.on('noteUpdated', (update) => {
 				toast.info(`update! ${update.type}`);
+				if (update.type == 'reacted') {
+					cli.request('notes/show', { noteId: update.id }).then((got) => {
+						for (let i = 0; i < this.notes.length; i++) {
+							if (this.notes[i].id == update.id) {
+								this.notes[i] = got;
+							}
+						}
+					});
+				}
 			});
 			console.log(`channel is up: ${timelineType}`);
 		}
