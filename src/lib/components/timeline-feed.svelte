@@ -24,12 +24,10 @@
 		credential: cookies.token
 	});
 
-	let feedHash: number = $state(Math.random());
-
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		stream: Stream;
-		isChannelUp: boolean = $state(false);
+		doAutoUpdateOfFeed: boolean = $state(false);
 
 		constructor() {
 			if (!cookies.server || !cookies.token) {
@@ -45,6 +43,7 @@
 			this.notes.unshift(note);
 		}
 
+		// Clear timeline feed, and get latest notes from specified timeline channel.
 		initFeed(): void {
 			this.notes = [];
 			const LIMIT: number = 20;
@@ -55,6 +54,7 @@
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				case 'timelineSocial':
@@ -62,6 +62,7 @@
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				case 'timelineLocal':
@@ -69,6 +70,7 @@
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				case 'timelineGlobal':
@@ -77,6 +79,7 @@
 							this.notes.push(note);
 							this.stream.send('subNote', { id: note.id });
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				default:
@@ -84,32 +87,41 @@
 			}
 		}
 
+		// subscribe timeline channel through websocket connection.
 		setChannel(): void {
 			switch (timelineType) {
 				case 'timelineHome':
 					const channelHomeTimeline = this.stream.useChannel('homeTimeline');
 					channelHomeTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+						}
 					});
 					break;
 				case 'timelineSocial':
 					const channelHybridTimeline = this.stream.useChannel('hybridTimeline');
 					channelHybridTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+						}
 					});
 					break;
 				case 'timelineLocal':
 					const channelLocalTimeline = this.stream.useChannel('localTimeline');
 					channelLocalTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+						}
 					});
 					break;
 				case 'timelineGlobal':
 					const channelGlobalTimeline = this.stream.useChannel('globalTimeline');
 					channelGlobalTimeline.on('note', (note) => {
-						timelineFeed.add_note(note);
-						// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
-						this.stream.send('subNote', { id: note.id });
+						if (this.doAutoUpdateOfFeed) {
+							timelineFeed.add_note(note);
+							// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
+							this.stream.send('subNote', { id: note.id });
+						}
 					});
 					this.stream.on('noteUpdated', (update) => {
 						toast.info(`update! ${update.type}`);
@@ -118,9 +130,7 @@
 				default:
 					return;
 			}
-			this.isChannelUp = true;
-			console.log('channel is up');
-			feedHash = Math.random();
+			console.log(`channel is up: ${timelineType}`);
 		}
 	}
 	const timelineFeed = new TimelineFeed();
@@ -134,19 +144,16 @@
 	});
 
 	function onscroll() {
-		if (timelineFeed.isChannelUp) {
-			timelineFeed.stream.close();
-			timelineFeed.isChannelUp = false;
-			console.log('channel is down');
+		if (timelineFeed.doAutoUpdateOfFeed) {
+			timelineFeed.doAutoUpdateOfFeed = false;
 			if (!cookies.server || !cookies.token) {
 				throw new Error('No server or token in cookies');
 			}
-			timelineFeed.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 		}
 	}
 </script>
 
-{#if !timelineFeed.isChannelUp}
+{#if !timelineFeed.doAutoUpdateOfFeed}
 	<div class="relative">
 		<Button
 			class="absolute left-1/2 top-2 z-10 h-8 w-12"
@@ -154,15 +161,13 @@
 			variant="secondary"
 			onclick={() => {
 				timelineFeed.initFeed();
-				timelineFeed.setChannel();
+				console.log('going up');
 			}}
 		>
 			<IconArrowUpToLine />
 		</Button>
 	</div>
 {/if}
-{#key feedHash}
-	<ScrollArea type="auto" class="flex-grow pt-2" {onscroll}>
-		<MisskeyNotes notes={timelineFeed.notes} />
-	</ScrollArea>
-{/key}
+<ScrollArea type="auto" class="flex-grow pt-2" {onscroll}>
+	<MisskeyNotes notes={timelineFeed.notes} />
+</ScrollArea>
