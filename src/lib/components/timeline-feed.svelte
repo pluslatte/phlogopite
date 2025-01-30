@@ -126,7 +126,6 @@
 
 	onMount(() => {
 		timelineFeed.initFeed();
-		timelineFeed.setChannel();
 		return () => {
 			timelineFeed.stream.close();
 		};
