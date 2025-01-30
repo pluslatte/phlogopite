@@ -81,6 +81,7 @@
 				default:
 					return;
 			}
+			this.doAutoUpdateOfFeed = true;
 		}
 
 		// subscribe timeline channel through websocket connection.
@@ -118,7 +119,6 @@
 				default:
 					return;
 			}
-			this.doAutoUpdateOfFeed = true;
 			console.log(`channel is up: ${timelineType}`);
 		}
 	}
@@ -126,6 +126,7 @@
 
 	onMount(() => {
 		timelineFeed.initFeed();
+		timelineFeed.setChannel();
 		return () => {
 			timelineFeed.stream.close();
 		};
@@ -149,7 +150,6 @@
 			variant="secondary"
 			onclick={() => {
 				timelineFeed.initFeed();
-				timelineFeed.setChannel();
 				console.log('going up');
 			}}
 		>
