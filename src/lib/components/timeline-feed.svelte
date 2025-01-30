@@ -9,7 +9,6 @@
 
 	import IconArrowUpToLine from 'lucide-svelte/icons/arrow-up-to-line';
 	import Button from './ui/button/button.svelte';
-	import { toast } from 'svelte-sonner';
 	import type { Connection } from 'misskey-js/streaming.js';
 
 	let {
@@ -124,7 +123,6 @@
 				}
 			});
 			this.stream.on('noteUpdated', (update) => {
-				toast.info(`update! ${update.type}`);
 				if (update.type == 'reacted') {
 					cli.request('notes/show', { noteId: update.id }).then((got) => {
 						for (let i = 0; i < this.notes.length; i++) {
