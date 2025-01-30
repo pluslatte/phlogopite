@@ -54,6 +54,7 @@
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				case 'timelineSocial':
@@ -61,6 +62,7 @@
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				case 'timelineLocal':
@@ -68,6 +70,7 @@
 						got.forEach((note) => {
 							this.notes.push(note);
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				case 'timelineGlobal':
@@ -76,12 +79,12 @@
 							this.notes.push(note);
 							this.stream.send('subNote', { id: note.id });
 						});
+						this.doAutoUpdateOfFeed = true;
 					});
 					break;
 				default:
 					return;
 			}
-			this.doAutoUpdateOfFeed = true;
 		}
 
 		// subscribe timeline channel through websocket connection.
