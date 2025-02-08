@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { api as misskeyApi } from 'misskey-js';
-	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import MisskeyRenote from '@/components/misskey-renote.svelte';
 	import MisskeyNoteActions from '@/components/misskey-note-actions.svelte';
 	import MisskeyQuote from '@/components/misskey-quote.svelte';
 	import MisskeyNote from '@/components/misskey-note.svelte';
-	import { onMount, setContext } from 'svelte';
+	import { onMount } from 'svelte';
 	import { useSidebar } from '@/components/ui/sidebar';
 
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
@@ -32,10 +30,6 @@
 	if (!misskeyApiClient) {
 		console.error('no misskeyApiClient found');
 	}
-
-	setContext('client', {
-		cli: misskeyApiClient
-	});
 
 	onMount(() => {
 		misskeyApiClient.request('i', {}).then((got) => {

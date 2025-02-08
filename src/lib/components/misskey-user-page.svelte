@@ -12,7 +12,6 @@
 	import MisskeyNotes from '@/components/misskey-notes.svelte';
 
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
-	import { setContext } from 'svelte';
 	import * as mfm from 'mfm-js';
 	import type { IResponse } from 'misskey-js/entities.js';
 
@@ -70,10 +69,6 @@
 		return () => {
 			isCancelled = true;
 		};
-	});
-
-	setContext('client', {
-		cli: misskeyApiClient
 	});
 </script>
 
