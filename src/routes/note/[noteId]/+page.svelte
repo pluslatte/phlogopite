@@ -3,10 +3,17 @@
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import MisskeyRenote from '@/components/misskey-renote.svelte';
 	import MisskeyNoteActions from '@/components/misskey-note-actions.svelte';
-	import { Separator } from '@/components/ui/separator';
 	import MisskeyQuote from '@/components/misskey-quote.svelte';
 	import MisskeyNote from '@/components/misskey-note.svelte';
-	import { setContext } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+	import { useSidebar } from '@/components/ui/sidebar';
+
+	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
+	import IconHouse from 'lucide-svelte/icons/house';
+	import { Button } from '@/components/ui/button';
+	import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+	import type { IResponse } from 'misskey-js/entities.js';
+	import Separator from '@/components/ui/separator/separator.svelte';
 
 	let {
 		data
@@ -16,6 +23,10 @@
 			noteId: string;
 		};
 	} = $props();
+
+	let self: IResponse | null = $state(null);
+
+	const sidebar = useSidebar();
 
 	const cli = new misskeyApi.APIClient({
 		origin: 'https://' + data.cookies.server,
@@ -28,31 +39,64 @@
 	setContext('client', {
 		cli
 	});
+
+	onMount(() => {
+		if (!data.cookies.server || !data.cookies.token) return;
+
+		cli.request('i', {}).then((got) => {
+			self = got;
+		});
+	});
 </script>
 
-{#await cli.request('notes/show', { noteId: data.noteId })}
-	<span>
-		{'Loading...'}
-	</span>
-{:then note}
-	<div class="p-2 pr-4">
-		{#if note.renote && !note.text}
-			<MisskeyRenote renotedBy={note.user} renote={note.renote} />
-			<MisskeyNoteActions note={note.renote} />
-		{:else if note.renote && note.text}
-			<MisskeyQuote
-				quotedBy={note.user}
-				{note}
-				quote={note.renote}
-				withReply={note.reply != null}
-				withReplyOfQuote={note.renote.reply != null}
-			/>
-			<MisskeyNoteActions {note} />
+<div class="relative flex h-full flex-col overflow-auto">
+	<Button
+		class="absolute left-0 m-2 flex flex-row items-center gap-4 rounded-lg border"
+		size="icon"
+		variant="ghost"
+		onclick={sidebar.toggle}
+	>
+		{#if sidebar.open}
+			<IconArrowLeftFromLine />
 		{:else}
-			<MisskeyNote {note} withReply={note.reply != null} />
-			<MisskeyNoteActions {note} />
+			<Avatar class="size-8 rounded-md">
+				<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
+				<AvatarFallback>...</AvatarFallback>
+			</Avatar>
 		{/if}
-	</div>
-{:catch error}
-	<span>{error}</span>
-{/await}
+	</Button>
+	<a
+		href="/"
+		class="absolute right-0 m-2 flex size-10 flex-row items-center justify-center gap-4 rounded-lg border border-primary bg-primary text-primary-foreground"
+	>
+		<IconHouse class="size-4" />
+	</a>
+	<div class="h-14"></div>
+	<Separator />
+	{#await cli.request('notes/show', { noteId: data.noteId })}
+		<span>
+			{'Loading...'}
+		</span>
+	{:then note}
+		<div class="p-2 pr-4">
+			{#if note.renote && !note.text}
+				<MisskeyRenote renotedBy={note.user} renote={note.renote} />
+				<MisskeyNoteActions note={note.renote} />
+			{:else if note.renote && note.text}
+				<MisskeyQuote
+					quotedBy={note.user}
+					{note}
+					quote={note.renote}
+					withReply={note.reply != null}
+					withReplyOfQuote={note.renote.reply != null}
+				/>
+				<MisskeyNoteActions {note} />
+			{:else}
+				<MisskeyNote {note} withReply={note.reply != null} />
+				<MisskeyNoteActions {note} />
+			{/if}
+		</div>
+	{:catch error}
+		<span>{error}</span>
+	{/await}
+</div>

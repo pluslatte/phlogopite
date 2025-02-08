@@ -20,6 +20,7 @@
 
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 	import IconHouse from 'lucide-svelte/icons/house';
+	import Separator from './ui/separator/separator.svelte';
 
 	// /user/[username]/[host]
 
@@ -119,6 +120,7 @@
 			</ToggleGroupItem>
 		</ToggleGroup>
 	</div>
+	<Separator />
 	{#if user}
 		<ScrollArea type="auto">
 			<div
