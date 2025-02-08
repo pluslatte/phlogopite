@@ -19,8 +19,7 @@
 </script>
 
 <MisskeyNote {note} hideQuoteExistenceIndicator={true} {withReply} />
-<div class="flex flex-row">
-	<div class="w-8"></div>
+<div class="flex flex-row px-2">
 	<div class="flex-grow">
 		<div class="m-2 ml-0 flex flex-row items-center gap-2">
 			<Repeat_2 class="h-4 w-4 text-muted-foreground" />

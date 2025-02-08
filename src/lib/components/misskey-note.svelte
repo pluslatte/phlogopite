@@ -171,7 +171,6 @@
 
 {#if note.reply && withReply}
 	<div class="flex flex-row px-2 pb-2">
-		<div class="w-8"></div>
 		<div class="flex-grow">
 			<div class="rounded-lg border-2 bg-secondary bg-opacity-50 py-2 pr-2 opacity-80">
 				{@render prime(note.reply)}
