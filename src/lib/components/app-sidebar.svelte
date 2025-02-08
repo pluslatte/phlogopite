@@ -27,7 +27,6 @@
 		credential: cookies.token
 	});
 
-	let newNote = $state('');
 	let self: IResponse | null = $state(null);
 
 	onMount(() => {
