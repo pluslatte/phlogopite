@@ -14,25 +14,16 @@
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
 	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
-
-	let {
-		cookies
-	}: {
-		cookies: PhlogopiteCookies;
-	} = $props();
+	import { getApiClientContext } from '@/api-client-context';
 
 	let listId: string = $state('');
 	let listName: string = $state('');
 
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + cookies.server,
-		credential: cookies.token
-	});
-
+	const misskeyApiClient = getApiClientContext();
 	$effect(() => {
 		let isCancelled = false;
 		if (!listId) return;
-		cli.request('users/lists/show', { listId: listId }).then((got) => {
+		misskeyApiClient.request('users/lists/show', { listId: listId }).then((got) => {
 			if (!isCancelled) {
 				listName = got.name;
 			}
@@ -58,7 +49,7 @@
 			<SelectGroup>
 				<SelectContent>
 					<SelectGroupHeading>clips</SelectGroupHeading>
-					{#await cli.request('users/lists/list', {})}
+					{#await misskeyApiClient.request('users/lists/list', {})}
 						Loading...
 					{:then lists}
 						{#each lists as list}
@@ -73,7 +64,7 @@
 	</div>
 	<ScrollArea type="auto" class="flex-grow p-4">
 		{#if listId}
-			{#await cli.request('notes/user-list-timeline', { listId: listId })}
+			{#await misskeyApiClient.request('notes/user-list-timeline', { listId: listId })}
 				Loading...
 			{:then notes: Note[]}
 				<MisskeyNotes {notes} />

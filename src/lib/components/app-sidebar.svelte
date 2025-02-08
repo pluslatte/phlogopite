@@ -10,9 +10,6 @@
 	import IconBell from 'lucide-svelte/icons/bell';
 	import IconSettings from 'lucide-svelte/icons/settings';
 
-	import { api as misskeyApi } from 'misskey-js';
-	import type { IResponse } from 'misskey-js/entities.js';
-	import { onMount, setContext } from 'svelte';
 	import CreateNote from './create-note.svelte';
 	import NotificationFeed from './notification-feed.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
@@ -22,22 +19,6 @@
 	}: {
 		cookies: PhlogopiteCookies;
 	} = $props();
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + cookies.server,
-		credential: cookies.token
-	});
-
-	let self: IResponse | null = $state(null);
-
-	onMount(() => {
-		cli.request('i', {}).then((got) => {
-			self = got;
-		});
-	});
-
-	setContext('client', {
-		cli
-	});
 </script>
 
 <Sidebar>

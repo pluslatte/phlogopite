@@ -20,19 +20,20 @@
 	import CreateNote from './create-note.svelte';
 	import MisskeyNote from './misskey-note.svelte';
 	import ScrollArea from './ui/scroll-area/scroll-area.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	let { note }: { note: Note } = $props();
 	let isQuoteDialogOpen: boolean = $state(false);
 	let isReplyDialogOpen: boolean = $state(false);
 	let isReactionDialogOpen: boolean = $state(false);
 
-	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
-	if (!cli) {
+	let misskeyApiClient: misskeyApi.APIClient = getApiClientContext();
+	if (!misskeyApiClient) {
 		console.error('no misskeyApiClient found');
 	}
 
 	function renote(): void {
-		cli
+		misskeyApiClient
 			.request('notes/create', { visibility: 'public', renoteId: note.id })
 			.then(() => {
 				toast.success('Renoted.');
@@ -43,7 +44,7 @@
 	}
 
 	function createReaction(noteId: string, reactionName: string): void {
-		cli
+		misskeyApiClient
 			.request('notes/reactions/create', { noteId, reaction: reactionName })
 			.then(() => {
 				toast.success('Successfully created a reaction.');
@@ -54,7 +55,7 @@
 	}
 
 	async function getAllAvailableEmojis(): Promise<EmojiSimple[]> {
-		const got = await cli.request('emojis', {});
+		const got = await misskeyApiClient.request('emojis', {});
 		return got.emojis;
 	}
 </script>

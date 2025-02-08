@@ -8,13 +8,14 @@
 	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
-	import { getContext, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import { toast } from 'svelte-sonner';
 	import PhlogopiteNoteLink from './phlogopite-note-link.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
-	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
-	if (!cli) {
+	let misskeyApiClient: misskeyApi.APIClient = getApiClientContext();
+	if (!misskeyApiClient) {
 		console.error('no misskeyApiClient found');
 	}
 
@@ -37,12 +38,12 @@
 	}
 
 	async function getLocalEmojiData(emojiCode: string): Promise<{ url: string; alt: string }> {
-		const got = await cli.request('emoji', { name: emojiCode });
+		const got = await misskeyApiClient.request('emoji', { name: emojiCode });
 		return { url: got.url, alt: got.name };
 	}
 
 	function deleteReaction(_: Event, noteId: string): void {
-		cli
+		misskeyApiClient
 			.request('notes/reactions/delete', { noteId })
 			.then(() => {
 				toast.success('Successfully removed a reaction.');

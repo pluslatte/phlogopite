@@ -7,6 +7,8 @@
 	import type { Snippet } from 'svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
+	import { api as misskeyApi } from 'misskey-js';
+	import { setApiClientContext } from '@/api-client-context';
 
 	let {
 		children,
@@ -17,6 +19,12 @@
 			cookies: PhlogopiteCookies;
 		};
 	} = $props();
+
+	let misskeyApiClient = new misskeyApi.APIClient({
+		origin: 'https://' + data.cookies.server,
+		credential: data.cookies.token
+	});
+	setApiClientContext(misskeyApiClient);
 </script>
 
 <Toaster />

@@ -28,6 +28,7 @@
 	import IconMain from 'lucide-svelte/icons/mail';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	let {
 		quoteTarget,
@@ -56,13 +57,13 @@
 		}
 	});
 
-	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
-	if (!cli) {
+	let misskeyApiClient: misskeyApi.APIClient = getApiClientContext();
+	if (!misskeyApiClient) {
 		console.error('no misskeyApiClient found');
 	}
 
 	function addNote() {
-		cli
+		misskeyApiClient
 			.request('notes/create', {
 				visibility: visibility,
 				text: newNote,
@@ -82,7 +83,7 @@
 	}
 
 	onMount(() => {
-		cli.request('i', {}).then((got) => {
+		misskeyApiClient.request('i', {}).then((got) => {
 			self = got;
 		});
 	});

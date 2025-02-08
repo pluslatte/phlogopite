@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { api as misskeyApi } from 'misskey-js';
-	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import MisskeyRenote from '@/components/misskey-renote.svelte';
 	import MisskeyNoteActions from '@/components/misskey-note-actions.svelte';
 	import MisskeyQuote from '@/components/misskey-quote.svelte';
 	import MisskeyNote from '@/components/misskey-note.svelte';
-	import { onMount, setContext } from 'svelte';
+	import { onMount } from 'svelte';
 	import { useSidebar } from '@/components/ui/sidebar';
 
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
@@ -14,12 +12,12 @@
 	import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 	import type { IResponse } from 'misskey-js/entities.js';
 	import Separator from '@/components/ui/separator/separator.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	let {
 		data
 	}: {
 		data: {
-			cookies: PhlogopiteCookies;
 			noteId: string;
 		};
 	} = $props();
@@ -28,22 +26,13 @@
 
 	const sidebar = useSidebar();
 
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.cookies.server,
-		credential: data.cookies.token
-	});
-	if (!cli) {
+	const misskeyApiClient = getApiClientContext();
+	if (!misskeyApiClient) {
 		console.error('no misskeyApiClient found');
 	}
 
-	setContext('client', {
-		cli
-	});
-
 	onMount(() => {
-		if (!data.cookies.server || !data.cookies.token) return;
-
-		cli.request('i', {}).then((got) => {
+		misskeyApiClient.request('i', {}).then((got) => {
 			self = got;
 		});
 	});
@@ -73,7 +62,7 @@
 	</a>
 	<div class="h-14"></div>
 	<Separator />
-	{#await cli.request('notes/show', { noteId: data.noteId })}
+	{#await misskeyApiClient.request('notes/show', { noteId: data.noteId })}
 		<span>
 			{'Loading...'}
 		</span>

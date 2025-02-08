@@ -10,6 +10,7 @@
 	import IconArrowUpToLine from 'lucide-svelte/icons/arrow-up-to-line';
 	import Button from './ui/button/button.svelte';
 	import type { Connection } from 'misskey-js/streaming.js';
+	import { getApiClientContext } from '@/api-client-context';
 
 	let {
 		cookies,
@@ -19,11 +20,7 @@
 		timelineType: string;
 	} = $props();
 
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + cookies.server,
-		credential: cookies.token
-	});
-
+	const misskeyApiClient = getApiClientContext();
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		stream: Stream;
@@ -57,16 +54,24 @@
 
 			switch (timelineType) {
 				case 'timelineHome':
-					cli.request('notes/timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
+					misskeyApiClient
+						.request('notes/timeline', { limit: LIMIT })
+						.then(addNotesToFeedAndSubscribe);
 					break;
 				case 'timelineSocial':
-					cli.request('notes/hybrid-timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
+					misskeyApiClient
+						.request('notes/hybrid-timeline', { limit: LIMIT })
+						.then(addNotesToFeedAndSubscribe);
 					break;
 				case 'timelineLocal':
-					cli.request('notes/local-timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
+					misskeyApiClient
+						.request('notes/local-timeline', { limit: LIMIT })
+						.then(addNotesToFeedAndSubscribe);
 					break;
 				case 'timelineGlobal':
-					cli.request('notes/global-timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
+					misskeyApiClient
+						.request('notes/global-timeline', { limit: LIMIT })
+						.then(addNotesToFeedAndSubscribe);
 					break;
 				default:
 					return;
@@ -111,7 +116,7 @@
 			});
 			this.stream.on('noteUpdated', (update) => {
 				if (update.type == 'reacted' || update.type == 'unreacted') {
-					cli.request('notes/show', { noteId: update.id }).then((got) => {
+					misskeyApiClient.request('notes/show', { noteId: update.id }).then((got) => {
 						for (let i = 0; i < this.notes.length; i++) {
 							if (this.notes[i].id == update.id) {
 								this.notes[i] = got;

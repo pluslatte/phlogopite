@@ -17,13 +17,13 @@
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 
 	import { useSidebar } from '@/components/ui/sidebar';
-	import { onMount, setContext } from 'svelte';
-	import { api as misskeyApi } from 'misskey-js';
+	import { onMount } from 'svelte';
 	import type { IResponse } from 'misskey-js/entities.js';
 	import TimelineFeed from '@/components/timeline-feed.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import MisskeyClipNotes from '@/components/misskey-clip-notes.svelte';
 	import MisskeyListNotes from '@/components/misskey-list-notes.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	let {
 		data
@@ -37,21 +37,11 @@
 	let timelineSelector = $state('timelineGlobal');
 
 	const sidebar = useSidebar();
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + data.cookies.server,
-		credential: data.cookies.token
-	});
-
+	const misskeyApiClient = getApiClientContext();
 	onMount(() => {
-		if (!data.cookies.server || !data.cookies.token) return;
-
-		cli.request('i', {}).then((got) => {
+		misskeyApiClient.request('i', {}).then((got) => {
 			self = got;
 		});
-	});
-
-	setContext('client', {
-		cli
 	});
 </script>
 
@@ -101,9 +91,9 @@
 	<Separator />
 	{#key timelineSelector}
 		{#if timelineSelector == 'clip'}
-			<MisskeyClipNotes cookies={data.cookies} />
+			<MisskeyClipNotes />
 		{:else if timelineSelector == 'list'}
-			<MisskeyListNotes cookies={data.cookies} />
+			<MisskeyListNotes />
 		{:else}
 			<TimelineFeed cookies={data.cookies} timelineType={timelineSelector} />
 		{/if}
