@@ -12,32 +12,26 @@
 	import MisskeyNotes from '@/components/misskey-notes.svelte';
 
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
-	import { api as misskeyApi } from 'misskey-js';
 	import { setContext } from 'svelte';
 	import * as mfm from 'mfm-js';
-	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import type { IResponse } from 'misskey-js/entities.js';
 
 	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 	import IconHouse from 'lucide-svelte/icons/house';
 	import Separator from './ui/separator/separator.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	// /user/[username]/[host]
 
 	let {
-		cookies,
 		username,
 		host
 	}: {
-		cookies: PhlogopiteCookies;
 		username: string;
 		host?: string | null;
 	} = $props();
 
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + cookies.server,
-		credential: cookies.token
-	});
+	const misskeyApiClient = getApiClientContext();
 	const sidebar = useSidebar();
 
 	let self: IResponse | null = $state(null);
@@ -45,14 +39,12 @@
 	let noteListType: string = $state('normal');
 
 	$effect(() => {
-		if (!cookies.server || !cookies.token) return;
-
 		let isCancelled = false;
-		cli.request('i', {}).then((got) => {
+		misskeyApiClient.request('i', {}).then((got) => {
 			self = got;
 		});
 		if (username && host) {
-			cli
+			misskeyApiClient
 				.request('users/show', { username: username, host: host })
 				.then((got) => {
 					if (!isCancelled) {
@@ -63,7 +55,7 @@
 					console.error(err);
 				});
 		} else if (username) {
-			cli
+			misskeyApiClient
 				.request('users/show', { username: username })
 				.then((got) => {
 					if (!isCancelled) {
@@ -81,7 +73,7 @@
 	});
 
 	setContext('client', {
-		cli
+		cli: misskeyApiClient
 	});
 </script>
 
@@ -168,11 +160,11 @@
 				{#await ((user: UserDetailed, noteListType: string): Promise<Note[]> => {
 					switch (noteListType) {
 						case 'normal':
-							return cli.request('users/notes', { userId: user.id, withReplies: false });
+							return misskeyApiClient.request( 'users/notes', { userId: user.id, withReplies: false } );
 						case 'withReplies':
-							return cli.request('users/notes', { userId: user.id, withReplies: true });
+							return misskeyApiClient.request( 'users/notes', { userId: user.id, withReplies: true } );
 						case 'onlyFiles':
-							return cli.request('users/notes', { userId: user.id, withFiles: true });
+							return misskeyApiClient.request('users/notes', { userId: user.id, withFiles: true });
 						default:
 							return Promise.reject('Undefined noteListType');
 					}

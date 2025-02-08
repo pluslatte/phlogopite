@@ -4,6 +4,7 @@
 	import * as mfm from 'mfm-js';
 	import { codeToHtml } from 'shiki';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	const {
 		mfmNodes,
@@ -16,8 +17,8 @@
 		};
 	} = $props();
 
-	let cli: misskeyApi.APIClient = getContext<{ cli: misskeyApi.APIClient }>('client').cli;
-	if (!cli) {
+	let misskeyApiClient: misskeyApi.APIClient = getApiClientContext();
+	if (!misskeyApiClient) {
 		console.error('no misskeyApiClient found');
 	}
 
@@ -33,7 +34,7 @@
 		}
 		if (!host) {
 			// if host is local
-			let got = await cli.request('emoji', { name: emojiCode });
+			let got = await misskeyApiClient.request('emoji', { name: emojiCode });
 			return { url: got.url, alt: got.name };
 		} else {
 			// if host is remote

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Stream } from 'misskey-js';
-	import { api as misskeyApi } from 'misskey-js';
 	import type { Notification } from 'misskey-js/entities.js';
 	import { onMount } from 'svelte';
 
@@ -8,23 +7,20 @@
 	import Separator from './ui/separator/separator.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import MisskeyNoteActions from './misskey-note-actions.svelte';
+	import { getApiClientContext } from '@/api-client-context';
 
 	let {
 		cookies
 	}: {
 		cookies: PhlogopiteCookies;
 	} = $props();
-	const cli = new misskeyApi.APIClient({
-		origin: `https://${cookies.server}`,
-		credential: cookies.token
-	});
-
+	const misskeyApiClient = getApiClientContext();
 	class NotificationFeed {
 		notifications: Notification[] = $state([]);
 
 		init(): void {
 			if (!cookies.server || !cookies.token) return;
-			cli.request('i/notifications', { limit: 20 }).then((got) => {
+			misskeyApiClient.request('i/notifications', { limit: 20 }).then((got) => {
 				got.forEach((notication) => {
 					this.notifications.push(notication);
 				});

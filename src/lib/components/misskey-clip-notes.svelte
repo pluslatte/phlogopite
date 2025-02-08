@@ -14,25 +14,16 @@
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 
 	import IconPaperclip from 'lucide-svelte/icons/paperclip';
-
-	let {
-		cookies
-	}: {
-		cookies: PhlogopiteCookies;
-	} = $props();
+	import { getApiClientContext } from '@/api-client-context';
 
 	let clipId: string = $state('');
 	let clipName: string = $state('');
 
-	const cli = new misskeyApi.APIClient({
-		origin: 'https://' + cookies.server,
-		credential: cookies.token
-	});
-
+	const misskeyApiClient = getApiClientContext();
 	$effect(() => {
 		let isCancelled = false;
 		if (!clipId) return;
-		cli.request('clips/show', { clipId: clipId }).then((got) => {
+		misskeyApiClient.request('clips/show', { clipId: clipId }).then((got) => {
 			if (!isCancelled) {
 				clipName = got.name;
 			}
@@ -58,7 +49,7 @@
 			<SelectGroup>
 				<SelectContent>
 					<SelectGroupHeading>clips</SelectGroupHeading>
-					{#await cli.request('clips/list', {})}
+					{#await misskeyApiClient.request('clips/list', {})}
 						Loading...
 					{:then clips}
 						{#each clips as clip}
@@ -73,7 +64,7 @@
 	</div>
 	<ScrollArea type="auto" class="flex-grow p-4">
 		{#if clipId}
-			{#await cli.request('clips/notes', { clipId })}
+			{#await misskeyApiClient.request('clips/notes', { clipId })}
 				Loading...
 			{:then notes: Note[]}
 				<MisskeyNotes {notes} />
