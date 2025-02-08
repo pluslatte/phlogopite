@@ -30,20 +30,6 @@
 	let newNote = $state('');
 	let self: IResponse | null = $state(null);
 
-	async function addNote() {
-		const request = cli.request('notes/create', {
-			visibility: 'home',
-			text: newNote
-		});
-
-		const result = await request;
-		if (result) {
-			newNote = '';
-		} else {
-			console.error('Note creation failed');
-		}
-	}
-
 	onMount(() => {
 		cli.request('i', {}).then((got) => {
 			self = got;
