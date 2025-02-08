@@ -1,6 +1,5 @@
-import { error } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
-import { MakePhlogopiteCookiesData, type PhlogopiteCookies } from "@/phlogopite-cookies";
+import { MakePhlogopiteCookiesData } from "@/phlogopite-cookies";
 
 export const load: LayoutServerLoad = ({ cookies }) => {
     const server = cookies.get("server");
