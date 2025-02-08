@@ -48,43 +48,30 @@
 			this.notes = [];
 			const LIMIT: number = 30;
 
+			const addNotesToFeedAndSubscribe = (notes: Note[]) => {
+				notes.forEach((note) => {
+					this.notes.push(note);
+					this.stream.send('subNote', { id: note.id });
+				});
+			};
+
 			switch (timelineType) {
 				case 'timelineHome':
-					cli.request('notes/timeline', { limit: LIMIT }).then((got) => {
-						got.forEach((note) => {
-							this.notes.push(note);
-						});
-						this.doAutoUpdateOfFeed = true;
-					});
+					cli.request('notes/timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
 					break;
 				case 'timelineSocial':
-					cli.request('notes/hybrid-timeline', { limit: LIMIT }).then((got) => {
-						got.forEach((note) => {
-							this.notes.push(note);
-						});
-						this.doAutoUpdateOfFeed = true;
-					});
+					cli.request('notes/hybrid-timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
 					break;
 				case 'timelineLocal':
-					cli.request('notes/local-timeline', { limit: LIMIT }).then((got) => {
-						got.forEach((note) => {
-							this.notes.push(note);
-						});
-						this.doAutoUpdateOfFeed = true;
-					});
+					cli.request('notes/local-timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
 					break;
 				case 'timelineGlobal':
-					cli.request('notes/global-timeline', { limit: LIMIT }).then((got) => {
-						got.forEach((note) => {
-							this.notes.push(note);
-							this.stream.send('subNote', { id: note.id });
-						});
-						this.doAutoUpdateOfFeed = true;
-					});
+					cli.request('notes/global-timeline', { limit: LIMIT }).then(addNotesToFeedAndSubscribe);
 					break;
 				default:
 					return;
 			}
+			this.doAutoUpdateOfFeed = true;
 		}
 
 		// subscribe timeline channel through websocket connection.
@@ -123,7 +110,7 @@
 				}
 			});
 			this.stream.on('noteUpdated', (update) => {
-				if (update.type == 'reacted') {
+				if (update.type == 'reacted' || update.type == 'unreacted') {
 					cli.request('notes/show', { noteId: update.id }).then((got) => {
 						for (let i = 0; i < this.notes.length; i++) {
 							if (this.notes[i].id == update.id) {
