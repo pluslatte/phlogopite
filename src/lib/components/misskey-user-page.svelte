@@ -9,7 +9,7 @@
 	import AvatarFallback from '@/components/ui/avatar/avatar-fallback.svelte';
 	import AvatarFallBackAnim from '@/components/avatar-fall-back-anim.svelte';
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
-	import MisskeyNotes from '@/components/misskey-notes.svelte';
+	import MisskeyUserNotes from './misskey-user-notes.svelte';
 
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
 	import * as mfm from 'mfm-js';
@@ -152,28 +152,7 @@
 				</div>
 			</div>
 			{#key noteListType}
-				{#await ((user: UserDetailed, noteListType: string): Promise<Note[]> => {
-					switch (noteListType) {
-						case 'normal':
-							return misskeyApiClient.request( 'users/notes', { userId: user.id, withReplies: false } );
-						case 'withReplies':
-							return misskeyApiClient.request( 'users/notes', { userId: user.id, withReplies: true } );
-						case 'onlyFiles':
-							return misskeyApiClient.request('users/notes', { userId: user.id, withFiles: true });
-						default:
-							return Promise.reject('Undefined noteListType');
-					}
-				})(user, noteListType)}
-					<div>Loading...</div>
-				{:then notes}
-					{#if notes.length < 1}
-						<div>no note</div>
-					{:else}
-						<MisskeyNotes {notes} />
-					{/if}
-				{:catch err}
-					<div>{`error: ${err}`}</div>
-				{/await}
+				<MisskeyUserNotes {noteListType} {user} />
 			{/key}
 		</ScrollArea>
 	{:else}
