@@ -6,7 +6,9 @@ export const load: LayoutServerLoad = ({ cookies }) => {
     const token = cookies.get("token");
 
     if (!server || !token) {
-        return;
+        return {
+            cookies: MakePhlogopiteCookiesData("", "")
+        };
     }
 
     return {
