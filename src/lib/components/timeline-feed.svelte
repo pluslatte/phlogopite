@@ -29,13 +29,6 @@
 		doAutoUpdateFeed: boolean = $state(false);
 		initLoad: boolean = false;
 
-		addNotesToFeedAndSubscribe = (notes: Note[]) => {
-			notes.forEach((note) => {
-				this.notes.push(note);
-				this.stream.send('subNote', { id: note.id });
-			});
-		};
-
 		constructor() {
 			if (!cookies.server || !cookies.token) {
 				throw new Error('No server or token in cookies');
@@ -43,11 +36,22 @@
 			this.stream = new Stream(`https://${cookies.server}`, { token: cookies.token });
 		}
 
+		// Add note on top of the feed.
 		add_note(note: Note): void {
 			if (this.notes.length > 40) {
 				this.notes.pop();
 			}
 			this.notes.unshift(note);
+			this.stream.send('subNote', { id: note.id });
+		}
+
+		// Add note to the end of the feed.
+		add_note_end(note: Note): void {
+			if (this.notes.length > 40) {
+				this.notes.shift();
+			}
+			this.notes.push(note);
+			this.stream.send('subNote', { id: note.id });
 		}
 
 		// Clear the timeline feed.
@@ -87,8 +91,6 @@
 			channelTimeline.on('note', (note) => {
 				if (this.doAutoUpdateFeed) {
 					timelineFeed.add_note(note);
-					// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
-					this.stream.send('subNote', { id: note.id });
 				}
 			});
 			this.stream.on('noteUpdated', (update) => {
@@ -106,72 +108,125 @@
 		}
 
 		loadMore(): void {
-			if (loadingMore) return;
+			console.log('loadMore?');
+			if (loadingMore) {
+				console.log('cancel');
+				return;
+			}
+			console.log('loadMore');
 			loadingMore = true;
 
-			const LIMIT: number = 30;
-			const lastNoteId: string | null = this.notes[0]?.id;
+			const LIMIT: number = 12;
+			const lastNoteId: string | null = this.notes[this.notes.length - 1]?.id;
 
 			switch (timelineType) {
 				case 'timelineHome':
 					misskeyApiClient
 						.request('notes/timeline', {
 							limit: LIMIT,
-							sinceId: lastNoteId
+							untilId: lastNoteId
 						})
-						.then((notes) => {
-							this.addNotesToFeedAndSubscribe(notes);
-							loadingMore = false;
-							if (this.initLoad) {
-								this.doAutoUpdateFeed = true;
-								this.initLoad = false;
-							}
-						});
+						.then(
+							lastNoteId
+								? (notes) => {
+										notes.shift();
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+									}
+								: (notes) => {
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+										if (this.initLoad) {
+											this.doAutoUpdateFeed = true;
+											this.initLoad = false;
+										}
+									}
+						);
 					break;
 				case 'timelineSocial':
 					misskeyApiClient
 						.request('notes/hybrid-timeline', {
 							limit: LIMIT,
-							sinceId: lastNoteId
+							untilId: lastNoteId
 						})
-						.then((notes) => {
-							this.addNotesToFeedAndSubscribe(notes);
-							loadingMore = false;
-							if (this.initLoad) {
-								this.doAutoUpdateFeed = true;
-								this.initLoad = false;
-							}
-						});
+						.then(
+							lastNoteId
+								? (notes) => {
+										notes.shift();
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+									}
+								: (notes) => {
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+										if (this.initLoad) {
+											this.doAutoUpdateFeed = true;
+											this.initLoad = false;
+										}
+									}
+						);
 					break;
 				case 'timelineLocal':
 					misskeyApiClient
 						.request('notes/local-timeline', {
 							limit: LIMIT,
-							sinceId: lastNoteId
+							untilId: lastNoteId
 						})
-						.then((notes) => {
-							this.addNotesToFeedAndSubscribe(notes);
-							loadingMore = false;
-							if (this.initLoad) {
-								this.doAutoUpdateFeed = true;
-								this.initLoad = false;
-							}
-						});
+						.then(
+							lastNoteId
+								? (notes) => {
+										notes.shift();
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+									}
+								: (notes) => {
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+										if (this.initLoad) {
+											this.doAutoUpdateFeed = true;
+											this.initLoad = false;
+										}
+									}
+						);
 					break;
 				case 'timelineGlobal':
 					misskeyApiClient
 						.request('notes/global-timeline', {
 							limit: LIMIT,
-							sinceId: lastNoteId
+							untilId: lastNoteId
 						})
-						.then((notes) => {
-							this.addNotesToFeedAndSubscribe(notes);
-							loadingMore = false;
-							if (this.initLoad) {
-								this.doAutoUpdateFeed = true;
-								this.initLoad = false;
-							}
-						});
+						.then(
+							lastNoteId
+								? (notes) => {
+										notes.shift();
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+									}
+								: (notes) => {
+										notes.forEach((note) => {
+											this.add_note_end(note);
+										});
+										loadingMore = false;
+										if (this.initLoad) {
+											this.doAutoUpdateFeed = true;
+											this.initLoad = false;
+										}
+									}
+						);
 					break;
 				default:
 					console.error('invalid timelineType');
@@ -241,7 +296,7 @@
 {/if}
 <ScrollArea type="auto" class="flex-grow pl-2 pr-4 pt-2" {onscroll}>
 	<MisskeyNotes notes={timelineFeed.notes} />
-	<div bind:this={sentinel} use:setupObserver style="height: 1px;"></div>
+	<div bind:this={sentinel} use:setupObserver style="height: 1px;">...</div>
 	{#if loadingMore}
 		<p>{'Loading...'}</p>
 	{/if}
