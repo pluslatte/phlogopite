@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Note } from 'misskey-js/entities.js';
-	import { api as misskeyApi, Stream } from 'misskey-js';
+	import { api as misskeyApi, note, Stream } from 'misskey-js';
 	import { onMount } from 'svelte';
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 
@@ -20,11 +20,21 @@
 		timelineType: string;
 	} = $props();
 
+	let loadingMore: boolean = $state(false);
+
 	const misskeyApiClient = getApiClientContext();
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		stream: Stream;
 		doAutoUpdateFeed: boolean = $state(false);
+		initLoad: boolean = false;
+
+		addNotesToFeedAndSubscribe = (notes: Note[]) => {
+			notes.forEach((note) => {
+				this.notes.push(note);
+				this.stream.send('subNote', { id: note.id });
+			});
+		};
 
 		constructor() {
 			if (!cookies.server || !cookies.token) {
@@ -40,43 +50,10 @@
 			this.notes.unshift(note);
 		}
 
-		// Clear timeline feed, and get latest notes from specified timeline channel.
+		// Clear the timeline feed.
 		initFeed(): void {
 			this.notes = [];
-			const LIMIT: number = 30;
-
-			const addNotesToFeedAndSubscribe = (notes: Note[]) => {
-				notes.forEach((note) => {
-					this.notes.push(note);
-					this.stream.send('subNote', { id: note.id });
-					this.doAutoUpdateFeed = true;
-				});
-			};
-
-			switch (timelineType) {
-				case 'timelineHome':
-					misskeyApiClient
-						.request('notes/timeline', { limit: LIMIT })
-						.then(addNotesToFeedAndSubscribe);
-					break;
-				case 'timelineSocial':
-					misskeyApiClient
-						.request('notes/hybrid-timeline', { limit: LIMIT })
-						.then(addNotesToFeedAndSubscribe);
-					break;
-				case 'timelineLocal':
-					misskeyApiClient
-						.request('notes/local-timeline', { limit: LIMIT })
-						.then(addNotesToFeedAndSubscribe);
-					break;
-				case 'timelineGlobal':
-					misskeyApiClient
-						.request('notes/global-timeline', { limit: LIMIT })
-						.then(addNotesToFeedAndSubscribe);
-					break;
-				default:
-					return;
-			}
+			this.initLoad = true;
 		}
 
 		// subscribe timeline channel through websocket connection.
@@ -127,6 +104,80 @@
 			});
 			console.log(`channel is up: ${timelineType}`);
 		}
+
+		loadMore(): void {
+			if (loadingMore) return;
+			loadingMore = true;
+
+			const LIMIT: number = 30;
+			const lastNoteId: string | null = this.notes[0]?.id;
+
+			switch (timelineType) {
+				case 'timelineHome':
+					misskeyApiClient
+						.request('notes/timeline', {
+							limit: LIMIT,
+							sinceId: lastNoteId
+						})
+						.then((notes) => {
+							this.addNotesToFeedAndSubscribe(notes);
+							loadingMore = false;
+							if (this.initLoad) {
+								this.doAutoUpdateFeed = true;
+								this.initLoad = false;
+							}
+						});
+					break;
+				case 'timelineSocial':
+					misskeyApiClient
+						.request('notes/hybrid-timeline', {
+							limit: LIMIT,
+							sinceId: lastNoteId
+						})
+						.then((notes) => {
+							this.addNotesToFeedAndSubscribe(notes);
+							loadingMore = false;
+							if (this.initLoad) {
+								this.doAutoUpdateFeed = true;
+								this.initLoad = false;
+							}
+						});
+					break;
+				case 'timelineLocal':
+					misskeyApiClient
+						.request('notes/local-timeline', {
+							limit: LIMIT,
+							sinceId: lastNoteId
+						})
+						.then((notes) => {
+							this.addNotesToFeedAndSubscribe(notes);
+							loadingMore = false;
+							if (this.initLoad) {
+								this.doAutoUpdateFeed = true;
+								this.initLoad = false;
+							}
+						});
+					break;
+				case 'timelineGlobal':
+					misskeyApiClient
+						.request('notes/global-timeline', {
+							limit: LIMIT,
+							sinceId: lastNoteId
+						})
+						.then((notes) => {
+							this.addNotesToFeedAndSubscribe(notes);
+							loadingMore = false;
+							if (this.initLoad) {
+								this.doAutoUpdateFeed = true;
+								this.initLoad = false;
+							}
+						});
+					break;
+				default:
+					console.error('invalid timelineType');
+					return;
+			}
+		}
 	}
 	const timelineFeed = new TimelineFeed();
 
@@ -146,6 +197,31 @@
 			}
 		}
 	}
+
+	function setupObserver(node: HTMLElement): { destroy: () => void } {
+		const observer = new IntersectionObserver(
+			(entries: IntersectionObserverEntry[]) => {
+				if (entries[0].isIntersecting) {
+					timelineFeed.loadMore();
+				}
+			},
+			{
+				root: null,
+				rootMargin: '100px',
+				threshold: 1.0
+			}
+		);
+
+		observer.observe(node);
+
+		return {
+			destroy() {
+				observer.unobserve(node);
+			}
+		};
+	}
+
+	let sentinel: HTMLDivElement;
 </script>
 
 {#if !timelineFeed.doAutoUpdateFeed}
@@ -165,4 +241,8 @@
 {/if}
 <ScrollArea type="auto" class="flex-grow pl-2 pr-4 pt-2" {onscroll}>
 	<MisskeyNotes notes={timelineFeed.notes} />
+	<div bind:this={sentinel} use:setupObserver style="height: 1px;"></div>
+	{#if loadingMore}
+		<p>{'Loading...'}</p>
+	{/if}
 </ScrollArea>
