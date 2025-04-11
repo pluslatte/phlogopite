@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Note } from 'misskey-js/entities.js';
-	import { api as misskeyApi, note, Stream } from 'misskey-js';
+	import { Stream } from 'misskey-js';
 	import { onMount } from 'svelte';
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 
