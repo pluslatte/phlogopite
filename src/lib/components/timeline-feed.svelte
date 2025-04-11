@@ -24,7 +24,7 @@
 	class TimelineFeed {
 		notes: Note[] = $state([]);
 		stream: Stream;
-		doAutoUpdateOfFeed: boolean = $state(false);
+		doAutoUpdateFeed: boolean = $state(false);
 
 		constructor() {
 			if (!cookies.server || !cookies.token) {
@@ -49,6 +49,7 @@
 				notes.forEach((note) => {
 					this.notes.push(note);
 					this.stream.send('subNote', { id: note.id });
+					this.doAutoUpdateFeed = true;
 				});
 			};
 
@@ -76,7 +77,6 @@
 				default:
 					return;
 			}
-			this.doAutoUpdateOfFeed = true;
 		}
 
 		// subscribe timeline channel through websocket connection.
@@ -108,7 +108,7 @@
 					return;
 			}
 			channelTimeline.on('note', (note) => {
-				if (this.doAutoUpdateOfFeed) {
+				if (this.doAutoUpdateFeed) {
 					timelineFeed.add_note(note);
 					// https://misskey-hub.net/ja/docs/for-developers/api/streaming/#%E6%8A%95%E7%A8%BF%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%97%E3%83%81%E3%83%A3
 					this.stream.send('subNote', { id: note.id });
@@ -139,8 +139,8 @@
 	});
 
 	function onscroll() {
-		if (timelineFeed.doAutoUpdateOfFeed) {
-			timelineFeed.doAutoUpdateOfFeed = false;
+		if (timelineFeed.doAutoUpdateFeed) {
+			timelineFeed.doAutoUpdateFeed = false;
 			if (!cookies.server || !cookies.token) {
 				throw new Error('No server or token in cookies');
 			}
@@ -148,7 +148,7 @@
 	}
 </script>
 
-{#if !timelineFeed.doAutoUpdateOfFeed}
+{#if !timelineFeed.doAutoUpdateFeed}
 	<div class="relative">
 		<Button
 			class="absolute left-1/2 top-2 z-10 h-8 w-12"
