@@ -118,6 +118,23 @@
 
 			const LIMIT: number = 12;
 			const lastNoteId: string | null = this.notes[this.notes.length - 1]?.id;
+			const addMoreNotesToFeed = (notes: Note[]) => {
+				notes.shift();
+				notes.forEach((note) => {
+					this.add_note_end(note);
+				});
+				loadingMore = false;
+			};
+			const addInitialNotesToFeed = (notes: Note[]) => {
+				notes.forEach((note) => {
+					this.add_note_end(note);
+				});
+				loadingMore = false;
+				if (this.initLoad) {
+					this.doAutoUpdateFeed = true;
+					this.initLoad = false;
+				}
+			};
 
 			switch (timelineType) {
 				case 'timelineHome':
@@ -126,26 +143,7 @@
 							limit: LIMIT,
 							untilId: lastNoteId
 						})
-						.then(
-							lastNoteId
-								? (notes) => {
-										notes.shift();
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-									}
-								: (notes) => {
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-										if (this.initLoad) {
-											this.doAutoUpdateFeed = true;
-											this.initLoad = false;
-										}
-									}
-						);
+						.then(lastNoteId ? addMoreNotesToFeed : addInitialNotesToFeed);
 					break;
 				case 'timelineSocial':
 					misskeyApiClient
@@ -153,26 +151,7 @@
 							limit: LIMIT,
 							untilId: lastNoteId
 						})
-						.then(
-							lastNoteId
-								? (notes) => {
-										notes.shift();
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-									}
-								: (notes) => {
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-										if (this.initLoad) {
-											this.doAutoUpdateFeed = true;
-											this.initLoad = false;
-										}
-									}
-						);
+						.then(lastNoteId ? addMoreNotesToFeed : addInitialNotesToFeed);
 					break;
 				case 'timelineLocal':
 					misskeyApiClient
@@ -180,26 +159,7 @@
 							limit: LIMIT,
 							untilId: lastNoteId
 						})
-						.then(
-							lastNoteId
-								? (notes) => {
-										notes.shift();
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-									}
-								: (notes) => {
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-										if (this.initLoad) {
-											this.doAutoUpdateFeed = true;
-											this.initLoad = false;
-										}
-									}
-						);
+						.then(lastNoteId ? addMoreNotesToFeed : addInitialNotesToFeed);
 					break;
 				case 'timelineGlobal':
 					misskeyApiClient
@@ -207,26 +167,7 @@
 							limit: LIMIT,
 							untilId: lastNoteId
 						})
-						.then(
-							lastNoteId
-								? (notes) => {
-										notes.shift();
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-									}
-								: (notes) => {
-										notes.forEach((note) => {
-											this.add_note_end(note);
-										});
-										loadingMore = false;
-										if (this.initLoad) {
-											this.doAutoUpdateFeed = true;
-											this.initLoad = false;
-										}
-									}
-						);
+						.then(lastNoteId ? addMoreNotesToFeed : addInitialNotesToFeed);
 					break;
 				default:
 					console.error('invalid timelineType');
