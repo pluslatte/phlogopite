@@ -1,3 +1,26 @@
+# Phlogopite
+Misskey のクライアント
+- ブラウザで動作する
+- 余計なことをしない
+## ビルド
+```sh
+pnpm run build
+```
+で ./build に完成品が吐き出される
+## 試運転
+```sh
+pnpm run dev
+```
+で、開発用サーバーを起動
+## ホスト
+`adapter-node` が入っているので、適当なマシンにクローンして
+```sh
+pnpm i --frozen-lockfile
+pnpm run build
+node build
+```
+とかすれば起動できる  
+以下初期の生成物
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
