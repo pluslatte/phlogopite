@@ -111,18 +111,20 @@
 	{#if user}
 		<ScrollArea type="auto">
 			<div
-				class="relative flex flex-row justify-center bg-gradient-to-b from-transparent to-white dark:to-black"
+				class="relative flex justify-center bg-gradient-to-b from-transparent to-white dark:to-black"
 			>
 				<img src={user.bannerUrl} alt={'banner'} class="z-[-1] h-[18rem] w-[48rem] object-cover" />
-				<div class="absolute bottom-4 left-4 mr-4">
-					<div class="flex flex-row rounded-xl bg-card bg-opacity-60 p-2">
-						<Avatar class="size-24 rounded-xl border-4 border-foreground">
+				<div class="absolute bottom-0 left-0 w-full">
+					<div class="m-2 flex max-w-full rounded-xl bg-card bg-opacity-60">
+						<Avatar class="m-2 size-16 rounded-xl border-4 border-foreground">
 							<AvatarImage src={user.avatarUrl} />
 							<AvatarFallBackAnim />
 						</Avatar>
-						<div class="ml-4 flex max-h-52 flex-col">
+						<div class="ml-4 flex max-h-52 min-w-0 flex-col">
 							{#if user.name}
-								<div class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-3xl">
+								<div
+									class="min-w-0 flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-xl"
+								>
 									<MfmTextRenderer
 										mfmNodes={mfm.parse(user.name)}
 										assets={{ host: user.host, emojis: user.emojis }}
@@ -130,14 +132,14 @@
 								</div>
 							{/if}
 							<div
-								class="flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground"
+								class="min-w-0 flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground"
 							>
 								{'@' + user.username + (user.host ? '@' + user.host : '')}
 							</div>
 							{#if user.description}
 								<ScrollArea type="auto" class="my-2 pr-2">
 									<div
-										class="min-w-0 whitespace-pre-wrap text-wrap"
+										class="min-w-0 whitespace-pre-wrap text-wrap text-sm"
 										style="word-break: break-word;"
 									>
 										<MfmTextRenderer
