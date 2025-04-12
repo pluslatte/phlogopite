@@ -82,10 +82,10 @@
 			<ToggleGroupItem value="list">
 				<IconClipboardList />
 			</ToggleGroupItem>
-			<Separator orientation="vertical" />
+			<!-- <Separator orientation="vertical" />
 			<ToggleGroupItem value="search">
 				<IconSearch />
-			</ToggleGroupItem>
+			</ToggleGroupItem> -->
 		</ToggleGroup>
 	</div>
 	<Separator />
