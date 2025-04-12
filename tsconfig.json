@@ -10,7 +10,10 @@
 		"sourceMap": true,
 		"strict": true,
 		"noFallthroughCasesInSwitch": true,
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
+		"types": [
+			"vite-plugin-pwa/info"
+		]
 	},
 	"exclude": [
 		"./node_modules/lucide-svelte"

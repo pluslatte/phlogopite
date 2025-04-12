@@ -9,6 +9,9 @@
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
 	import { api as misskeyApi } from 'misskey-js';
 	import { setApiClientContext } from '@/api-client-context';
+	import { pwaInfo } from 'virtual:pwa-info';
+
+	let webManifestLink = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
 	let {
 		children,
@@ -27,6 +30,9 @@
 	setApiClientContext(misskeyApiClient);
 </script>
 
+<svelte:head>
+	{@html webManifestLink}
+</svelte:head>
 <Toaster />
 <SidebarProvider
 	style="--sidebar-width: 22rem; --sidebar-width-mobile: 22rem;"
