@@ -83,7 +83,7 @@
 {/snippet}
 
 {#snippet prime(noteToRender: Note)}
-	<div class="grid grid-flow-col justify-start text-sm">
+	<div class="flex w-full items-start text-sm">
 		<PhlogopiteUserLink
 			username={noteToRender.user.username}
 			host={noteToRender.user.host ? noteToRender.user.host : ''}
@@ -93,27 +93,27 @@
 				<AvatarFallBackAnim />
 			</Avatar>
 		</PhlogopiteUserLink>
-		<div class="ml-2 grid">
-			<div class="grid w-full grid-flow-col justify-stretch overflow-hidden">
+		<div class="ml-2 flex min-w-0 grow flex-col">
+			<div class="grid w-full min-w-0 grid-cols-[1fr_auto]">
 				{#if noteToRender.user.name}
-					<PhlogopiteUserLink
-						username={noteToRender.user.username}
-						host={noteToRender.user.host ? noteToRender.user.host : ''}
-					>
-						<div class="overflow-hidden text-ellipsis whitespace-nowrap font-bold">
-							<MfmTextRenderer
-								mfmNodes={mfm.parse(noteToRender.user.name)}
-								assets={{ host: noteToRender.user.host, emojis: noteToRender.user.emojis }}
-							/>
-							<span
-								class="overflow-hidden text-ellipsis whitespace-nowrap font-normal text-muted-foreground"
-							>
+					<div class="min-w-0 overflow-hidden text-ellipsis text-nowrap">
+						<PhlogopiteUserLink
+							username={noteToRender.user.username}
+							host={noteToRender.user.host ? noteToRender.user.host : ''}
+						>
+							<span class="whitespace-nowrap font-bold">
+								<MfmTextRenderer
+									mfmNodes={mfm.parse(noteToRender.user.name)}
+									assets={{ host: noteToRender.user.host, emojis: noteToRender.user.emojis }}
+								/>
+							</span>
+							<span class="whitespace-nowrap font-normal text-muted-foreground">
 								{'@' +
 									noteToRender.user.username +
 									(noteToRender.user.host ? '@' + noteToRender.user.host : '')}
 							</span>
-						</div>
-					</PhlogopiteUserLink>
+						</PhlogopiteUserLink>
+					</div>
 				{/if}
 				{#key timeStampAutoRefreshHash}
 					<!-- timestamp -->
