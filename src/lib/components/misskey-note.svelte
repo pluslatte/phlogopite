@@ -96,7 +96,7 @@
 		<div class="ml-2 flex min-w-0 grow flex-col">
 			<div class="grid w-full min-w-0 grid-cols-[1fr_auto]">
 				{#if noteToRender.user.name}
-					<div class="min-w-0 overflow-hidden text-ellipsis text-nowrap">
+					<div class="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-nowrap">
 						<PhlogopiteUserLink
 							username={noteToRender.user.username}
 							host={noteToRender.user.host ? noteToRender.user.host : ''}
