@@ -116,7 +116,7 @@
 				<img src={user.bannerUrl} alt={'banner'} class="z-[-1] h-[18rem] w-[48rem] object-cover" />
 				<div class="absolute bottom-4 left-4 mr-4">
 					<div class="flex flex-row rounded-xl bg-card bg-opacity-60 p-2">
-						<Avatar class="h-28 w-28 rounded-xl border-4 border-foreground">
+						<Avatar class="size-24 rounded-xl border-4 border-foreground">
 							<AvatarImage src={user.avatarUrl} />
 							<AvatarFallBackAnim />
 						</Avatar>
@@ -151,9 +151,11 @@
 					</div>
 				</div>
 			</div>
-			{#key noteListType}
-				<MisskeyUserNotes {noteListType} {user} />
-			{/key}
+			<div class="ml-1 mr-2 mt-2">
+				{#key noteListType}
+					<MisskeyUserNotes {noteListType} {user} />
+				{/key}
+			</div>
 		</ScrollArea>
 	{:else}
 		{'Loading...'}
