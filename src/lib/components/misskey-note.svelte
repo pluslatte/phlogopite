@@ -83,7 +83,7 @@
 {/snippet}
 
 {#snippet prime(noteToRender: Note)}
-	<div class="flex flex-row items-start text-sm">
+	<div class="grid grid-flow-col justify-start text-sm">
 		<PhlogopiteUserLink
 			username={noteToRender.user.username}
 			host={noteToRender.user.host ? noteToRender.user.host : ''}
@@ -93,8 +93,8 @@
 				<AvatarFallBackAnim />
 			</Avatar>
 		</PhlogopiteUserLink>
-		<div class="ml-2 grid flex-grow">
-			<div class="flex w-full flex-row items-center overflow-hidden">
+		<div class="ml-2 grid">
+			<div class="grid w-full grid-flow-col justify-stretch overflow-hidden">
 				{#if noteToRender.user.name}
 					<PhlogopiteUserLink
 						username={noteToRender.user.username}
@@ -105,15 +105,16 @@
 								mfmNodes={mfm.parse(noteToRender.user.name)}
 								assets={{ host: noteToRender.user.host, emojis: noteToRender.user.emojis }}
 							/>
+							<span
+								class="overflow-hidden text-ellipsis whitespace-nowrap font-normal text-muted-foreground"
+							>
+								{'@' +
+									noteToRender.user.username +
+									(noteToRender.user.host ? '@' + noteToRender.user.host : '')}
+							</span>
 						</div>
 					</PhlogopiteUserLink>
 				{/if}
-				<div class="overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
-					{'@' +
-						noteToRender.user.username +
-						(noteToRender.user.host ? '@' + noteToRender.user.host : '')}
-				</div>
-				<div class="w-4"></div>
 				{#key timeStampAutoRefreshHash}
 					<!-- timestamp -->
 					<div class="ml-auto whitespace-nowrap text-muted-foreground">
