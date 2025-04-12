@@ -7,5 +7,8 @@ export default defineConfig({
 		// You need me!
 		// https://github.com/wobsoriano/svelte-sonner/issues/38#issuecomment-2422136477
 		include: ['svelte-sonner']
+	},
+	define: {
+		__DEV__: process.env.NODE_ENV !== 'production'
 	}
 });
