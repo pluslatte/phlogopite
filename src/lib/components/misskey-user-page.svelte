@@ -123,7 +123,7 @@
 						<div class="ml-4 flex max-h-52 min-w-0 flex-col">
 							{#if user.name}
 								<div
-									class="min-w-0 flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap text-xl"
+									class="min-w-0 flex-shrink-0 overflow-hidden text-ellipsis whitespace-nowrap pt-1 text-xl"
 								>
 									<MfmTextRenderer
 										mfmNodes={mfm.parse(user.name)}
