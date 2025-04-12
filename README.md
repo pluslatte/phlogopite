@@ -10,7 +10,7 @@
 ```sh
 pnpm run build
 ```
-で ./build に完成品が吐き出される
+で `./build` に完成品が吐き出される
 ## 試運転
 ```sh
 pnpm run dev
