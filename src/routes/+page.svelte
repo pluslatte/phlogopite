@@ -52,14 +52,10 @@
 		variant="ghost"
 		onclick={sidebar.toggle}
 	>
-		{#if sidebar.open}
-			<IconArrowLeftFromLine />
-		{:else}
-			<Avatar class="size-8 rounded-md">
-				<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
-				<AvatarFallback>...</AvatarFallback>
-			</Avatar>
-		{/if}
+		<Avatar class="size-8 rounded-md">
+			<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
+			<AvatarFallback>...</AvatarFallback>
+		</Avatar>
 	</Button>
 	<div class="flex flex-row justify-center">
 		<ToggleGroup type="single" bind:value={timelineSelector} class="p-2">
