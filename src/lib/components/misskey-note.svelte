@@ -8,7 +8,6 @@
 	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';
 	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
-	import { onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import { toast } from 'svelte-sonner';
 	import { getApiClientContext } from '@/api-client-context';
@@ -29,15 +28,17 @@
 		withReply?: boolean;
 	} = $props();
 
-	function GetTimestampFromISO8601(iso_string: string): string {
-		const gotDate = parseISO(iso_string);
-		const currentDate = new Date();
-		return formatDistanceStrict(currentDate, gotDate, { addSuffix: true });
-	}
+	const emojiCache = new Map<string, { url: string; alt: string }>();
 
 	async function getLocalEmojiData(emojiCode: string): Promise<{ url: string; alt: string }> {
+		if (emojiCache.has(emojiCode)) {
+			console.log('emoji cache hit');
+			return emojiCache.get(emojiCode)!;
+		}
 		const got = await misskeyApiClient.request('emoji', { name: emojiCode });
-		return { url: got.url, alt: got.name };
+		const result = { url: got.url, alt: got.name };
+		emojiCache.set(emojiCode, result);
+		return result;
 	}
 
 	function deleteReaction(_: Event, noteId: string): void {
