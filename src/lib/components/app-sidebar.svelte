@@ -13,6 +13,7 @@
 	import CreateNote from './create-note.svelte';
 	import NotificationFeed from './notification-feed.svelte';
 	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
+	import ProfileIndicator from './profile-indicator.svelte';
 
 	let {
 		cookies
@@ -23,8 +24,12 @@
 
 <Sidebar>
 	<SidebarHeader>
-		<CreateNote />
-		<Separator />
+		<div class="m-1">
+			<ProfileIndicator />
+			<Separator class="my-2" />
+			<CreateNote />
+			<Separator class="my-2" />
+		</div>
 	</SidebarHeader>
 	<SidebarContent>
 		<div class="mb-2 ml-4 mr-4 flex flex-row items-center gap-2">

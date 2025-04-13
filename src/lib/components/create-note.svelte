@@ -2,8 +2,6 @@
 	import Button from '@/components/ui/button/button.svelte';
 	import Textarea from '@/components/ui/textarea/textarea.svelte';
 	import Separator from '@/components/ui/separator/separator.svelte';
-	import Avatar from '@/components/ui/avatar/avatar.svelte';
-	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
 	import {
 		Select,
 		SelectContent,
@@ -14,9 +12,7 @@
 	import { toast } from 'svelte-sonner';
 
 	import { api as misskeyApi } from 'misskey-js';
-	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
-	import type { IResponse, Note } from 'misskey-js/entities.js';
-	import { getContext, onMount } from 'svelte';
+	import type { Note } from 'misskey-js/entities.js';
 	import { toggleMode } from 'mode-watcher';
 
 	import IconSun from 'lucide-svelte/icons/sun';
@@ -26,7 +22,6 @@
 	import IconHouse from 'lucide-svelte/icons/house';
 	import IconLock from 'lucide-svelte/icons/lock';
 	import IconMain from 'lucide-svelte/icons/mail';
-	import PhlogopiteUserLink from './phlogopite-user-link.svelte';
 	import SelectGroupHeading from './ui/select/select-group-heading.svelte';
 	import { getApiClientContext } from '@/api-client-context';
 
@@ -43,7 +38,6 @@
 	type Visibility = 'public' | 'home' | 'followers' | 'specified';
 
 	let newNote: string = $state('');
-	let self: IResponse | null = $state(null);
 	let rawVisibility: string = $state('public');
 	let visibility: Visibility = $derived.by(() => {
 		switch (rawVisibility) {
@@ -81,12 +75,6 @@
 				toast.error(`Note creation failed: ${error.message}`);
 			});
 	}
-
-	onMount(() => {
-		misskeyApiClient.request('i', {}).then((got) => {
-			self = got;
-		});
-	});
 </script>
 
 <form
@@ -94,25 +82,8 @@
 		e.preventDefault();
 		addNote();
 	}}
-	class="m-2"
 >
-	<div class="grid gap-4">
-		<div class="flex flex-row">
-			{#if self}
-				<PhlogopiteUserLink username={self.username}>
-					<Avatar class="rounded-lg">
-						<AvatarImage src={self?.avatarUrl} alt={'@' + self?.username} />
-						<AvatarFallBackAnim />
-					</Avatar>
-				</PhlogopiteUserLink>
-			{/if}
-			<div class="flex-frow ml-2 grid grid-flow-row text-sm">
-				<span class="overflow-hidden text-ellipsis font-bold">{self?.name}</span>
-				<span class="overflow-hidden text-ellipsis text-muted-foreground">
-					{'@' + self?.username}
-				</span>
-			</div>
-		</div>
+	<div class="grid gap-2">
 		<Textarea bind:value={newNote} placeholder="Type something..." class="h-40 border"></Textarea>
 		<div class="flex flex-row">
 			<Button onclick={toggleMode} variant="outline" size="icon">
