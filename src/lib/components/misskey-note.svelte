@@ -128,7 +128,7 @@
 			<!-- image -->
 			{#if noteToRender.files}
 				<div class="flex flex-row flex-wrap">
-					{#each noteToRender.files as file}
+					{#each noteToRender.files as file (file.id)}
 						<img
 							src={file.thumbnailUrl}
 							alt={file.name}
