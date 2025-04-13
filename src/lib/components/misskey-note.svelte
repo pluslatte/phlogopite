@@ -11,7 +11,6 @@
 	import { onMount } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import { toast } from 'svelte-sonner';
-	import PhlogopiteNoteLink from './phlogopite-note-link.svelte';
 	import { getApiClientContext } from '@/api-client-context';
 
 	let misskeyApiClient: misskeyApi.APIClient = getApiClientContext();
@@ -115,14 +114,12 @@
 						</PhlogopiteUserLink>
 					</div>
 				{/if}
-				{#key timeStampAutoRefreshHash}
-					<!-- timestamp -->
-					<div class="ml-auto whitespace-nowrap text-muted-foreground">
-						<PhlogopiteNoteLink noteId={noteToRender.id}>
-							{GetTimestampFromISO8601(noteToRender.createdAt)}
-						</PhlogopiteNoteLink>
-					</div>
-				{/key}
+				<!-- timestamp -->
+				<div class="ml-auto whitespace-nowrap text-muted-foreground">
+					<a href={`/note/${noteToRender.id}`}>
+						{GetTimestampFromISO8601(noteToRender.createdAt) + timeStampAutoRefreshHash}
+					</a>
+				</div>
 			</div>
 			<!-- main text -->
 			<!-- https://qiita.com/ist-a-k/items/2b1385574e1a1babdde1 -->
