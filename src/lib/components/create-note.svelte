@@ -42,7 +42,7 @@
 
 	type Visibility = 'public' | 'home' | 'followers' | 'specified';
 
-	let newNote = $state('');
+	let newNote: string = $state('');
 	let self: IResponse | null = $state(null);
 	let rawVisibility: string = $state('public');
 	let visibility: Visibility = $derived.by(() => {
@@ -89,7 +89,13 @@
 	});
 </script>
 
-<form onsubmit={addNote} class="m-2">
+<form
+	onsubmit={(e) => {
+		e.preventDefault();
+		addNote();
+	}}
+	class="m-2"
+>
 	<div class="grid gap-4">
 		<div class="flex flex-row">
 			{#if self}
