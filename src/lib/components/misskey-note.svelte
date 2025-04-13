@@ -12,6 +12,7 @@
 	import { api as misskeyApi } from 'misskey-js';
 	import { toast } from 'svelte-sonner';
 	import { getApiClientContext } from '@/api-client-context';
+	import TimestampAutoRefresh from './timestamp-auto-refresh.svelte';
 
 	let misskeyApiClient: misskeyApi.APIClient = getApiClientContext();
 	if (!misskeyApiClient) {
@@ -27,8 +28,6 @@
 		hideQuoteExistenceIndicator?: boolean;
 		withReply?: boolean;
 	} = $props();
-
-	let timeStampAutoRefreshHash: number = $state(Math.random());
 
 	function GetTimestampFromISO8601(iso_string: string): string {
 		const gotDate = parseISO(iso_string);
@@ -51,15 +50,6 @@
 				toast.error(`Reaction removement failed: ${error.message}`);
 			});
 	}
-
-	onMount(() => {
-		const interval = setInterval(() => {
-			timeStampAutoRefreshHash = Math.random();
-		}, 3000);
-		return () => {
-			clearInterval(interval);
-		};
-	});
 </script>
 
 {#snippet reaction(noteToRender: Note, key: string, value: number)}
@@ -117,7 +107,7 @@
 				<!-- timestamp -->
 				<div class="ml-auto whitespace-nowrap text-muted-foreground">
 					<a href={`/note/${noteToRender.id}`}>
-						{GetTimestampFromISO8601(noteToRender.createdAt) + timeStampAutoRefreshHash}
+						<TimestampAutoRefresh iso={noteToRender.createdAt} />
 					</a>
 				</div>
 			</div>
