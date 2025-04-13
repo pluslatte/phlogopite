@@ -24,6 +24,12 @@ pnpm run build
 node build
 ```
 とかすれば起動できる  
+## メモ
+```sh
+pnpm dlx shadcn-svelte@latest init
+```
+してあります。  
+参考： https://www.shadcn-svelte.com/docs  
 以下初期の生成物
 # sv
 
