@@ -38,7 +38,9 @@
 
 		// Add note on top of the feed.
 		add_note(note: Note): void {
-			if (this.notes.length > 40) {
+			if (this.notes.length > 20) {
+				console.log('pop');
+				this.stream.send('unsubNote', { id: this.notes[this.notes.length - 1].id });
 				this.notes.pop();
 			}
 			this.notes.unshift(note);
@@ -47,7 +49,9 @@
 
 		// Add note to the end of the feed.
 		add_note_end(note: Note): void {
-			if (this.notes.length > 40) {
+			if (this.notes.length > 20) {
+				console.log('pop');
+				this.stream.send('unsubNote', { id: this.notes[0].id });
 				this.notes.shift();
 			}
 			this.notes.push(note);
