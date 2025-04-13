@@ -189,7 +189,7 @@
 		};
 	});
 
-	function onscroll() {
+	function onScroll() {
 		if (timelineFeed.doAutoUpdateFeed) {
 			timelineFeed.doAutoUpdateFeed = false;
 			if (!cookies.server || !cookies.token) {
@@ -239,7 +239,7 @@
 		</Button>
 	</div>
 {/if}
-<ScrollArea type="auto" class="flex-grow pl-2 pr-4 pt-2" {onscroll}>
+<ScrollArea type="auto" class="flex-grow pl-2 pr-4 pt-2" onscroll={onScroll}>
 	<MisskeyNotes notes={timelineFeed.notes} />
 	<div bind:this={sentinel} use:setupObserver style="height: 1px;">...</div>
 	{#if loadingMore}
