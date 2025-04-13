@@ -32,7 +32,6 @@
 
 	async function getLocalEmojiData(emojiCode: string): Promise<{ url: string; alt: string }> {
 		if (emojiCache.has(emojiCode)) {
-			console.log('emoji cache hit');
 			return emojiCache.get(emojiCode)!;
 		}
 		const got = await misskeyApiClient.request('emoji', { name: emojiCode });

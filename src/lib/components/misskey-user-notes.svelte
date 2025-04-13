@@ -24,12 +24,9 @@
 		}
 
 		loadMore(): void {
-			console.log('loadMore?');
 			if (loadingMore) {
-				console.log('cancel');
 				return;
 			}
-			console.log('loadMore');
 			loadingMore = true;
 
 			const LIMIT: number = 12;

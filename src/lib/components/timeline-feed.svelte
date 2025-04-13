@@ -39,7 +39,6 @@
 		// Add note on top of the feed.
 		add_note(note: Note): void {
 			if (this.notes.length > 20) {
-				console.log('pop');
 				this.stream.send('unsubNote', { id: this.notes[this.notes.length - 1].id });
 				this.notes.pop();
 			}
@@ -50,7 +49,6 @@
 		// Add note to the end of the feed.
 		add_note_end(note: Note): void {
 			if (this.notes.length > 20) {
-				console.log('pop');
 				this.stream.send('unsubNote', { id: this.notes[0].id });
 				this.notes.shift();
 			}
@@ -112,12 +110,9 @@
 		}
 
 		loadMore(): void {
-			console.log('loadMore?');
 			if (loadingMore) {
-				console.log('cancel');
 				return;
 			}
-			console.log('loadMore');
 			loadingMore = true;
 
 			const LIMIT: number = 12;
@@ -232,7 +227,6 @@
 			variant="secondary"
 			onclick={() => {
 				timelineFeed.initFeed();
-				console.log('going up');
 			}}
 		>
 			<IconArrowUpToLine />
