@@ -20,6 +20,8 @@
 	}: {
 		cookies: PhlogopiteCookies;
 	} = $props();
+
+	const voidFunc = () => {};
 </script>
 
 <Sidebar>
@@ -27,7 +29,7 @@
 		<div class="m-1">
 			<ProfileIndicator />
 			<Separator class="my-2" />
-			<CreateNote />
+			<CreateNote onNoteSubmissionSuccess={voidFunc} />
 			<Separator class="my-2" />
 		</div>
 	</SidebarHeader>

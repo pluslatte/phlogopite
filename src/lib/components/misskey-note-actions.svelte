@@ -56,6 +56,14 @@
 		const got = await misskeyApiClient.request('emojis', {});
 		return got.emojis;
 	}
+
+	const setQuoteDialogOpenFalse = () => {
+		isQuoteDialogOpen = false;
+	};
+
+	const setReplyDialogOpenFalse = () => {
+		isReplyDialogOpen = false;
+	};
 </script>
 
 <div class="flex flex-row gap-8 p-2">
@@ -79,11 +87,7 @@
 			<DropdownMenuGroup>
 				<!-- <DropdownMenuGroupHeading>Renote</DropdownMenuGroupHeading> -->
 				<DropdownMenuItem onclick={renote}>Renote</DropdownMenuItem>
-				<DropdownMenuItem
-					onclick={() => {
-						isQuoteDialogOpen = true;
-					}}>Quote</DropdownMenuItem
-				>
+				<DropdownMenuItem onclick={setQuoteDialogOpenFalse}>Quote</DropdownMenuItem>
 			</DropdownMenuGroup>
 		</DropdownMenuContent>
 	</DropdownMenu>
@@ -134,12 +138,7 @@
 			<DialogTitle>Reply</DialogTitle>
 			<MisskeyNote {note} />
 		</DialogHeader>
-		<CreateNote
-			replyTarget={note}
-			onNoteSubmissionSuccess={() => {
-				isReplyDialogOpen = false;
-			}}
-		/>
+		<CreateNote replyTarget={note} onNoteSubmissionSuccess={setReplyDialogOpenFalse} />
 	</DialogContent>
 </Dialog>
 <!-- reaction dialog -->
