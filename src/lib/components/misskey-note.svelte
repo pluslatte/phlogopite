@@ -3,7 +3,6 @@
 	import AvatarImage from '@/components/ui/avatar/avatar-image.svelte';
 
 	import type { Note } from 'misskey-js/entities.js';
-	import { formatDistanceStrict, parseISO } from 'date-fns';
 	import AvatarFallBackAnim from './avatar-fall-back-anim.svelte';
 	import MfmTextRenderer from './mfm-text-renderer.svelte';
 	import * as mfm from 'mfm-js';

@@ -2,7 +2,6 @@
 	import Button, { buttonVariants } from '@/components/ui/button/button.svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import type { EmojiSimple, Note } from 'misskey-js/entities.js';
-	import { getContext } from 'svelte';
 	import {
 		DropdownMenu,
 		DropdownMenuGroup,
@@ -16,7 +15,6 @@
 	import IconReply from 'lucide-svelte/icons/reply';
 	import IconRepeat2 from 'lucide-svelte/icons/repeat-2';
 	import IconSmilePlus from 'lucide-svelte/icons/smile-plus';
-	import IconEllipsis from 'lucide-svelte/icons/ellipsis';
 	import CreateNote from './create-note.svelte';
 	import MisskeyNote from './misskey-note.svelte';
 	import ScrollArea from './ui/scroll-area/scroll-area.svelte';

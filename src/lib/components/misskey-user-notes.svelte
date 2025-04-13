@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import MisskeyNotes from './misskey-notes.svelte';
 	import type { Note, UserDetailed } from 'misskey-js/entities.js';
 	import { getApiClientContext } from '@/api-client-context';

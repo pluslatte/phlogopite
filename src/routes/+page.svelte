@@ -12,9 +12,7 @@
 	import IconServer from 'lucide-svelte/icons/server';
 	import IconGlobe from 'lucide-svelte/icons/globe';
 	import IconPaperclip from 'lucide-svelte/icons/paperclip';
-	import IconSearch from 'lucide-svelte/icons/search';
 	import IconClipboardList from 'lucide-svelte/icons/clipboard-list';
-	import IconArrowLeftFromLine from 'lucide-svelte/icons/arrow-left-from-line';
 
 	import { useSidebar } from '@/components/ui/sidebar';
 	import { onMount } from 'svelte';

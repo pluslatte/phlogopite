@@ -11,7 +11,7 @@
 	import ScrollArea from '@/components/ui/scroll-area/scroll-area.svelte';
 	import MisskeyUserNotes from './misskey-user-notes.svelte';
 
-	import type { Note, UserDetailed } from 'misskey-js/entities.js';
+	import type { UserDetailed } from 'misskey-js/entities.js';
 	import * as mfm from 'mfm-js';
 	import type { IResponse } from 'misskey-js/entities.js';
 

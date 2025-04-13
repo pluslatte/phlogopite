@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { api as misskeyApi } from 'misskey-js';
-	import type { PhlogopiteCookies } from '@/phlogopite-cookies';
 	import ScrollArea from './ui/scroll-area/scroll-area.svelte';
 	import MisskeyNotes from './misskey-notes.svelte';
 	import type { Note } from 'misskey-js/entities.js';

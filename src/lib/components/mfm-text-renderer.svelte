@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
 	import { api as misskeyApi } from 'misskey-js';
 	import * as mfm from 'mfm-js';
 	import { codeToHtml } from 'shiki';
