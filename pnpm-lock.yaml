@@ -27,6 +27,9 @@ importers:
       '@eslint/js':
         specifier: ^9.24.0
         version: 9.24.0
+      '@lucide/svelte':
+        specifier: ^0.487.0
+        version: 0.487.0(svelte@5.26.2)
       '@sveltejs/adapter-cloudflare':
         specifier: ^4.9.0
         version: 4.9.0(@sveltejs/kit@2.20.5(@sveltejs/vite-plugin-svelte@4.0.4(svelte@5.26.2)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0)))(svelte@5.26.2)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0)))(wrangler@3.101.0(@cloudflare/workers-types@4.20250413.0))
@@ -73,8 +76,8 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1(svelte@5.26.2)
       paneforge:
-        specifier: 1.0.0-next.2
-        version: 1.0.0-next.2(svelte@5.26.2)
+        specifier: 1.0.0-next.5
+        version: 1.0.0-next.5(svelte@5.26.2)
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -1361,6 +1364,11 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
+
+  '@lucide/svelte@0.487.0':
+    resolution: {integrity: sha512-27b/wUzWrqDJu97+1iSV2X8L2JGRWH/mAWAjHgazWxhGxVu/kS0p3SbNu6w3skNmQNEku33EKU1v44IVwULzbw==}
+    peerDependencies:
+      svelte: ^5
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -3059,10 +3067,10 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
 
-  paneforge@1.0.0-next.2:
-    resolution: {integrity: sha512-Z3XJDcy6qO4RsP24hKPxfFgJaZeH9ORFaudIoRIcgT3eG9ryxVr4B06zPEOzkgsWVtqLDBUr/5jzHcyf1Csuiw==}
+  paneforge@1.0.0-next.5:
+    resolution: {integrity: sha512-1ArDM+GMEO+o6pixEAFobhTkWkyxUDdHyw2bKruvQIXBStJmdRP7HoV4jNBZ/2i9UHDzmczxJzA3D2tKa91phw==}
     peerDependencies:
-      svelte: ^5.11.0
+      svelte: ^5.20.0
 
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
@@ -3598,12 +3606,6 @@ packages:
     resolution: {integrity: sha512-K3AmlySeFifF/cKgsYNv5uXqMVNln0NBAacOYgmkQStLa/UoU0LhfAACU6Gr+YYC8bOCHdVmFNoKuDbMEsppJg==}
     peerDependencies:
       svelte: ^3.0.0 || ^4.0.0 || ^5.0.0-next.1
-
-  svelte-toolbelt@0.4.6:
-    resolution: {integrity: sha512-k8OUvXBUifHZcAlWeY/HLg/4J0v5m2iOfOhn8fDmjt4AP8ZluaDh9eBFus9lFiLX6O5l6vKqI1dKL5wy7090NQ==}
-    engines: {node: '>=18', pnpm: '>=8.7.0'}
-    peerDependencies:
-      svelte: ^5.0.0-next.126
 
   svelte-toolbelt@0.7.1:
     resolution: {integrity: sha512-HcBOcR17Vx9bjaOceUvxkY3nGmbBmCBBbuWLLEWO6jtmWH8f/QoWmbyUfQZrpDINH39en1b8mptfPQT9VKQ1xQ==}
@@ -5488,6 +5490,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@lucide/svelte@0.487.0(svelte@5.26.2)':
+    dependencies:
+      svelte: 5.26.2
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7475,10 +7481,11 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
-  paneforge@1.0.0-next.2(svelte@5.26.2):
+  paneforge@1.0.0-next.5(svelte@5.26.2):
     dependencies:
+      runed: 0.23.4(svelte@5.26.2)
       svelte: 5.26.2
-      svelte-toolbelt: 0.4.6(svelte@5.26.2)
+      svelte-toolbelt: 0.7.1(svelte@5.26.2)
 
   parent-module@1.0.1:
     dependencies:
@@ -8012,12 +8019,6 @@ snapshots:
 
   svelte-sonner@0.3.28(svelte@5.26.2):
     dependencies:
-      svelte: 5.26.2
-
-  svelte-toolbelt@0.4.6(svelte@5.26.2):
-    dependencies:
-      clsx: 2.1.1
-      style-to-object: 1.0.8
       svelte: 5.26.2
 
   svelte-toolbelt@0.7.1(svelte@5.26.2):
