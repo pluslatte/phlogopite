@@ -1,5 +1,6 @@
 # Phlogopite
-静かに Misskey を使うためのクライアント
+このプロジェクトは[深刻なパフォーマンスの問題](https://github.com/pluslatte/phlogopite/issues/47)があり、放棄されました！  
+移動先 → https://github.com/pluslatte/calmi  
 ## 目標
 - Firefox でちゃんと動作する（一番よく使うので）
 - モバイル端末でもいい感じに動作する
